@@ -10,10 +10,10 @@
             <column name="life_Time" type="date"/>
         </addColumn>
     </changeSet>
-    <changeSet author="maks_tarn (generated)" id="1617530038133-5">
-        <dropColumn columnName="birthTime" tableName="bag"/>
-    </changeSet>
-    <changeSet author="maks_tarn (generated)" id="1617530038133-6">
-        <dropColumn columnName="lifeTime" tableName="bag"/>
-    </changeSet>
+<!--    <changeSet author="maks_tarn (generated)" id="1617530038133-5">-->
+<!--        <dropColumn columnName="birthTime" tableName="bag"/>-->
+<!--    </changeSet>-->
+<!--    <changeSet author="maks_tarn (generated)" id="1617530038133-6">-->
+<!--        <dropColumn columnName="lifeTime" tableName="bag"/>-->
+<!--    </changeSet>-->
 </databaseChangeLog>
