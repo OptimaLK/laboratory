@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments_guest/header_guest :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments_guest/header_guest :: header"></div>
+
+<div class="d-flex">
+    <div th:replace="fragments_guest/sidebar_guest :: sidebar"></div>
+
+    <div class="content p-4">
+        <h2 class="mb-4">Список оборудования</h2>
+
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <table id="equipments" class="table table-hover" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Выбор</th>
+                        <th>Id</th>
+                        <th>Название оборудования</th>
+                        <th>Инвентарный номер</th>
+                        <th>Заводской номер</th>
+                        <th>Номер поверки</th>
+                        <th>Дата поверки</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="equ : ${equipments}">
+                        <td><a class="btn-primary" th:href="@{'/equipments_guest/package/add/' + ${equ.id}}">Добавить в список</a></td>
+                        <td th:text="${equ.id}"></td>
+                        <td th:text="${equ.name}"></td>
+                        <td th:text="${equ.inventoruNumber}"></td>
+                        <td th:text="${equ.factoryNumber}"></td>
+                        <td th:text="${equ.verificationNumber}"></td>
+                        <td th:text="${equ.verificationDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form class="form-group" method="post" th:action="@{/equipments_guest/create/kit}">
+
+                <div class="card-body">
+                    <span th:unless="${@packageEquipments.equipments.size() > 0}">Ваша комплект не собран</span>
+                    <table id="equipments1" class="table table-hover" cellspacing="0" width="100%" th:if="${@packageEquipments.equipments.size() > 0}">
+                    <thead>
+                    <tr>
+                        <th>Название оборудования</th>
+                        <th>Заводской номер</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="pac : ${@packageEquipments.getEquipments()}">
+                        <td th:text="${pac.getName()}" ></td>
+                        <td th:text="${pac.getFactoryNumber()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary"><i aria-hidden="true"></i>Сохранить комплект</button>
+                </div>
+            </form>
+
+            <div class="card-body">
+                <span th:unless="${kits.size() > 0}">Ваша сумка не собрана</span>
+                <table id="kits" class="table table-hover" th:if="${kits.size() > 0}">
+                    <thead>
+                    <tr>
+                        <th>Имя владельца</th>
+                        <th>Навание</th>
+                        <th>Наименование оборудования</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="kit : ${kits}">
+                        <td th:text="${kit.getUser().getLastName()}" ></td>
+                        <td th:text="${kit.getName()}"></td>
+                        <td th:text="${kit.getEquipments()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments_guest/footer_guest :: scripts"></script>
+<script th:src="@{/js/datatables.min.js}"></script>
+<script>
+    $(document).ready(function () {
+        $('#equipments').DataTable();
+    });
+</script>
+
+</body>
+</html>

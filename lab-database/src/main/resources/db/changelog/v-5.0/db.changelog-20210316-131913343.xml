@@ -1,0 +1,53 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="maks_tarn (generated)" id="1615900760468-1">
+        <createTable tableName="kits_equipments">
+            <column name="kit_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipments_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1615900760468-2">
+        <createTable tableName="users_kits">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kits_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1615900760468-3">
+        <addForeignKeyConstraint baseColumnNames="equipments_id" baseTableName="kits_equipments" constraintName="FKdpjquvjr4gisfrkg8nad8h39s" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="equipments" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1615900760468-4">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_kits" constraintName="FKf05jb56eyxtk1vbc2ossic01g" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1615900760468-5">
+        <addForeignKeyConstraint baseColumnNames="kit_id" baseTableName="kits_equipments" constraintName="FKiu8c7q4uwfw6q7yavhiuexu05" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="kits" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1615900760468-6">
+        <addForeignKeyConstraint baseColumnNames="kits_id" baseTableName="users_kits" constraintName="FKok2lt7ufg94t1rkbi935os5cu" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="kits" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1615900760468-7">
+        <dropForeignKeyConstraint baseTableName="equipments" constraintName="FKoq04x8u40s44kqcdqg6g2mysj"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1615900760468-8">
+        <dropForeignKeyConstraint baseTableName="kits" constraintName="FKqbs5ofg9ystjent7kd54bxmuv"/>
+    </changeSet>
+<!--    <changeSet author="maks_tarn (generated)" id="1615900760468-9">-->
+<!--        <dropPrimaryKey constraintName="PRIMARY" tableName="users_roles"/>-->
+<!--    </changeSet>-->
+<!--    <changeSet author="maks_tarn (generated)" id="1615900760468-10">-->
+<!--        <dropPrimaryKey constraintName="PRIMARY" tableName="users_works"/>-->
+<!--    </changeSet>-->
+<!--    <changeSet author="maks_tarn (generated)" id="1615900760468-11">-->
+<!--        <dropColumn columnName="kit_id" tableName="equipments"/>-->
+<!--    </changeSet>-->
+<!--    <changeSet author="maks_tarn (generated)" id="1615900760468-12">-->
+<!--        <dropColumn columnName="user_id" tableName="kits"/>-->
+<!--    </changeSet>-->
+</databaseChangeLog>

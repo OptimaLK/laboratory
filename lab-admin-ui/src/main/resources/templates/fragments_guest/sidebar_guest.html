@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body class="bg-light">
+
+    <div th:fragment="sidebar" class="sidebar sidebar-dark bg-dark">
+        <ul class="list-unstyled">
+            <li th:classappend="${activePage == 'Users'} ? active"><a th:href="@{/users_guest}">
+                <i class="fa fa-user"></i> Пользователи</a></li>
+            <li th:classappend="${activePage == 'Works'} ? active"><a th:href="@{/works_guest}">
+                <i class="fa fa-suitcase" aria-hidden="true"></i> Список работ</a></li>
+            <li th:classappend="${activePage == 'Equipments'} ? active"><a th:href="@{/equipments_guest}">
+                <i class="fa fa-wrench" aria-hidden="true"></i> Список оборудования</a></li>
+        </ul>
+    </div>
+</body>
+
+</html>
