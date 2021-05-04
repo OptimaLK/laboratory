@@ -44,10 +44,11 @@
                         <td th:text="${equ.inventoruNumber}"></td>
                         <td th:text="${equ.factoryNumber}"></td>
                         <td th:text="${equ.verificationNumber}"></td>
-                        <td th:text="${equ.verificationDate}"></td>
-                        <td th:text="${equ.free}"></td>
+                        <td th:text="${equ.verificationDateEnd}"></td>
+                        <td th:text="${equ.free}? 'free':'busy'"></td>
                         <td th:text="${equ.startToUse}"></td>
                         <td th:text="${equ.endToUse}"></td>
+                        <td th:text="${equ.status}"></td>
                         <td>
                             <a th:href="@{/admin/equipment/{id}/edit(id=${equ.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Edit">
                                 <i class="fa fa-fw fa-edit"></i>

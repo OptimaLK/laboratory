@@ -16,6 +16,10 @@ public class Equipment implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Column(name = "inventoru_number", nullable = false)
     private String inventoruNumber;
 
@@ -50,6 +54,21 @@ public class Equipment implements Serializable {
         this.id = id;
         this.name = name;
         this.inventoruNumber = inventoruNumber;
+        this.factoryNumber = factoryNumber;
+        this.verificationNumber = verificationNumber;
+        this.verificationDate = verificationDate;
+        this.verificationDateEnd = verificationDateEnd;
+        this.status = Status.WORKING;
+        this.free = true;
+        this.startToUse = null;
+        this.endToUse = null;
+    }
+
+    public Equipment(String name, String inventoruNumber, Category category, String factoryNumber,
+                     String verificationNumber, Date verificationDate, Date verificationDateEnd) {
+        this.name = name;
+        this.inventoruNumber = inventoruNumber;
+        this.category = category;
         this.factoryNumber = factoryNumber;
         this.verificationNumber = verificationNumber;
         this.verificationDate = verificationDate;
