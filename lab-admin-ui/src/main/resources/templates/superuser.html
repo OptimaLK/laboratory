@@ -20,6 +20,24 @@
                 <form class="form-group" th:action="@{/admin/equipment/create}">
                     <button type="submit" class="btn btn-primary">Создать новое оборудование</button>
                 </form>
+                <form th:object="${category}" method="post" th:action="@{/superuser}" enctype="multipart/form-data">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="category">Categories</label>
+                                <select class="form-control" id="category" th:field="*{id}" required>
+                                    <option th:each="cat : ${categories}"
+                                            th:text="${cat.name}"
+                                            th:value="${cat.id}"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-white">
+                            <button type="submit" class="btn btn-primary">find</button>
+                        </div>
+                    </div>
+                </form>
 
                 <table id="equipments" class="table table-hover" cellspacing="0" width="100%">
                     <thead>

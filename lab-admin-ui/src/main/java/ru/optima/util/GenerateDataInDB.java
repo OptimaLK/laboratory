@@ -13,7 +13,7 @@ import java.sql.Date;
 
 // заполнение базы
 //
-@Component
+//@Component
 public class GenerateDataInDB {
     private CategoryRepository categoryRepository;
     public EquipmentRepository equipmentRepository;
@@ -28,13 +28,14 @@ public class GenerateDataInDB {
     @PostConstruct
     public void generateData () {
         for (int i = 0; i < 5; i++) {
-            Category category = new Category("Category " + 1);
+            Category category = new Category("Category " + i);
             categoryRepository.save(category);
             for (int ii = 0; ii < 10; ii++) {
                 equipmentRepository.save(
-                        new Equipment("Equipment " + ii, "10000" + ii, category, "1" + (ii * i), "1" + (i + ii), new Date(10-5-2021), new Date(10-5-2022)));
+                        new Equipment("Equipment " + i + "|" + ii, "10000" + ii,
+                        category, "1" + (ii * i), "1" + (i + ii), Date.valueOf("2012-05-11"),
+                        Date.valueOf("2022-05-11")));
             }
         }
-
     }
 }
