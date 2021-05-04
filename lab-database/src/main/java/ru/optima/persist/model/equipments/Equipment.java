@@ -31,6 +31,18 @@ public class Equipment implements Serializable {
     @Column(name = "verification_date_End")
     private Date verificationDateEnd;
 
+    @Column(name = "status")
+    private Status status;
+
+    @Column(name = "free")
+    private boolean free;
+
+    @Column(name = "startToUse")
+    private Date startToUse;
+
+    @Column(name = "endToUse")
+    private Date endToUse;
+
     public Equipment() {
     }
 
@@ -42,6 +54,10 @@ public class Equipment implements Serializable {
         this.verificationNumber = verificationNumber;
         this.verificationDate = verificationDate;
         this.verificationDateEnd = verificationDateEnd;
+        this.status = Status.WORKING;
+        this.free = true;
+        this.startToUse = null;
+        this.endToUse = null;
     }
 
     public Long getId() {
@@ -100,4 +116,35 @@ public class Equipment implements Serializable {
         this.verificationDateEnd = verificationDateEnd;
     }
 
+    public boolean isFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
+    }
+
+    public Date getStartToUse() {
+        return startToUse;
+    }
+
+    public void setStartToUse(Date startToUse) {
+        this.startToUse = startToUse;
+    }
+
+    public Date getEndToUse() {
+        return endToUse;
+    }
+
+    public void setEndToUse(Date endToUse) {
+        this.endToUse = endToUse;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

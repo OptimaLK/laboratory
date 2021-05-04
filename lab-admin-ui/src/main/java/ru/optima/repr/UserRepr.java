@@ -3,7 +3,6 @@ package ru.optima.repr;
 import ru.optima.persist.model.Work;
 import ru.optima.persist.model.Role;
 import ru.optima.persist.model.User;
-import ru.optima.utils.validation.FieldMatch;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
