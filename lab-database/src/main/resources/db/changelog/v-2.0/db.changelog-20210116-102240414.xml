@@ -10,4 +10,14 @@
                  stripComments="true"/>
         <rollback/>
     </changeSet>
+    <changeSet id="1610792567675-14" author="maks_tarn">
+        <sqlFile path="means_of measuring_chemical_factors.sql"
+                 dbms="mysql"
+                 encoding="UTF-8"
+                 endDelimiter="\nGO"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"/>
+        <rollback/>
+    </changeSet>
 </databaseChangeLog>
