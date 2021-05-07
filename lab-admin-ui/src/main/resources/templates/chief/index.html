@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="fragments/header :: head"></head>
+<head th:replace="fragments/chief/header :: head"></head>
 
 <body class="bg-light">
 
-<nav th:replace="fragments/header :: header"></nav>
+<nav th:replace="fragments/chief/header :: header"></nav>
 
 <div class="d-flex">
-    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <div th:replace="fragments/chief/sidebar :: sidebar"></div>
 
     <div class="content p-4">
         <h2 class="mb-4">Blank/Starter</h2>
@@ -20,15 +20,15 @@
             </div>
         </div>
 
-        <div sec:authorize="hasRole('ROLE_ADMIN')" class="card mb-4">
-            <form class="form-group" th:action="@{/}">
+        <div sec:authorize="hasRole('ROLE_CHIEF')" class="card mb-4">
+            <form class="form-group" th:action="@{/executor}">
                 <button type="submit" class="btn btn-primary"><i aria-hidden="true"></i> Стать пользователем</button>
             </form>
         </div>
     </div>
 </div>
 
-<script th:replace="fragments/footer :: scripts"></script>
+<script th:replace="fragments/chief/footer :: scripts"></script>
 <script src="https://bootadmin.net/js/datatables.min.js"></script>
 
 </body>

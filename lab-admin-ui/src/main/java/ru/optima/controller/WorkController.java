@@ -24,7 +24,7 @@ public class WorkController {
     public String adminWorkPage(Model model) {
         model.addAttribute("activePage", "Work");
         model.addAttribute("work", workService.findAll());
-        return "works";
+        return "chief/works";
     }
 
     @GetMapping("work/{id}/edit")
@@ -32,7 +32,7 @@ public class WorkController {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Work"); // TODO ?
         model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
-        return "work_form";
+        return "chief/work_form";
     }
 
     @GetMapping("work/create")
@@ -40,13 +40,13 @@ public class WorkController {
         model.addAttribute("create", true);
         model.addAttribute("activePage", "Work"); // TODO ?
         model.addAttribute("work", new WorkRepr());
-        return "work_form";
+        return "chief/work_form";
     }
 
     @DeleteMapping("/work/{id}/delete")
     public String adminDeleteWork(Model model, @PathVariable("id") Long id) {
         workService.delete(id);
-        return "redirect:/works";
+        return "redirect:chief/works";
     }
 
 }

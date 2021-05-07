@@ -42,7 +42,7 @@ public class UserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
-        return "users";
+        return "chief/users";
     }
 
     @GetMapping("/admin/user/{id}/edit")
@@ -51,7 +51,7 @@ public class UserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("user", userServiceImpl.findById(id));
         model.addAttribute("roles", roleRepository.findAll());
-        return "user_form";
+        return "cheif/user_form";
     }
 
     @GetMapping("/admin/user/create")
@@ -60,7 +60,7 @@ public class UserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("user", new UserRepr());
         model.addAttribute("roles", roleRepository.findAll());
-        return "user_form";
+        return "chief/user_form";
     }
 
     @PostMapping("/admin/user/create")
@@ -70,16 +70,16 @@ public class UserController {
         model.addAttribute("roles", roleRepository.findAll());
 
         if (bindingResult.hasErrors()) {
-            return "user_form";
+            return "chief/user_form";
         }
         Optional<User> existing = userService.findByOName(user.getLastName());
         if (existing.isPresent()){
             model.addAttribute("user", user);
             model.addAttribute("registrationError", "Пользователь с такой фамилией уже существует");
-            return "user_form";
+            return "chief/user_form";
         }
         userService.save(user);
-        return "redirect:/admin/users";
+        return "redirect:/chief/users";
     }
 
 //    @PostMapping("/admin/user/edit")
@@ -104,7 +104,7 @@ public class UserController {
     @DeleteMapping("/admin/user/{id}/delete")
     public String adminDeleteUser(Model model, @PathVariable("id") Long id) {
         userService.delete(id);
-        return "redirect:/admin/users";
+        return "redirect:/chief/users";
     }
 
     @GetMapping("/admin/roles")
