@@ -37,7 +37,7 @@ public class EquipmentController {
     public String adminEquipmentsPage(Model model) {
         model.addAttribute("activePage", "Equipments");
         model.addAttribute("equipments", equipmentService.findAll());
-        return "equipments";
+        return "chief/equipments";
     }
 
     @GetMapping("/admin/equipment/{id}/edit")
@@ -45,7 +45,7 @@ public class EquipmentController {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Equipment");
         model.addAttribute("equipment", equipmentService.findById(id).orElseThrow(NotFoundException::new));
-        return "equipment_form";
+        return "chief/equipment_form";
     }
 
     @GetMapping("/admin/equipment/create")
@@ -53,7 +53,7 @@ public class EquipmentController {
         model.addAttribute("create", true);
         model.addAttribute("activePage", "Equipments"); // TODO ?
         model.addAttribute("equipment", new EquipmentRepr());
-        return "equipment_form";
+        return "chief/equipment_form";
     }
 
     @PostMapping("/admin/equipment")
@@ -61,17 +61,17 @@ public class EquipmentController {
         model.addAttribute("activePage", "Equipments");
 
         if (bindingResult.hasErrors()) {
-            return "equipment_form";
+            return "chief/equipment_form";
         }
 
         equipmentService.save(equipment);
         return "redirect:/admin/equipments";
     }
 
-    @DeleteMapping("/admin/equipment/{id}/delete")
+    @DeleteMapping("/adchief/min/equipment/{id}/delete")
     public String adminDeleteEquipment(Model model, @PathVariable("id") Long id) {
         equipmentService.delete(id);
-        return "redirect:/admin/equipments";
+        return "redirect:/chief/equipments";
     }
 
     @GetMapping("/equipments_guest")
