@@ -1,5 +1,6 @@
 package ru.optima.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,5 +31,39 @@ public class MainController {
             }
         }
         return "index";
+    }
+
+    @Secured("ROLE_CHIEF")
+    @RequestMapping("/chief")
+    public String indexChiefPage(Model model) {
+        model.addAttribute("activePage", "None");
+        return "chief/index";
+    }
+
+    @Secured("ROLE_DIRECTOR")
+    @RequestMapping("/director")
+    public String indexDirectorPage(Model model) {
+        model.addAttribute("activePage", "None");
+        return "director/index";
+    }
+
+    @Secured("ROLE_EXECUTOR")
+    @RequestMapping("/executor")
+    public String indexExecutorPage(Model model) {
+        model.addAttribute("activePage", "None");
+        return "executor/index";
+    }
+
+    @Secured("ROLE_SECRETARY")
+    @RequestMapping("/secretary")
+    public String indexSecretaryPage(Model model) {
+        model.addAttribute("activePage", "None");
+        return "secretary/index";
+    }
+
+    @RequestMapping("/admin")
+    public String indexAdminPage(Model model) {
+        model.addAttribute("activePage", "None");
+        return "admin/index";
     }
 }
