@@ -17,35 +17,36 @@ public class Bag implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "birth_Time")
+    @Column(name = "birth_time")
     private Date birthTime;
 
-    @Column(name = "life_Time")
+    @Column(name = "life_time")
     private Date lifeTime;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinTable(name = "bags_kits",
+    @JoinTable(name = "bags_equipments",
             joinColumns = @JoinColumn(name = "bag_id"),
-            inverseJoinColumns = @JoinColumn(name = "kit_id"))
-    private List<Kit> kits;
+            inverseJoinColumns = @JoinColumn(name = "equipment_id"))
+    private List<Equipment> equipments;
 
     public Bag() {
     }
 
-    public Bag(Long id, String name, Date birthTime, Date lifeTime, List<Kit> kits) {
+
+    public Bag(Long id, String name, Date birthTime, Date lifeTime, List<Equipment> equipments) {
         this.id = id;
         this.name = name;
         this.birthTime = birthTime;
         this.lifeTime = lifeTime;
-        this.kits = kits;
+        this.equipments = equipments;
     }
 
-    public List<Kit> getKits() {
-        return kits;
+    public List<Equipment> getEquipments() {
+        return equipments;
     }
 
-    public void setKits(List<Kit> kits) {
-        this.kits = kits;
+    public void setEquipments(List<Equipment> equipments) {
+        this.equipments = equipments;
     }
 
     public Long getId() {

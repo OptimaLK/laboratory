@@ -1,0 +1,154 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="maks_tarn (generated)" id="1620348338911-1">
+        <createTable tableName="bag">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="bagPK"/>
+            </column>
+            <column name="birth_time" type="date"/>
+            <column name="life_time" type="date"/>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-2">
+        <createTable tableName="bags_equipments">
+            <column name="bag_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-3">
+        <createTable tableName="equipments">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="equipmentsPK"/>
+            </column>
+            <column name="factory_number" type="VARCHAR(255)"/>
+            <column name="inventory_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="verification_date" type="date"/>
+            <column name="verification_date_end" type="date"/>
+            <column name="verification_number" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-4">
+        <createTable tableName="kits">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="kitsPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-5">
+        <createTable tableName="kits_equipments">
+            <column name="kit_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equipments_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-6">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="rolesPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-7">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="usersPK"/>
+            </column>
+            <column name="email" type="VARCHAR(128)"/>
+            <column name="first_name" type="VARCHAR(32)"/>
+            <column name="last_name" type="VARCHAR(32)"/>
+            <column name="password" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(32)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-8">
+        <createTable tableName="users_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-9">
+        <createTable tableName="users_works">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="work_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-10">
+        <createTable tableName="works">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="worksPK"/>
+            </column>
+            <column name="client_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer" type="VARCHAR(255)"/>
+            <column name="number_contract" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="object_name" type="VARCHAR(255)"/>
+            <column name="Registration_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-11">
+        <addUniqueConstraint columnNames="name" constraintName="UC_ROLESNAME_COL" tableName="roles"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-12">
+        <addUniqueConstraint columnNames="number_contract" constraintName="UC_WORKSNUMBER_CONTRACT_COL" tableName="works"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-13">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_roles" constraintName="FK2o0jvgh89lemvvo17cbqvdxaa" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-14">
+        <addForeignKeyConstraint baseColumnNames="equipment_id" baseTableName="bags_equipments" constraintName="FK4eheep36y0xrqcqdtu2a7khyw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="equipments" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-15">
+        <addForeignKeyConstraint baseColumnNames="bag_id" baseTableName="bags_equipments" constraintName="FK7bydyq2rgr9plsi0lnihta1sd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="bag" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-16">
+        <addForeignKeyConstraint baseColumnNames="work_id" baseTableName="users_works" constraintName="FKb54sbf15lh4m7gkqm6fx7kmxx" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="works" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-17">
+        <addForeignKeyConstraint baseColumnNames="equipments_id" baseTableName="kits_equipments" constraintName="FKdpjquvjr4gisfrkg8nad8h39s" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="equipments" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-18">
+        <addForeignKeyConstraint baseColumnNames="kit_id" baseTableName="kits_equipments" constraintName="FKiu8c7q4uwfw6q7yavhiuexu05" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="kits" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-19">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="users_roles" constraintName="FKj6m8fwv7oqv74fcehir1a9ffy" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-20">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_works" constraintName="FKpa18v60tf649i9chhqe2r19u6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1620348338911-21">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="kits" constraintName="FKqbs5ofg9ystjent7kd54bxmuv" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

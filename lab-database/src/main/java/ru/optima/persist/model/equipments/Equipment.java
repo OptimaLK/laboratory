@@ -16,7 +16,7 @@ public class Equipment implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "inventoru_number", nullable = false)
+    @Column(name = "inventory_number", nullable = false)
     private String inventoruNumber;
 
     @Column(name = "factory_number")
@@ -28,7 +28,7 @@ public class Equipment implements Serializable {
     @Column(name = "verification_date")
     private Date verificationDate;
 
-    @Column(name = "verification_date_End")
+    @Column(name = "verification_date_end")
     private Date verificationDateEnd;
 
     public Equipment() {
