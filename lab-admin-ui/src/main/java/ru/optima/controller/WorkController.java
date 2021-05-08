@@ -1,6 +1,7 @@
 package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,11 +12,14 @@ import ru.optima.repr.WorkRepr;
 import ru.optima.service.WorkService;
 import ru.optima.warning.NotFoundException;
 
+import javax.persistence.Access;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
 public class WorkController {
 
+    @Autowired
     private WorkService workService;
 
 
