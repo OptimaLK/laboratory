@@ -1,14 +1,16 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:color="http://www.w3.org/1999/xhtml">
 
 <head th:fragment="head">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.0.10/web-fonts-with-css/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.2/css/all.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootadmin.min.css}">
+    <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" href="https://bootadmin.net/css/datatables.min.css">
 
     <title>GeekMarket Admin</title>
@@ -16,26 +18,33 @@
 
 <body class="bg-light">
 
-<nav th:fragment="header" class="navbar navbar-expand navbar-dark bg-primary">
-    <a class="sidebar-toggle mr-3" href="#"><i class="fa fa-bars"></i></a>
-    <a class="navbar-brand" th:href="@{/}">Optima</a>
+<nav th:fragment="header" class="navbar navbar-expand navbar-light head_container">
 
     <div class="navbar-collapse collapse">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-envelope"></i> 5</a></li>
-            <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-bell"></i> 3</a></li>
-            <li class="nav-item dropdown">
-                <a href="#" id="logged-in-username" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user"></i>
+        <ul class="list-unstyled d-flex justify-content-between align-items-baseline w-100 line_wrap">
+            <li><a class="font_home" th:href="@{/admin}">Optima</a></li>
+            <li class="equipments_padding" th:classappend="${activePage == 'Equipments'} ? active">
+                <a class="font_header" th:href="@{/admin/equipments}">Оборудование</a></li>
+            <li th:classappend="${activePage == 'Works'} ? active">
+                <a class="font_header" th:href="@{/admin/works}">Список работ</a></li>
+            <li class="users_padding" th:classappend="${activePage == 'Users'} ? active">
+                <a class="font_header" th:href="@{/admin/users}">Пользователи</a></li>
+            <div class="d-flex">
+                <li class="nav-item dropdown">
+                    <a href="#" id="logged-in-username" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-tools fa-2x" style="color: #737475"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="logged-in-username">
+                        <a href="#" class="dropdown-item">Profile</a>
+                        <form th:action="@{/logout}" method="POST">
+                            <input type="submit" id="link-logout" class="dropdown-item" value="Logout"/>
+                        </form>
+                    </div>
+                </li>
+                <li class="user_use">
                     <span id="dd_user" sec:authentication="principal.username">Default User</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="logged-in-username">
-                    <a href="#" class="dropdown-item">Profile</a>
-                    <form th:action="@{/logout}" method="POST">
-                        <input type="submit" id="link-logout" class="dropdown-item" value="Logout"/>
-                    </form>
-                </div>
-            </li>
+                </li>
+            </div>
         </ul>
     </div>
 </nav>
