@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 
 <head th:replace="fragments/chief/header :: head"></head>
 <body class="bg-light">
@@ -13,19 +13,21 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                    <input class="custom-control-input" id="customSwitch1" type="checkbox">
                     <label class="custom-control-label" for="customSwitch1">Только доступное</label>
                 </div>
-                <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
-                    <dl th:each="equ : ${equipments}" class="dl-horizontal attrs">
-                        <dt>Название:</dt>
-                        <dd th:text="${equ.name}"></dd>
-                        <dt>Зав. №:</dt>
-                        <dd th:text="${equ.factoryNumber}"></dd>
-                        <dt>Свидетельство:</dt>
-                        <dd th:text="${equ.verificationNumber}"></dd>
-                        <dt>Дата поверки:</dt>
-                        <dd th:text="${equ.verificationDateEnd}"></dd>
+                <div style="display: flex;justify-content: center;flex-wrap: wrap;">
+                    <dl class="dl-horizontal attrs" th:each="equ : ${equipments}">
+                        <div>
+                            <dt>Название:</dt>
+                            <dd th:text="${equ.name}"></dd>
+                            <dt>Зав. №:</dt>
+                            <dd th:text="${equ.factoryNumber}"></dd>
+                            <dt>Свидетельство:</dt>
+                            <dd th:text="${equ.verificationNumber}"></dd>
+                            <dt>Дата поверки:</dt>
+                            <dd th:text="${equ.verificationDateEnd}"></dd>
+                        </div>
                         <button type="submit">Взять</button>
                     </dl>
                 </div>
