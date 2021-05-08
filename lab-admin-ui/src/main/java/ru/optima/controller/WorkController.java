@@ -1,5 +1,6 @@
 package ru.optima.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,15 +11,13 @@ import ru.optima.repr.WorkRepr;
 import ru.optima.service.WorkService;
 import ru.optima.warning.NotFoundException;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
 public class WorkController {
 
     private WorkService workService;
 
-    public WorkController(WorkService workService) {
-        this.workService = workService;
-    }
 
     @GetMapping("/works")
     public String adminWorkPage(Model model) {

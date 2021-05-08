@@ -1,5 +1,6 @@
 package ru.optima.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,19 +16,13 @@ import ru.optima.service.UserService;
 
 import java.security.Principal;
 
+@RequiredArgsConstructor
 @Controller
 public class KitController {
 
     private KitServiceImpl kitService;
     private UserService userService;
     private PackageEquipments packageEquipments;
-
-    @Autowired
-    public KitController(KitServiceImpl kitService, UserService userService, PackageEquipments packageEquipments) {
-        this.kitService = kitService;
-        this.userService = userService;
-        this.packageEquipments = packageEquipments;
-    }
 
     @PostMapping("/equipments_guest/create/kit")
     public String addPackageEquipmentToKit(Principal principal) {

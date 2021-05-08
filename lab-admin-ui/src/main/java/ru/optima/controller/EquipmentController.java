@@ -1,5 +1,6 @@
 package ru.optima.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,19 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 
+@RequiredArgsConstructor
 @Controller
 public class EquipmentController {
 
     private PackageEquipments packageEquipments;
     private EquipmentServiceImpl equipmentService;
     private KitService kitService;
-
-    @Autowired
-    public EquipmentController(PackageEquipments packageEquipments, EquipmentServiceImpl equipmentService, KitService kitService) {
-        this.packageEquipments = packageEquipments;
-        this.equipmentService = equipmentService;
-        this.kitService = kitService;
-    }
 
     @GetMapping("/admin/equipments")
     public String adminEquipmentsPage(Model model) {
