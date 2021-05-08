@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     private final PathCreator pathCreator;
@@ -33,16 +34,16 @@ public class UserController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @GetMapping("/users")
-    public String adminUsersPage(Model model, SecurityContextHolder auth) {
+    @GetMapping({"/", ""})
+    public String usersPage(Model model, SecurityContextHolder auth) {
         model.addAttribute("activePage", "Users");
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
         return pathCreator.createPath(auth, "users");
     }
 
-    @GetMapping("/user/{id}/edit")
-    public String adminEditUser(Model model, SecurityContextHolder auth, @PathVariable("id") Long id) {
+    @GetMapping("/{id}/edit")
+    public String editUser(Model model, SecurityContextHolder auth, @PathVariable("id") Long id) {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Users");
         model.addAttribute("user", userServiceImpl.findById(id));
@@ -50,8 +51,8 @@ public class UserController {
         return pathCreator.createPath(auth, "user_form");
     }
 
-    @GetMapping("/user/create")
-    public String adminCreateUser(Model model, SecurityContextHolder auth) {
+    @GetMapping("/create")
+    public String createUser(Model model, SecurityContextHolder auth) {
         model.addAttribute("create", true);
         model.addAttribute("activePage", "Users");
         model.addAttribute("user", new UserRepr());
@@ -59,8 +60,8 @@ public class UserController {
         return pathCreator.createPath(auth, "user_form");
     }
 
-    @PostMapping("/user/create")
-    public String adminCreateUser(SecurityContextHolder auth, @ModelAttribute("user") @Validated UserRepr user, BindingResult bindingResult, Model model) {
+    @PostMapping("/create")
+    public String createUser(SecurityContextHolder auth, @ModelAttribute("user") @Validated UserRepr user, BindingResult bindingResult, Model model) {
         model.addAttribute("activePage", "Users");
         model.addAttribute("create", true);
         model.addAttribute("roles", roleRepository.findAll());
@@ -97,15 +98,16 @@ public class UserController {
 //        return "redirect:/admin/users";
 //    }
 
-    @DeleteMapping("/user/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public String adminDeleteUser(Model model, SecurityContextHolder auth, @PathVariable("id") Long id) {
         userService.delete(id);
         return pathCreator.createPath(auth) + "/users";
     }
 
-    @GetMapping("/roles")
-    public String adminRolesPage(Model model) {
-        model.addAttribute("activePage", "Roles");
-        return "index";
-    }
+//
+//    @GetMapping("/roles")
+//    public String adminRolesPage(Model model) {
+//        model.addAttribute("activePage", "Roles");
+//        return "index";
+//    }
 }

@@ -12,13 +12,7 @@ import ru.optima.util.PathCreator;
 @Controller
 public class MainController {
 
-
     private final PathCreator pathCreator;
-
-//    @Autowired
-//    public MainController(PathCreator pathCreator) {
-//        this.pathCreator = pathCreator;
-//    }
 
     @RequestMapping("/")
     public String indexPage(Model model, SecurityContextHolder auth) {
