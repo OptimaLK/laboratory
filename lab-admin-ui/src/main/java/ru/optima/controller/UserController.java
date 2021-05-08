@@ -1,6 +1,6 @@
 package ru.optima.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,22 +14,15 @@ import ru.optima.persist.repo.RoleRepository;
 import ru.optima.service.UserService;
 import ru.optima.service.UserServiceImpl;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Controller
 public class UserController {
 
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final UserServiceImpl userServiceImpl;
-
-    @Autowired
-    public UserController(UserServiceImpl userServiceImpl, RoleRepository roleRepository, UserService userService) {
-        this.roleRepository = roleRepository;
-        this.userService = userService;
-        this.userServiceImpl = userServiceImpl;
-    }
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {

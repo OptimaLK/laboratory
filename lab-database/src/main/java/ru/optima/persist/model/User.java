@@ -1,12 +1,15 @@
 package ru.optima.persist.model;
-import ru.optima.persist.model.equipments.Equipment;
-import ru.optima.persist.model.equipments.Kit;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 
+@Data
+@RequiredArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "users")
 public class User {
@@ -43,82 +46,82 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "work_id"))
     private List<Work> works;
 
-    public User(Long id, String password, String email, String firstName, String lastName, String phone, Collection<Role> roles, List<Work> works) {
-        this.id = id;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstName;  
-        this.lastName = lastName;
-        this.phone = phone;
-        this.roles = roles;
-        this.works = works;
-    }
-
-    public User() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<Work> getWorks() {
-        return works;
-    }
-
-    public void setWorks(List<Work> works) {
-        this.works = works;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+//    public User(Long id, String password, String email, String firstName, String lastName, String phone, Collection<Role> roles, List<Work> works) {
+//        this.id = id;
+//        this.password = password;
+//        this.email = email;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.phone = phone;
+//        this.roles = roles;
+//        this.works = works;
+//    }
+//
+//    public User() {
+//    }
+//
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//
+//
+//    public Collection<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(Collection<Role> roles) {
+//        this.roles = roles;
+//    }
+//
+//    public List<Work> getWorks() {
+//        return works;
+//    }
+//
+//    public void setWorks(List<Work> works) {
+//        this.works = works;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//
+//    public void setFirstName(String firstName) {
+//        this.firstName = firstName;
+//    }
+//
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    public void setLastName(String lastName) {
+//        this.lastName = lastName;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
+//
+//    public void setPhone(String phone) {
+//        this.phone = phone;
+//    }
 }
