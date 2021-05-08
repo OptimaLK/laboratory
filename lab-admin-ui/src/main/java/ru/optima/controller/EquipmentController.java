@@ -2,6 +2,7 @@ package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import ru.optima.service.EquipmentServiceImpl;
 import ru.optima.service.KitService;
 import ru.optima.service.KitServiceImpl;
 import ru.optima.service.UserServiceImpl;
+import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,43 +26,44 @@ import java.io.IOException;
 @Controller
 public class EquipmentController {
 
-    private PackageEquipments packageEquipments;
-    private EquipmentServiceImpl equipmentService;
-    private KitService kitService;
+    private final PathCreator pathCreator;
+    private final PackageEquipments packageEquipments;
+    private final EquipmentServiceImpl equipmentService;
+    private final KitService kitService;
 
-    @GetMapping("/admin/equipments")
-    public String adminEquipmentsPage(Model model) {
+    @GetMapping("/equipments")
+    public String adminEquipmentsPage(Model model, SecurityContextHolder auth) {
         model.addAttribute("activePage", "Equipments");
         model.addAttribute("equipments", equipmentService.findAll());
-        return "chief/equipments";
+        return pathCreator.createPath(auth, "equipments");
     }
 
-    @GetMapping("/admin/equipment/{id}/edit")
-    public String adminEditEquipment(Model model, @PathVariable("id") Long id) {
+    @GetMapping("/equipment/{id}/edit")
+    public String adminEditEquipment(Model model, SecurityContextHolder auth, @PathVariable("id") Long id) {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Equipment");
         model.addAttribute("equipment", equipmentService.findById(id).orElseThrow(NotFoundException::new));
-        return "chief/equipment_form";
+        return pathCreator.createPath(auth, "equipment_form");
     }
 
-    @GetMapping("/admin/equipment/create")
-    public String adminCreateEquipment(Model model) {
+    @GetMapping("/equipment/create")
+    public String adminCreateEquipment(Model model, SecurityContextHolder auth) {
         model.addAttribute("create", true);
         model.addAttribute("activePage", "Equipments"); // TODO ?
         model.addAttribute("equipment", new EquipmentRepr());
-        return "chief/equipment_form";
+        return pathCreator.createPath(auth, "equipment_form");
     }
 
-    @PostMapping("/admin/equipment")
-    public String adminUpsertEquipment(@Valid EquipmentRepr equipment, Model model, BindingResult bindingResult) {
+    @PostMapping("/equipment")
+    public String adminUpsertEquipment(@Valid EquipmentRepr equipment, SecurityContextHolder auth, Model model, BindingResult bindingResult) {
         model.addAttribute("activePage", "Equipments");
 
         if (bindingResult.hasErrors()) {
-            return "chief/equipment_form";
+            return pathCreator.createPath(auth, "equipment_form");
         }
 
         equipmentService.save(equipment);
-        return "redirect:/admin/equipments";
+        return pathCreator.createPath(auth) + "/equipments";
     }
 
     @DeleteMapping("/adchief/min/equipment/{id}/delete")
