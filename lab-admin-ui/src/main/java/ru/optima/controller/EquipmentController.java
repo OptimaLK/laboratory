@@ -26,10 +26,12 @@ import java.io.IOException;
 @Controller
 public class EquipmentController {
 
+
     private final PathCreator pathCreator;
     private final PackageEquipments packageEquipments;
     private final EquipmentServiceImpl equipmentService;
     private final KitService kitService;
+
 
     @GetMapping("/equipments")
     public String adminEquipmentsPage(Model model, SecurityContextHolder auth) {
