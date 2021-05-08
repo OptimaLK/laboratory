@@ -28,7 +28,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipment.setId(equipmentRepr.getId());
         equipment.setName(equipmentRepr.getName());
         equipment.setFactoryNumber(equipmentRepr.getFactoryNumber());
-        equipment.setInventoruNumber(equipmentRepr.getInventoruNumber());
+        equipment.setInventoryNumber(equipmentRepr.getInventoryNumber());
         equipment.setVerificationDate(equipmentRepr.getVerificationDate());
         equipment.setVerificationDateEnd(equipmentRepr.getVerificationDateEnd());
         equipment.setVerificationNumber(equipmentRepr.getVerificationNumber());

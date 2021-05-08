@@ -15,7 +15,7 @@ public class EquipmentRepr {
 
     private Long id;
     private String name;
-    private String inventoruNumber;
+    private String inventoryNumber;
     private String factoryNumber;
     private String verificationNumber;
     private Date verificationDate;
@@ -25,7 +25,7 @@ public class EquipmentRepr {
     public EquipmentRepr(Equipment equipment) {
         this.id = equipment.getId();
         this.name = equipment.getName();
-        this.inventoruNumber = equipment.getInventoruNumber();
+        this.inventoryNumber = equipment.getInventoryNumber();
         this.factoryNumber = equipment.getFactoryNumber();
         this.verificationNumber = equipment.getVerificationNumber();
         this.verificationDate = equipment.getVerificationDate();

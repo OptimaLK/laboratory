@@ -19,6 +19,7 @@ import java.io.IOException;
 public class PackageEquipmentsController {
 
     private PackageEquipments packageEquipments;
+    @Autowired
     private EquipmentServiceImpl equipmentService;
 
     @GetMapping("/package")
