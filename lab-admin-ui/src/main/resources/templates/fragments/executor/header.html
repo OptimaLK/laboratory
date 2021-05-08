@@ -24,7 +24,7 @@
         <ul class="list-unstyled d-flex justify-content-between align-items-baseline w-100 line_wrap">
             <li><a class="font_home" th:href="@{/admin}">Optima</a></li>
             <li class="equipments_padding" th:classappend="${activePage == 'Equipments'} ? active">
-                <a class="font_header" th:href="@{/admin/equipments}">Оборудование</a></li>
+                <a class="font_header" th:href="@{/equipments}">Оборудование</a></li>
             <li th:classappend="${activePage == 'Works'} ? active">
                 <a class="font_header" th:href="@{/admin/works}">Список работ</a></li>
             <li class="users_padding" th:classappend="${activePage == 'Users'} ? active">
