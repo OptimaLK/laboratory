@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="fragments/header :: head"></head>
+<head th:replace="fragments_guest/header_guest :: head"></head>
 
 <body class="bg-light">
 
-<nav th:replace="fragments/header :: header"></nav>
+<nav th:replace="fragments_guest/header_guest :: header"></nav>
 
 <div class="d-flex">
-<!--    <div th:replace="fragments/sidebar :: sidebar"></div>-->
+<!--    <div th:replace="fragments_guest/sidebar_guest :: sidebar"></div>-->
 
     <div class="content p-4">
-        <h2 class="mb-4">Blank/Starter</h2>
+        <h2 class="mb-4">Главный бланк</h2>
 
         <div sec:authorize="hasRole('ROLE_GUEST') || hasRole('ROLE_ADMIN')" class="card mb-4">
             <div class="card-body">
@@ -20,14 +20,14 @@
             </div>
         </div>
         <div sec:authorize="hasRole('ROLE_ADMIN')" class="card mb-4">
-            <form class="form-group" th:action="@{/}">
-                <button type="submit" class="btn btn-primary"><i aria-hidden="true"></i> Стать пользователем</button>
+            <form class="form-group" th:action="@{/admin}">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-user-plus" aria-hidden="true"></i> Стать админом</button>
             </form>
         </div>
     </div>
 </div>
 
-<script th:replace="fragments/footer :: scripts"></script>
+<script th:replace="fragments_guest/footer_guest :: scripts"></script>
 <script src="https://bootadmin.net/js/datatables.min.js"></script>
 
 </body>

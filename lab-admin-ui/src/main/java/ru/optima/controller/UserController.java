@@ -1,6 +1,7 @@
 package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class UserController {
 
     private final PathCreator pathCreator;
     private final RoleRepository roleRepository;
+    @Autowired
     private final UserService userService;
     private final UserServiceImpl userServiceImpl;
 

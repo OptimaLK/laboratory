@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 
-<head th:replace="fragments/chief/header :: head"></head>
+<head th:replace="fragments_guest/header_guest :: head"></head>
+
 <body class="bg-light">
 
-<div th:replace=" fragments/chief/header :: header"></div>
+<div th:replace="fragments_guest/header_guest :: header"></div>
 
 <div class="d-flex tools_container">
     <div class="content">
@@ -34,11 +35,11 @@
     </div>
 </div>
 
-<script th:replace="fragments/chief/footer :: scripts"></script>
-<script th:src="@{https://bootadmin.net/css/datatables.min.css}"></script>
+<script th:replace="fragments_guest/footer_guest :: scripts"></script>
+<script th:src="@{/js/datatables.min.js}"></script>
 <script>
     $(document).ready(function () {
-        $('#equipment').DataTable();
+        $('#equipments').DataTable();
     });
 </script>
 
