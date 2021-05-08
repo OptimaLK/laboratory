@@ -20,9 +20,9 @@ import java.security.Principal;
 @Controller
 public class KitController {
 
-    private KitServiceImpl kitService;
-    private UserService userService;
-    private PackageEquipments packageEquipments;
+    private final KitServiceImpl kitService;
+    private final UserService userService;
+    private final PackageEquipments packageEquipments;
 
     @PostMapping("/equipments_guest/create/kit")
     public String addPackageEquipmentToKit(Principal principal) {
