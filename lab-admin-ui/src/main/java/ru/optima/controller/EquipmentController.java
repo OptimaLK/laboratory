@@ -25,7 +25,9 @@ import java.io.IOException;
 public class EquipmentController {
 
     private PackageEquipments packageEquipments;
+    @Autowired
     private EquipmentServiceImpl equipmentService;
+    @Autowired
     private KitService kitService;
 
     @GetMapping("/admin/equipments")
