@@ -1,19 +1,15 @@
 package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.beans.PackageEquipments;
-import ru.optima.repr.KitRepr;
 import ru.optima.repr.EquipmentRepr;
 import ru.optima.service.EquipmentServiceImpl;
 import ru.optima.service.KitService;
-import ru.optima.service.KitServiceImpl;
-import ru.optima.service.UserServiceImpl;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 
@@ -69,13 +65,13 @@ public class EquipmentController {
     }
 
     @DeleteMapping("/adchief/min/equipment/{id}/delete")
-    public String adminDeleteEquipment(Model model, @PathVariable("id") Long id) {
+    public String adminDeleteEquipment(Model model, @PathVariable("id") Long id, SecurityContextHolder auth) {
         equipmentService.delete(id);
-        return "redirect:/chief/equipments";
+        return pathCreator.createPath(auth) + "/equipments";
     }
 
     @GetMapping("/equipments_guest")
-    public String equipmentsPage(Model model) {
+    public String equipmentsPage(Model model,SecurityContextHolder auth) {
         model.addAttribute("activePage", "Equipments");
         model.addAttribute("equipments", equipmentService.findAll());
         model.addAttribute("kits", kitService.findAll());
@@ -95,5 +91,4 @@ public class EquipmentController {
         System.out.println(packageEquipments.getEquipments());
         response.sendRedirect(request.getHeader("referer"));
     }
-
 }

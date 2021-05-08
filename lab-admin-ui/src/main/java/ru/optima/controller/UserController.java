@@ -1,7 +1,6 @@
 package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,6 @@ public class UserController {
 
     private final PathCreator pathCreator;
     private final RoleRepository roleRepository;
-    @Autowired
     private final UserService userService;
     private final UserServiceImpl userServiceImpl;
 
@@ -61,23 +59,23 @@ public class UserController {
         return pathCreator.createPath(auth, "user_form");
     }
 
-    @PostMapping("/admin/user/create")
-    public String adminCreateUser(@ModelAttribute("user") @Validated UserRepr user, BindingResult bindingResult, Model model) {
+    @PostMapping("/user/create")
+    public String adminCreateUser(SecurityContextHolder auth, @ModelAttribute("user") @Validated UserRepr user, BindingResult bindingResult, Model model) {
         model.addAttribute("activePage", "Users");
         model.addAttribute("create", true);
         model.addAttribute("roles", roleRepository.findAll());
 
         if (bindingResult.hasErrors()) {
-            return "chief/user_form";
+            return pathCreator.createPath(auth, "user_form");
         }
         Optional<User> existing = userService.findByOName(user.getLastName());
         if (existing.isPresent()){
             model.addAttribute("user", user);
             model.addAttribute("registrationError", "Пользователь с такой фамилией уже существует");
-            return "chief/user_form";
+            return pathCreator.createPath(auth, "user_form");
         }
         userService.save(user);
-        return "redirect:/chief/users";
+        return pathCreator.createPath(auth) + "chief/users";
     }
 
 //    @PostMapping("/admin/user/edit")
@@ -105,7 +103,7 @@ public class UserController {
         return pathCreator.createPath(auth) + "/users";
     }
 
-    @GetMapping("/admin/roles")
+    @GetMapping("/roles")
     public String adminRolesPage(Model model) {
         model.addAttribute("activePage", "Roles");
         return "index";
