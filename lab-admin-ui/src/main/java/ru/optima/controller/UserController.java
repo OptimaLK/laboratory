@@ -2,6 +2,7 @@ package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import ru.optima.persist.model.User;
 import ru.optima.persist.repo.RoleRepository;
 import ru.optima.service.UserService;
 import ru.optima.service.UserServiceImpl;
+import ru.optima.util.PathCreator;
 
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ import java.util.Optional;
 @Controller
 public class UserController {
 
+    private final PathCreator pathCreator;
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final UserServiceImpl userServiceImpl;
@@ -30,30 +33,30 @@ public class UserController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @GetMapping("/admin/users")
-    public String adminUsersPage(Model model) {
+    @GetMapping("/users")
+    public String adminUsersPage(Model model, SecurityContextHolder auth) {
         model.addAttribute("activePage", "Users");
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
-        return "chief/users";
+        return pathCreator.createPath(auth, "users");
     }
 
-    @GetMapping("/admin/user/{id}/edit")
-    public String adminEditUser(Model model, @PathVariable("id") Long id) {
+    @GetMapping("/user/{id}/edit")
+    public String adminEditUser(Model model, SecurityContextHolder auth, @PathVariable("id") Long id) {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Users");
         model.addAttribute("user", userServiceImpl.findById(id));
         model.addAttribute("roles", roleRepository.findAll());
-        return "cheif/user_form";
+        return pathCreator.createPath(auth, "user_form");
     }
 
-    @GetMapping("/admin/user/create")
-    public String adminCreateUser(Model model) {
+    @GetMapping("/user/create")
+    public String adminCreateUser(Model model, SecurityContextHolder auth) {
         model.addAttribute("create", true);
         model.addAttribute("activePage", "Users");
         model.addAttribute("user", new UserRepr());
         model.addAttribute("roles", roleRepository.findAll());
-        return "chief/user_form";
+        return pathCreator.createPath(auth, "user_form");
     }
 
     @PostMapping("/admin/user/create")
@@ -94,10 +97,10 @@ public class UserController {
 //        return "redirect:/admin/users";
 //    }
 
-    @DeleteMapping("/admin/user/{id}/delete")
-    public String adminDeleteUser(Model model, @PathVariable("id") Long id) {
+    @DeleteMapping("/user/{id}/delete")
+    public String adminDeleteUser(Model model, SecurityContextHolder auth, @PathVariable("id") Long id) {
         userService.delete(id);
-        return "redirect:/chief/users";
+        return pathCreator.createPath(auth) + "/users";
     }
 
     @GetMapping("/admin/roles")

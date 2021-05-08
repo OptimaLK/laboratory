@@ -1,5 +1,6 @@
 package ru.optima.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,16 +8,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.optima.util.PathCreator;
-
+@RequiredArgsConstructor
 @Controller
 public class MainController {
 
-    private PathCreator pathCreator;
 
-    @Autowired
-    public MainController(PathCreator pathCreator) {
-        this.pathCreator = pathCreator;
-    }
+    private final PathCreator pathCreator;
+
+//    @Autowired
+//    public MainController(PathCreator pathCreator) {
+//        this.pathCreator = pathCreator;
+//    }
 
     @RequestMapping("/")
     public String indexPage(Model model, SecurityContextHolder auth) {
