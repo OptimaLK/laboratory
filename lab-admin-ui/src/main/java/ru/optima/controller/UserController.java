@@ -1,6 +1,6 @@
 package ru.optima.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,22 +14,15 @@ import ru.optima.persist.repo.RoleRepository;
 import ru.optima.service.UserService;
 import ru.optima.service.UserServiceImpl;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Controller
 public class UserController {
 
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final UserServiceImpl userServiceImpl;
-
-    @Autowired
-    public UserController(UserServiceImpl userServiceImpl, RoleRepository roleRepository, UserService userService) {
-        this.roleRepository = roleRepository;
-        this.userService = userService;
-        this.userServiceImpl = userServiceImpl;
-    }
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
@@ -42,7 +35,7 @@ public class UserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
-        return "users";
+        return "chief/users";
     }
 
     @GetMapping("/admin/user/{id}/edit")
@@ -51,7 +44,7 @@ public class UserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("user", userServiceImpl.findById(id));
         model.addAttribute("roles", roleRepository.findAll());
-        return "user_form";
+        return "cheif/user_form";
     }
 
     @GetMapping("/admin/user/create")
@@ -60,7 +53,7 @@ public class UserController {
         model.addAttribute("activePage", "Users");
         model.addAttribute("user", new UserRepr());
         model.addAttribute("roles", roleRepository.findAll());
-        return "user_form";
+        return "chief/user_form";
     }
 
     @PostMapping("/admin/user/create")
@@ -70,16 +63,16 @@ public class UserController {
         model.addAttribute("roles", roleRepository.findAll());
 
         if (bindingResult.hasErrors()) {
-            return "user_form";
+            return "chief/user_form";
         }
         Optional<User> existing = userService.findByOName(user.getLastName());
         if (existing.isPresent()){
             model.addAttribute("user", user);
             model.addAttribute("registrationError", "Пользователь с такой фамилией уже существует");
-            return "user_form";
+            return "chief/user_form";
         }
         userService.save(user);
-        return "redirect:/admin/users";
+        return "redirect:/chief/users";
     }
 
 //    @PostMapping("/admin/user/edit")
@@ -104,7 +97,7 @@ public class UserController {
     @DeleteMapping("/admin/user/{id}/delete")
     public String adminDeleteUser(Model model, @PathVariable("id") Long id) {
         userService.delete(id);
-        return "redirect:/admin/users";
+        return "redirect:/chief/users";
     }
 
     @GetMapping("/admin/roles")

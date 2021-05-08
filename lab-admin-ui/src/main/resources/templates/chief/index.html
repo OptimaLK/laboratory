@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/chief/header :: head"></head>
+
+<body class="bg-light">
+
+<nav th:replace="fragments/chief/header :: header"></nav>
+
+<div class="d-flex">
+    <div th:replace="fragments/chief/sidebar :: sidebar"></div>
+
+    <div class="content p-4">
+        <h2 class="mb-4">Blank/Starter</h2>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                Главный экран заведующего
+            </div>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_CHIEF')" class="card mb-4">
+            <form class="form-group" th:action="@{/executor}">
+                <button type="submit" class="btn btn-primary"><i aria-hidden="true"></i> Стать пользователем</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/chief/footer :: scripts"></script>
+<script src="https://bootadmin.net/js/datatables.min.js"></script>
+
+</body>
+</html>

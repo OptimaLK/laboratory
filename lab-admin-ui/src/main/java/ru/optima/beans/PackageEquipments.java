@@ -1,5 +1,6 @@
 package ru.optima.beans;
 
+import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PackageEquipments {
@@ -31,25 +33,6 @@ public class PackageEquipments {
             }
         }
         equipments.add(equipment);
-    }
-
-    public PackageEquipments() {
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public List<Equipment> getEquipments() {
-        return equipments;
-    }
-
-    public void setEquipments(List<Equipment> equipments) {
-        this.equipments = equipments;
     }
 
     public void recolculateCount() {

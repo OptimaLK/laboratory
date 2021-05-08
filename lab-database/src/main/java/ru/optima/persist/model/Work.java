@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @Entity
 @Table(name = "works")
 public class Work implements Serializable {

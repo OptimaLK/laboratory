@@ -1,10 +1,16 @@
 package ru.optima.persist.model.equipments;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 import ru.optima.persist.model.User;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Data
+@RequiredArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "kits")
 public class Kit {
@@ -27,40 +33,40 @@ public class Kit {
             inverseJoinColumns = @JoinColumn(name = "equipments_id"))
     private List<Equipment> equipments;
 
-    public Kit() {
-    }
-
-
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Equipment> getEquipments() {
-        return equipments;
-    }
-
-    public void setEquipments(List<Equipment> equipments) {
-        this.equipments = equipments;
-    }
+//    public Kit() {
+//    }
+//
+//
+//
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public List<Equipment> getEquipments() {
+//        return equipments;
+//    }
+//
+//    public void setEquipments(List<Equipment> equipments) {
+//        this.equipments = equipments;
+//    }
 }
