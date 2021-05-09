@@ -1,16 +1,21 @@
 package ru.optima.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.optima.service.WorkService;
+
 import java.util.Collection;
 
 @Controller
 public class MainController {
 
+    @Autowired
+    private WorkService workService;
 
     @RequestMapping("/")
     public String indexPage(Model model, SecurityContextHolder auth) {
@@ -63,7 +68,8 @@ public class MainController {
 
     @RequestMapping("/admin")
     public String indexAdminPage(Model model) {
-        model.addAttribute("activePage", "None");
+        model.addAttribute("activePage", "Work");
+        model.addAttribute("work", workService.findAll());
         return "admin/index";
     }
 }

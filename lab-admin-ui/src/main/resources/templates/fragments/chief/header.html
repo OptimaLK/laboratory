@@ -21,8 +21,9 @@
 <nav th:fragment="header" class="navbar navbar-expand navbar-light head_container">
 
     <div class="navbar-collapse collapse">
-        <ul class="list-unstyled d-flex justify-content-between align-items-baseline w-100 line_wrap">
-            <li><a class="font_home" th:href="@{/admin}">Optima</a></li>
+        <ul class="list-unstyled d-flex justify-content-between align-items-baseline w-100 line_wrap navigation">
+            <li>
+                <a class="font_home" th:href="@{/admin}">Optima</a></li>
             <li class="equipments_padding" th:classappend="${activePage == 'Equipments'} ? active">
                 <a class="font_header" th:href="@{/admin/equipments}">Оборудование</a></li>
             <li th:classappend="${activePage == 'Works'} ? active">
@@ -55,6 +56,22 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+
+<script>
+    const menu = document.querySelector('.navigation');
+    const anchors = menu.getElementsByTagName('a');
+
+    for (let i = 0; i < anchors.length; i += 1) {
+        anchors[i].addEventListener('click', function() { clickHandler(anchors[i]) }, false);
+    }
+
+    function clickHandler(anchor) {
+        const hasClass = anchor.getAttribute('class');
+        if (hasClass !== 'active') {
+            anchor.setAttribute('class', 'active');
+        }
+    }
+</script>
 
 </body>
 </html>
