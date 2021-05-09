@@ -1,5 +1,6 @@
 .head_container {
     width: 100%;
+    padding: 0 195px;
     min-height: 97px;
     background: #E8E8FF;
 }
@@ -7,6 +8,7 @@
 .tools_container {
     background: #D0F4FF;
     min-height: 50px;
+    margin: 0 195px;
     padding: 0;
 }
 
@@ -26,6 +28,20 @@
     text-shadow: 2px -1px 3px rgba(127, 49, 255, 0.25);
     background: #99E7FF;
     box-shadow: -3px 3px 4px rgba(77, 133, 218, 0.41);
+}
+
+.nav-justified .nav-item {
+    flex-basis: 230px;
+}
+
+.equipments_padding {
+    padding-left: 138px;
+    padding-right: 53px;
+}
+
+.users_padding {
+    padding-left: 53px;
+    padding-right: 200px;
 }
 
 .user_use {
@@ -76,9 +92,10 @@ a:hover {
 }
 
 .attrs {
-    width: 350px;
-    margin: 25px 20px 0 0;
-    padding: 12px 0 14px;
+    width: 489px;
+    margin: 0;
+    margin-top: 25px;
+    padding: 12px 0 24px;
     overflow: hidden;
     background: rgba(219, 242, 255, 0.48);
     border-radius: 25px;
@@ -92,7 +109,7 @@ a:hover {
 
 .attrs dt {
     margin: 0;
-    width: 125px;
+    width: 150px;
     float: left;
     clear: both;
     font-weight: 300;
@@ -109,13 +126,13 @@ a:hover {
 }
 
 .attrs dd {
-    margin: 0 18px 0 125px;
+    margin: 0 18px 0 150px;
     text-align: start;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 24px;
     color: #000000;
-    padding: 0 0 15px 15px;
+    padding: 0 0 30px 18px;
 }
 
 .work_attrs dd {
@@ -132,12 +149,12 @@ a:hover {
     border: 0;
     outline: none;
     padding: 0;
-    width: 135px;
-    height: 35px;
+    width: 233.14px;
+    height: 46.23px;
     background: #A2DDD2;
     border-radius: 15px;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 29px;
     text-align: center;
     color: #000000;
