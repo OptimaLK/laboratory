@@ -23,13 +23,13 @@
     <div class="navbar-collapse collapse">
         <ul class="list-unstyled d-flex justify-content-between align-items-baseline w-100 line_wrap navigation">
             <li>
-                <a class="font_home" th:href="@{/admin}">Optima</a></li>
+                <a class="font_home" th:href="@{/chief}">Optima</a></li>
             <li class="equipments_padding" th:classappend="${activePage == 'Equipments'} ? active">
-                <a class="font_header" th:href="@{/admin/equipments}">Оборудование</a></li>
+                <a class="font_header" th:href="@{/chief/equipments}">Оборудование</a></li>
             <li th:classappend="${activePage == 'Works'} ? active">
-                <a class="font_header" th:href="@{/admin/works}">Список работ</a></li>
+                <a class="font_header" th:href="@{/chief/works}">Список работ</a></li>
             <li class="users_padding" th:classappend="${activePage == 'Users'} ? active">
-                <a class="font_header" th:href="@{/admin/users}">Пользователи</a></li>
+                <a class="font_header" th:href="@{/chief/users}">Пользователи</a></li>
             <div class="d-flex">
                 <li class="nav-item dropdown">
                     <a href="#" id="logged-in-username" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -37,7 +37,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="logged-in-username">
                         <a href="#" class="dropdown-item">Profile</a>
-                        @@ -36,6 +41,10 @@
+                        <form th:action="@{/logout}" method="POST">
+                            <input type="submit" id="link-logout" class="dropdown-item" value="Logout"/>
                         </form>
                     </div>
                 </li>
@@ -48,9 +49,12 @@
         </ul>
     </div>
 </nav>
-@@ -46,6 +55,5 @@
-<span aria-hidden="true">&times;</span>
-</button>
+
+<div th:fragment="alert" class="alert alert-danger alert-dismissible" role="alert">
+    Can't complete operation because of server side error
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <script>
