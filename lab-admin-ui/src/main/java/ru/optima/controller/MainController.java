@@ -1,5 +1,6 @@
 package ru.optima.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,17 +11,11 @@ import ru.optima.service.WorkService;
 
 import java.util.Collection;
 import ru.optima.util.PathCreator;
-
+@RequiredArgsConstructor
 @Controller
 public class MainController {
-    @Autowired
-    private WorkService workService;
-    private PathCreator pathCreator;
 
-    @Autowired
-    public MainController(PathCreator pathCreator) {
-        this.pathCreator = pathCreator;
-    }
+    private final PathCreator pathCreator;
 
     @RequestMapping("/")
     public String indexPage(Model model, SecurityContextHolder auth) {
@@ -56,10 +51,4 @@ public class MainController {
         return "secretary/index";
     }
 
-    @RequestMapping("/admin")
-    public String indexAdminPage(Model model) {
-        model.addAttribute("activePage", "Work");
-        model.addAttribute("work", workService.findAll());
-        return "admin/index";
-    }
-}
+   }
