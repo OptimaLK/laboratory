@@ -76,10 +76,10 @@ public class UserController {
             return pathCreator.createPath(auth, "user_form");
         }
         userService.save(user);
-        return pathCreator.createPath(auth) + "chief/users";
+        return "redirect:/user";
     }
 
-//    @PostMapping("/admin/user/edit")
+//    @PostMapping("/edit")
 //    public String adminUpdateUser(@ModelAttribute("user") @Validated User user, BindingResult bindingResult, Model model) {
 //        model.addAttribute("activePage", "Users");
 //        model.addAttribute("edit", true);
@@ -99,9 +99,9 @@ public class UserController {
 //    }
 
     @DeleteMapping("/{id}/delete")
-    public String adminDeleteUser(Model model, SecurityContextHolder auth, @PathVariable("id") Long id) {
+    public String adminDeleteUser( SecurityContextHolder auth, @PathVariable("id") Long id) {
         userService.delete(id);
-        return pathCreator.createPath(auth) + "/users";
+        return "redirect:/user";
     }
 
 //
