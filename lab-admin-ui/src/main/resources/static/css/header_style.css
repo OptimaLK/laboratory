@@ -101,6 +101,12 @@ a:hover {
     border-radius: 25px;
 }
 
+.work_attrs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .attrs dt {
     margin: 0;
     width: 150px;
@@ -113,6 +119,12 @@ a:hover {
     color: #000000;
 }
 
+.work_attrs dt {
+    width: auto;
+    text-align: left;
+    padding-left: 15px;
+}
+
 .attrs dd {
     margin: 0 18px 0 150px;
     text-align: start;
@@ -121,6 +133,16 @@ a:hover {
     line-height: 24px;
     color: #000000;
     padding: 0 0 30px 18px;
+}
+
+.work_attrs dd {
+    margin: 0 18px 0 10px;
+    padding-left: 0;
+    text-indent: 15px;
+}
+
+.work_attrs dl {
+    margin-top: 0;
 }
 
 .attrs button {
@@ -143,4 +165,50 @@ a:hover {
 
 .attrs button:hover {
     background-color: #fbb1b1;
+}
+
+.btn_arch button {
+    border: 0;
+    outline: none;
+    padding: 0;
+    width: 135px;
+    background: #F0ECFD;
+    border-radius: 22px;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+}
+
+.btn_arch button:hover {
+    background-color: #e0f08f;
+}
+
+.add_user a {
+    padding: 0;
+}
+
+.add_user a:after {
+    content: none;
+}
+
+.add_user ul {
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0;
+    text-align: start;
+}
+
+.add_user li {
+    padding: 3px;
+}
+
+.drop_menu a {
+    padding: 0;
+}
+
+.active {
+    border-bottom: 2px solid rgba(124, 202, 226, 0.65);
+    line-height: 2;
 }

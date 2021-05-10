@@ -7,6 +7,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.optima.service.WorkService;
+
+import java.util.Collection;
 import ru.optima.util.PathCreator;
 @RequiredArgsConstructor
 @Controller
@@ -48,9 +51,4 @@ public class MainController {
         return "secretary/index";
     }
 
-    @RequestMapping("/admin")
-    public String indexAdminPage(Model model) {
-        model.addAttribute("activePage", "None");
-        return "admin/index";
-    }
-}
+   }
