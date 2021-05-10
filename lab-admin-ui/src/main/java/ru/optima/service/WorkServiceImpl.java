@@ -50,7 +50,7 @@ public class WorkServiceImpl implements WorkService, Serializable {
 
     @Override
     public void delete(Long id) {
-
+        workRepository.deleteById(id);
     }
 
 }
