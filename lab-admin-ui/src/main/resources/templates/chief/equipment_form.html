@@ -15,7 +15,7 @@
         <h2 class="mb-4" th:if="${edit}" >Изменить оборудлвание</h2>
         <h2 class="mb-4" th:if="${create}" >Создать оборудлвание</h2>
 
-        <form th:object="${equipment}" method="post" th:action="@{/admin/equipment}">
+        <form th:object="${equipment}" method="post" th:action="@{/equipment/create}">
             <div class="card mb-4">
                 <div class="card-body">
                     <input th:type="hidden" th:field="*{id}">

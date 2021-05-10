@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.optima.persist.repo.UserRepository;
 import ru.optima.repr.WorkRepr;
 import ru.optima.service.WorkService;
 import ru.optima.util.PathCreator;
@@ -20,6 +21,7 @@ import ru.optima.warning.NotFoundException;
 public class WorkController {
 
     private final WorkService workService;
+    public final UserRepository userRepository;
     private final PathCreator pathCreator;
 
     @GetMapping({"", "/"})
@@ -40,7 +42,8 @@ public class WorkController {
     @GetMapping("/create")
     public String adminCreateWork(Model model, SecurityContextHolder auth) {
         model.addAttribute("create", true);
-        model.addAttribute("activePage", "Work"); // TODO ?
+        model.addAttribute("activePage", "Work");
+        model.addAttribute("users", userRepository.findAll());
         model.addAttribute("work", new WorkRepr());
         return pathCreator.createPath(auth, "work_form");
     }

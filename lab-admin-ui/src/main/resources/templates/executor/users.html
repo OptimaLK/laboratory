@@ -26,7 +26,6 @@
                         <th>Фамилия</th>
                         <th>Телефон</th>
                         <th>Почта</th>
-                        <th>Права</th>
                         <th class="actions">Изменения</th>
                     </tr>
                     </thead>
@@ -37,17 +36,12 @@
                         <td th:text="${usr.lastName}"></td>
                         <td th:text="${usr.phone}"></td>
                         <td th:text="${usr.email}"></td>
-                        <td th:each="role : ${roles}"
-                                th:text="${role.name}"
-                                th:value="${role.id}"
-                                th:if="${usr.roles?.contains(role)}">
-                        </td>
                         <td>
-                            <a th:href="@{/user/{id}/edit(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Edit">
+                            <a th:href="@{/user/{id}/edit(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Взять в команду">
                                 <strong class="fa fa-fw fa-edit"></strong>
                             </a>
                             <form th:action="@{/{id}/delete(id=${usr.id})}" th:method="delete" class="d-inline">
-                                <button class="btn btn-icon btn-pill btn-danger"  data-toggle="tooltip" title="Delete">
+                                <button class="btn btn-icon btn-pill btn-danger"  data-toggle="tooltip" title="Удалить из команды">
                                     <em class="fa fa-fw fa-trash"></em>
                                 </button>
                             </form>

@@ -41,7 +41,7 @@
                             <option th:each="user : ${users}"
                                     th:text="${user.lastName}"
                                     th:value="${user.id}"
-                                    th:selected="${user.lastName?.contains(user)}"></option>
+                                    th:selected="${work.users?.contains(user)}"></option>
                         </select>
                     </div>
                     <div class="form-group">
