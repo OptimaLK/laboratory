@@ -3,10 +3,12 @@ package ru.optima.persist.model.equipments;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import ru.optima.persist.model.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,55 +38,17 @@ public class Bag implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "equipment_id"))
     private List<Equipment> equipments;
 
-//    public Bag() {
-//    }
-//
-//
-//    public Bag(Long id, String name, Date birthTime, Date lifeTime, List<Equipment> equipments) {
-//        this.id = id;
-//        this.name = name;
-//        this.birthTime = birthTime;
-//        this.lifeTime = lifeTime;
-//        this.equipments = equipments;
-//    }
-//
-//    public List<Equipment> getEquipments() {
-//        return equipments;
-//    }
-//
-//    public void setEquipments(List<Equipment> equipments) {
-//        this.equipments = equipments;
-//    }
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public Date getBirthTime() {
-//        return birthTime;
-//    }
-//
-//    public void setBirthTime(Date birthTime) {
-//        this.birthTime = birthTime;
-//    }
-//
-//    public Date getLifeTime() {
-//        return lifeTime;
-//    }
-//
-//    public void setLifeTime(Date lifeTime) {
-//        this.lifeTime = lifeTime;
-//    }
+    @OneToOne(optional=false, cascade=CascadeType.ALL)
+    @JoinTable(name = "bag_user",
+            joinColumns = @JoinColumn(name = "bag_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private User user;
+
+    public Bag(User user) {
+        this.name = "Сумка";
+        this.birthTime = new Date(System.currentTimeMillis());
+        this.lifeTime = new Date(System.currentTimeMillis() + 50000);
+        this.equipments = new ArrayList<>();
+        this.user = user;
+    }
 }

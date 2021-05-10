@@ -53,6 +53,11 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
+    public Equipment findByName(String name) {
+        return null;
+    }
+
+    @Override
     public void delete(Long id) {
         equipmentRepository.deleteById(id);
     }

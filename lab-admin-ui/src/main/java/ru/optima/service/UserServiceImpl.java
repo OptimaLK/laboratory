@@ -13,7 +13,6 @@ import ru.optima.persist.model.Role;
 import ru.optima.persist.repo.UserRepository;
 import ru.optima.repr.UserRepr;
 import ru.optima.persist.model.User;
-import ru.optima.persist.repo.KitRepository;
 import ru.optima.warning.UserNotFoundException;
 
 import java.util.Collection;

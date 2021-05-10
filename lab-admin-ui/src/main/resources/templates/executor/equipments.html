@@ -17,19 +17,23 @@
                     <input type="checkbox" class="custom-control-input" id="customSwitch1">
                     <label class="custom-control-label" for="customSwitch1">Только доступное</label>
                 </div>
-                <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
-                    <dl th:each="equ : ${equipments}" class="dl-horizontal attrs">
-                        <dt>Название:</dt>
-                        <dd th:text="${equ.name}"></dd>
-                        <dt>Зав. №:</dt>
-                        <dd th:text="${equ.factoryNumber}"></dd>
-                        <dt>Свидетельство:</dt>
-                        <dd th:text="${equ.verificationNumber}"></dd>
-                        <dt>Дата поверки:</dt>
-                        <dd th:text="${equ.verificationDateEnd}"></dd>
-                        <button type="submit">Взять</button>
-                    </dl>
-                </div>
+                    <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
+
+                            <dl th:each="equ : ${equipments}" class="dl-horizontal attrs">
+                                    <dt>Название:</dt>
+                                    <dd th:text="${equ.name}"></dd>
+                                    <dt>Зав. №:</dt>
+                                    <dd th:text="${equ.factoryNumber}"></dd>
+                                    <dt>Свидетельство:</dt>
+                                    <dd th:text="${equ.verificationNumber}"></dd>
+                                    <dt>Дата поверки:</dt>
+                                    <dd th:text="${equ.verificationDateEnd}"></dd>
+                                <form class="form-group" th:object="${users}" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
+                                    <button type="submit" >Взять</button>
+                                </form>
+                            </dl>
+                    </div>
+
             </div>
         </div>
     </div>

@@ -2,6 +2,8 @@ package ru.optima.persist.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import ru.optima.persist.model.equipments.Bag;
+import ru.optima.persist.model.equipments.DisableBags;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -45,6 +47,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "work_id"))
     private List<Work> works;
+
+    @OneToOne(mappedBy = "user", optional = false)
+    private Bag bag;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<DisableBags> disableBags;
 
 //    public User(Long id, String password, String email, String firstName, String lastName, String phone, Collection<Role> roles, List<Work> works) {
 //        this.id = id;

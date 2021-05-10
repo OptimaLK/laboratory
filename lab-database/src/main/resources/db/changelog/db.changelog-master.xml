@@ -31,4 +31,23 @@
         <tagDatabase tag="v-2.1"/>
     </changeSet>
 
+    <include file="v-2.2/db.changelog-20210509-041313592.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="22" author="maks_tarn">
+        <tagDatabase tag="v-2.2"/>
+    </changeSet>
+
+    <include file="v-2.3/db.changelog-20210509-172827534.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="23" author="maks_tarn">
+        <tagDatabase tag="v-2.3"/>
+    </changeSet>
+
+    <include file="v-2.4/db.changelog-20210510-141745132.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="24" author="maks_tarn">
+        <tagDatabase tag="v-2.4"/>
+    </changeSet>
+
+
 </databaseChangeLog>

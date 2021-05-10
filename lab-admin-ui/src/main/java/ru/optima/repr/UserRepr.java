@@ -3,9 +3,10 @@ package ru.optima.repr;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import ru.optima.persist.model.User;
 import ru.optima.persist.model.Work;
 import ru.optima.persist.model.Role;
-import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Bag;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -20,13 +21,13 @@ public class UserRepr {
 
     private Long id;
 
-    @NotEmpty
+//    @NotEmpty
     private String password;
 
     @Size(min = 3, message = "Имя слишком короткое")
     private String firstName;
 
-    @NotEmpty
+//    @NotEmpty
     @Size(min = 3, message = "Фамилия слишком короткое")
     private String lastName;
 
@@ -41,14 +42,14 @@ public class UserRepr {
 
     private List<Work> works;
 
-    public UserRepr(User user) {
+    private Bag bag;
+
+    public UserRepr(User user){
         this.id = user.getId();
-        this.password = user.getPassword();
+        this.bag = user.getBag();
         this.email = user.getEmail();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.phone = user.getPhone();
-        this.roles = user.getRoles();
-        this.works = user.getWorks();
     }
 }
