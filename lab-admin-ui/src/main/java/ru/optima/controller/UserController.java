@@ -61,9 +61,8 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String createUser(SecurityContextHolder auth, @ModelAttribute("user") @Validated UserRepr user, BindingResult bindingResult, Model model) {
+    public String createUser(SecurityContextHolder auth, UserRepr userRepr, BindingResult bindingResult, Model model) {
         model.addAttribute("activePage", "Users");
-        model.addAttribute("create", true);
         model.addAttribute("roles", roleRepository.findAll());
 
         if (bindingResult.hasErrors()) {
@@ -71,18 +70,18 @@ public class UserController {
         }
         // TODO
         // слабое место логин - фамилия -  бывют однофамильцы
-        Optional<User> existing = userService.findByOName(user.getLastName());
+        Optional<User> existing = userService.findByOName(userRepr.getLastName());
         if (existing.isPresent()){
-            model.addAttribute("user", user);
+            model.addAttribute("user", userRepr);
             model.addAttribute("registrationError", "Пользователь с такой фамилией уже существует");
             return pathCreator.createPath(auth, "user_form");
         }
-        userService.save(user);
+        userService.save(userRepr);
         return "redirect:/user";
     }
 
     @DeleteMapping("/{id}/delete")
-    public String adminDeleteUser( SecurityContextHolder auth, @PathVariable("id") Long id) {
+    public String adminDeleteUser( @PathVariable("id") Long id) {
         userService.delete(id);
         return "redirect:/user";
     }
