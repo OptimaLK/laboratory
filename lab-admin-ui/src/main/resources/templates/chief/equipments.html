@@ -17,7 +17,7 @@
                     <input type="checkbox" class="custom-control-input" id="customSwitch1">
                     <label class="custom-control-label" for="customSwitch1">Только доступное</label>
                 </div>
-                <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
+                <div class="d-flex flex-wrap justify-content-center">
                     <dl th:each="equ : ${equipments}" class="dl-horizontal attrs">
                         <dt>Название:</dt>
                         <dd th:text="${equ.name}"></dd>
@@ -36,12 +36,6 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
-<script th:src="@{/js/datatables.min.js}"></script>
-<script>
-    $(document).ready(function () {
-        $('#equipment').DataTable();
-    });
-</script>
 
 </body>
 </html>
