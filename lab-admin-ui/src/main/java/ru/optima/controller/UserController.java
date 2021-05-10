@@ -69,6 +69,8 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return pathCreator.createPath(auth, "user_form");
         }
+        // TODO
+        // слабое место логин - фамилия -  бывют однофамильцы
         Optional<User> existing = userService.findByOName(user.getLastName());
         if (existing.isPresent()){
             model.addAttribute("user", user);
@@ -76,38 +78,12 @@ public class UserController {
             return pathCreator.createPath(auth, "user_form");
         }
         userService.save(user);
-        return pathCreator.createPath(auth) + "chief/users";
+        return "redirect:/user";
     }
-
-//    @PostMapping("/admin/user/edit")
-//    public String adminUpdateUser(@ModelAttribute("user") @Validated User user, BindingResult bindingResult, Model model) {
-//        model.addAttribute("activePage", "Users");
-//        model.addAttribute("edit", true);
-//
-//        if (bindingResult.hasErrors()) {
-//            return "user_form";
-//        }
-//        Optional<User> existing = userService.findByOName(user.getLastName());
-//        if (existing.isPresent()){
-//            model.addAttribute("user", user);
-//            model.addAttribute("registrationError", "Пользователь с такой фамилией уже существует");
-//            return "user_form";
-//        }
-//
-//        userService.edit(user);
-//        return "redirect:/admin/users";
-//    }
 
     @DeleteMapping("/{id}/delete")
-    public String adminDeleteUser(Model model, SecurityContextHolder auth, @PathVariable("id") Long id) {
+    public String adminDeleteUser( SecurityContextHolder auth, @PathVariable("id") Long id) {
         userService.delete(id);
-        return pathCreator.createPath(auth) + "/users";
+        return "redirect:/user";
     }
-
-//
-//    @GetMapping("/roles")
-//    public String adminRolesPage(Model model) {
-//        model.addAttribute("activePage", "Roles");
-//        return "index";
-//    }
 }
