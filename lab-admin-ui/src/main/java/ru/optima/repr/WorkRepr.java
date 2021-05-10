@@ -1,7 +1,6 @@
 package ru.optima.repr;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import ru.optima.persist.model.Work;
 import ru.optima.persist.model.User;
