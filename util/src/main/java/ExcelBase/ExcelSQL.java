@@ -1,3 +1,5 @@
+package ExcelBase;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -5,6 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,18 +18,19 @@ import java.util.Date;
 public class ExcelSQL {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         try {
-            readFromExcel("C:\\Ж-54 Э Журнал учета средств измерений.xlsx"); // Расположение файла от куда тянуть данные
+            Path file = Path.of("util/src/main/resources/templates/Ж-54 Э Журнал учета средств измерений.xlsx").toAbsolutePath();
+            readFromExcel(file);
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void readFromExcel(String file) throws IOException, SQLException, ClassNotFoundException {
+    public static void readFromExcel(Path file) throws IOException, SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/spring_lab_optima", "root", "12345678");
         PreparedStatement stmt;
 
-        XSSFSheet excelSheet = new XSSFWorkbook(new FileInputStream(file)).getSheet("Лист3 (2)");
+        XSSFSheet excelSheet = new XSSFWorkbook(new FileInputStream(String.valueOf(file))).getSheet("Лист3 (2)");
         XSSFRow row;
 
         String sql;
@@ -94,6 +98,7 @@ public class ExcelSQL {
                     connection.commit();
                 }
             } catch(NullPointerException e) {
+                System.out.println("Данные успешно добавленны в БД!");
                 break;
             }
             startRow++;
