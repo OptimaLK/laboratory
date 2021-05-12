@@ -3,6 +3,9 @@ package ru.optima.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Bag;
+import ru.optima.persist.repo.UserRepository;
 import ru.optima.repr.EquipmentRepr;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.persist.repo.EquipmentRepository;
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
 public class EquipmentServiceImpl implements EquipmentService {
 
     private EquipmentRepository equipmentRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public void setUserRepository(EquipmentRepository equipmentRepository) {
@@ -62,5 +67,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipmentRepository.deleteById(id);
     }
 
-
+    @Override
+    public List<Equipment> findAllByBag(Bag bag) {
+        return bag.getEquipments();
+    }
 }

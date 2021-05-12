@@ -18,8 +18,8 @@
                     <label class="custom-control-label" for="customSwitch1">Только доступное</label>
                 </div>
                     <div style="display: flex;justify-content: space-between;flex-wrap: wrap;">
-
                             <dl th:each="equ : ${equipments}" class="dl-horizontal attrs">
+
                                     <dt>Название:</dt>
                                     <dd th:text="${equ.name}"></dd>
                                     <dt>Зав. №:</dt>
@@ -28,8 +28,18 @@
                                     <dd th:text="${equ.verificationNumber}"></dd>
                                     <dt>Дата поверки:</dt>
                                     <dd th:text="${equ.verificationDateEnd}"></dd>
-                                <form class="form-group" th:object="${users}" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
+
+                                <form th:if="${false}"
+                                      class="form-group"
+                                      th:object="${users}" th:action="@{'/bag/take/' + ${equ.id}}"
+                                      method="POST">
                                     <button type="submit" >Взять</button>
+                                </form>
+                                <form th:if="${true}"
+                                      class="form-group"
+                                      th:object="${users}" th:action="@{'/bag/get/' + ${equ.id}}"
+                                      method="POST">
+                                    <button type="submit" >Положить</button>
                                 </form>
                             </dl>
                     </div>

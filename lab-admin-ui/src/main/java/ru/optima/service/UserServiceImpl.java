@@ -13,6 +13,7 @@ import ru.optima.persist.model.Role;
 import ru.optima.persist.repo.UserRepository;
 import ru.optima.repr.UserRepr;
 import ru.optima.persist.model.User;
+import ru.optima.warning.NotFoundException;
 import ru.optima.warning.UserNotFoundException;
 
 import java.util.Collection;
@@ -107,4 +108,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
+
 }

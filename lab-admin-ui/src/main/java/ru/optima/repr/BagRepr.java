@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import ru.optima.beans.PackageEquipments;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Bag;
 import ru.optima.persist.model.equipments.Equipment;
 
 import java.sql.Date;
@@ -23,6 +24,16 @@ public class BagRepr {
     private List<Equipment> equipments;
     private User user;
 
+    public boolean equipmentsInBag(Equipment equipment, Bag bag){
+        for (int i = 0; i < bag.getEquipments().size(); i++) {
+            if (equipment.equals(bag.getEquipments().get(i))) {
+                return true;
+            }
+            else return false;
+        }
+        return false;
+    }
+
     public BagRepr(User user, Equipment equipment) {
         this.id = id;
         this.name = "Сумка #" + id;
@@ -33,5 +44,12 @@ public class BagRepr {
     }
 
 
-
+    public BagRepr(Bag bag) {
+        this.id = bag.getId();
+        this.name = bag.getName();
+        this.birthTime = bag.getBirthTime();
+        this.lifeTime = bag.getLifeTime();
+        this.equipments = bag.getEquipments();
+        this.user = bag.getUser();
+    }
 }

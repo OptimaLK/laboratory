@@ -44,6 +44,16 @@ public class Bag implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private User user;
 
+    public boolean equipmentsInBag(Equipment equipment){
+        for (int i = 0; i < this.getEquipments().size(); i++) {
+            if (equipment.equals(this.getEquipments().get(i))) {
+                return true;
+            }
+            else return false;
+        }
+        return false;
+    }
+
     public Bag(User user) {
         this.name = "Сумка";
         this.birthTime = new Date(System.currentTimeMillis());

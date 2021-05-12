@@ -2,6 +2,7 @@ package ru.optima.service;
 
 import org.springframework.stereotype.Service;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Bag;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.EquipmentRepr;
 
@@ -18,6 +19,7 @@ public interface EquipmentService {
     Optional<EquipmentRepr> findById(Long id);
     Equipment findByEId(Long id);
     Equipment findByName(String name);
+    List<Equipment> findAllByBag(Bag bag);
 
     void delete(Long id);
 }
