@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/chief/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/chief/header :: header"></div>
+
+<div class="d-flex">
+<!--    <div th:replace="fragments/chief/sidebar :: sidebar"></div>-->
+
+    <div class="content p-4">
+        <h2 class="mb-4">Users</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <form class="form-group" th:action="@{/user/create}">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-user-plus" aria-hidden="true"></i> Создать</button>
+                </form>
+                <table id="users" class="table table-hover" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Номер</th>
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Телефон</th>
+                        <th>Почта</th>
+                        <th>Права</th>
+                        <th class="actions">Изменения</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usr : ${users}">
+                        <td th:text="${usr.id}"></td>
+                        <td th:text="${usr.firstName}"></td>
+                        <td th:text="${usr.lastName}"></td>
+                        <td th:text="${usr.phone}"></td>
+                        <td th:text="${usr.email}"></td>
+                        <td th:each="role : ${roles}"
+                                th:text="${role.name}"
+                                th:value="${role.id}"
+                                th:if="${usr.roles?.contains(role)}">
+                        </td>
+                        <td>
+                            <a th:href="@{/user/{id}/edit(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Edit">
+                                <strong class="fa fa-fw fa-edit"></strong>
+                            </a>
+                            <form th:action="@{/{id}/delete(id=${usr.id})}" th:method="delete" class="d-inline">
+                                <button class="btn btn-icon btn-pill btn-danger"  data-toggle="tooltip" title="Delete">
+                                    <em class="fa fa-fw fa-trash"></em>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/chief/footer :: scripts"></script>
+
+</body>
+</html>

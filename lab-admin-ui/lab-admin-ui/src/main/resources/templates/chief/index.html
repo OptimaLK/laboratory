@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/chief/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/chief/header :: header"></div>
+
+<div class="d-flex">
+    <div class="content">
+        <div class="card mb-4">
+            <div class="card-body">
+                <form class="form-group btn_arch" th:action="@{/work/create}">
+                    <button type="submit">Архив</button>
+                </form>
+                <div class="work_attrs">
+                    <dl class="dl-horizontal attrs" th:each="wor : ${work}">
+                        <div>
+                            <dt>№ заявки:</dt>
+                            <dd th:text="${wor.id}"></dd>
+                            <dt>Заказчик:</dt>
+                            <dd th:text="${wor.customer}"></dd>
+                            <dt>Объект:</dt>
+                            <dd th:text="${wor.objectName}"></dd>
+                            <dt>Срок:</dt>
+                            <dd>04.05.2021</dd>
+                            <dt>Команда:</dt>
+                            <dd class="d-flex justify-content-between add_user">
+                                <div></div>
+                                <div>
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                        <i aria-hidden="true" class="fa fa-user-plus"></i>
+                                    </a>
+                                    <div>
+                                        <ul aria-labelledby="logged-in-username"
+                                            class="dropdown-menu dropdown-menu-right drop_menu">
+                                            <li><a class="dropdown-item" th:each="wrk : ${work}" th:text="${wrk.users}"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </dd>
+                            <dt>Заказчика:</dt>
+                            <dd th:text="${wor.clientName}"></dd>
+                            <dt>т. заказчика:</dt>
+                            <dd>8-999-999-99-99</dd>
+                        </div>
+                        <button type="submit">Закрыть</button>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/chief/footer :: scripts"></script>
+
+</body>
+</html>
