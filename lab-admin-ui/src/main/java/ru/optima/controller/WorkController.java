@@ -2,16 +2,20 @@ package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.optima.persist.model.Work;
 import ru.optima.persist.repo.UserRepository;
 import ru.optima.repr.WorkRepr;
 import ru.optima.service.WorkService;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
+
+import java.util.Date;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -77,6 +81,21 @@ public class WorkController {
     @DeleteMapping("/{id}/delete")
     public String adminDeleteWork(@PathVariable("id") Long id) {
         workService.delete(id);
+        return "redirect:/work";
+    }
+
+    /**
+     * Создание задания на работу. Доступно только заведующему.
+     * @return
+     */
+    @Secured("ROLE_CHIEF")
+    @PostMapping({"", "/"})
+    public String createWork(@ModelAttribute WorkRepr work) {
+        System.out.println("Creating new work...");
+        // Дата регистрации заявки создаётся автоматически - это момент создания самой заявки.
+        work.setRegistrationDate(new Date());
+        System.out.println(work);
+        workService.save(work);
         return "redirect:/work";
     }
 
