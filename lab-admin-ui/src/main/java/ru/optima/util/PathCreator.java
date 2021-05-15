@@ -1,13 +1,25 @@
 package ru.optima.util;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Component
 public class PathCreator {
+
+    public String getUserName (SecurityContextHolder auth) {
+        Authentication authentication = auth.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+    public String getRole (SecurityContextHolder auth) {
+        return takePartPathString(auth);
+    }
 
 //    возвращает redirect: index - шаблон, в зависимости от роли
 //    метод возвращает строку "[redirect:] + [chief]" если роль chief
@@ -26,39 +38,23 @@ public class PathCreator {
     }
 
     private String takePartPathString (SecurityContextHolder auth){
-        StringBuilder path = new StringBuilder();
         Collection<? extends GrantedAuthority> authorities = auth.getContext().getAuthentication().getAuthorities();
-
+        List<String> roles = new ArrayList<>();
         for (GrantedAuthority authority : authorities) {
-//          костыль
-            if (authorities.size() > 1) {
-                path.append("chief");
-                break;
-            }
-
-            switch (authority.getAuthority()) {
-                case "ROLE_ADMIN": {
-                    path.append("admin");
-                    break;
-                }
-                case "ROLE_CHIEF":{
-                    path.append("chief");
-                    break;
-                }
-                case "ROLE_DIRECTOR": {
-                    path.append("director");
-                    break;
-                }
-                case "ROLE_EXECUTOR": {
-                    path.append("executor");
-                    break;
-                }
-                case "ROLE_SECRETARY": {
-                    path.append("secretary");
-                    break;
-                }
-            }
+            roles.add(authority.getAuthority());
         }
-        return path.toString();
+        if (roles.contains("ROLE_CHIEF")) {
+            return ("chief");
+        }
+        if (roles.contains("ROLE_DIRECTOR")) {
+            return ("director");
+        }
+        if (roles.contains("ROLE_SECRETARY")) {
+            return ("secretary");
+        }
+        if (roles.contains("ROLE_EXECUTOR")) {
+            return ("executor");
+        }
+        return ("roles not found");
     }
 }
