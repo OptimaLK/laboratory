@@ -3,10 +3,13 @@ package ru.optima.persist.model.equipments;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.optima.persist.model.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,9 +27,11 @@ public class Bag implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "birth_time")
     private Date birthTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "life_time")
     private Date lifeTime;
 
@@ -35,5 +40,16 @@ public class Bag implements Serializable {
             joinColumns = @JoinColumn(name = "bag_id"),
             inverseJoinColumns = @JoinColumn(name = "equipment_id"))
     private List<Equipment> equipments;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    private User user;
+
+    public Bag(User user) {
+        this.name = "Сумка";
+        this.birthTime = new Date(System.currentTimeMillis());
+        this.lifeTime = new Date(System.currentTimeMillis() + 50000);
+        this.equipments = new ArrayList<>();
+        this.user = user;
+    }
 
 }
