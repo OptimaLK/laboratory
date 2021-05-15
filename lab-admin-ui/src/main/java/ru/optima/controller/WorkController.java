@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.repo.UserRepository;
 import ru.optima.repr.WorkRepr;
-import ru.optima.service.WorkService;
+import ru.optima.service.WorkServiceImpl;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 
@@ -19,19 +19,36 @@ import ru.optima.warning.NotFoundException;
 @RequestMapping("/work")
 public class WorkController {
 
-    private final WorkService workService;
+    private final WorkServiceImpl workService;
     private final UserRepository userRepository;
     private final PathCreator pathCreator;
 
     @GetMapping({"", "/"})
-    public String adminWorkPage(Model model, SecurityContextHolder auth) {
+    public String workPage(Model model, SecurityContextHolder auth) {
         model.addAttribute("activePage", "Work");
-        model.addAttribute("work", workService.findAll());
+
+//      для каждой роли (роль маленькими буквами) пользователя на клиент передается свой набор данных
+//      userLogin - login при авторизации
+        switch (pathCreator.getRole(auth)) {
+            case "executor": {
+                String userLogin = pathCreator.getUserLogin(auth);
+                Long userId = userRepository.findUserByLastName(userLogin).orElseThrow(NotFoundException::new).getId();
+                model.addAttribute("work", workService.findAllWorksByUserId(userId));
+                break;
+            }
+            case "chief": {
+                model.addAttribute("work", workService.findAll());
+                break;
+            }
+            default: {
+                model.addAttribute("work", workService.findAll());
+            }
+        }
         return pathCreator.createPath(auth, "works");
     }
 
     @GetMapping("/{id}/edit")
-    public String adminEditWork(Model model,SecurityContextHolder auth, @PathVariable("id") Long id) {
+    public String editWork(Model model,SecurityContextHolder auth, @PathVariable("id") Long id) {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Work"); // TODO ?
         model.addAttribute("users", userRepository.findAll());
@@ -40,7 +57,7 @@ public class WorkController {
     }
 
     @GetMapping("/create")
-    public String adminCreateWork(Model model, SecurityContextHolder auth) {
+    public String createWork(Model model, SecurityContextHolder auth) {
         model.addAttribute("activePage", "Work");
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("work", new WorkRepr());
@@ -48,16 +65,15 @@ public class WorkController {
     }
 
     @PostMapping("/create")
-    public String createUser(SecurityContextHolder auth,  WorkRepr workRepr, BindingResult bindingResult, Model model) {
+    public String createWork(SecurityContextHolder auth,  WorkRepr workRepr, BindingResult bindingResult, Model model) {
         model.addAttribute("activePage", "Work");
-        model.addAttribute("users", userRepository.findAll());
 
-//        if (bindingResult.hasErrors()) {
-//            return pathCreator.createPath(auth, "work_form");
-//        }
+        if (bindingResult.hasErrors()) {
+            return pathCreator.createPath(auth, "work_form");
+        }
 
         try {
-//            workRepr.setRegistrationDate(LocalDate.now());
+//            workRepr.setRegistrationDate(new Date());
             workService.save(workRepr);
         } catch (Exception e) {
             log.info("Не получилось сохранить объект  " + "\n" +
@@ -75,7 +91,7 @@ public class WorkController {
     }
 
     @DeleteMapping("/{id}/delete")
-    public String adminDeleteWork(@PathVariable("id") Long id) {
+    public String deleteWork(@PathVariable("id") Long id) {
         workService.delete(id);
         return "redirect:/work";
     }
