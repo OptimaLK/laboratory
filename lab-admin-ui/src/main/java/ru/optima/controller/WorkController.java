@@ -13,6 +13,8 @@ import ru.optima.service.WorkServiceImpl;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 
+import java.time.LocalDate;
+
 @Log4j2
 @RequiredArgsConstructor
 @Controller
@@ -64,16 +66,20 @@ public class WorkController {
         return pathCreator.createPath(auth, "work_form");
     }
 
-    @PostMapping("/create")
+    @PostMapping({"", "/"})
     public String createWork(SecurityContextHolder auth,  WorkRepr workRepr, BindingResult bindingResult, Model model) {
         model.addAttribute("activePage", "Work");
 
-        if (bindingResult.hasErrors()) {
-            return pathCreator.createPath(auth, "work_form");
-        }
+//        if (bindingResult.hasErrors()) {
+//            return pathCreator.createPath(auth, "work_form");
+//        }
 
         try {
-//            workRepr.setRegistrationDate(new Date());
+            workRepr.setRegistrationDate(LocalDate.now());
+            if (workRepr.getUsers() == null || workRepr.getNumberContract() == null || workRepr.getObjectName() == null
+                || workRepr.getClientName() == null || workRepr.getCustomer() == null) {
+                return pathCreator.createPath(auth, "work_form");
+            }
             workService.save(workRepr);
         } catch (Exception e) {
             log.info("Не получилось сохранить объект  " + "\n" +
@@ -85,8 +91,6 @@ public class WorkController {
                     "  private String customer = "  + workRepr.getCustomer() + "\n" );
             return pathCreator.createPath(auth, "work_form");
         }
-
-
         return "redirect:/work";
     }
 
