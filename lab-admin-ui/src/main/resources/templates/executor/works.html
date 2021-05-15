@@ -43,14 +43,14 @@
                         <td th:text="${wor.users}"></td>
                         <td th:text="${wor.customer}"></td>
                         <td>
-                            <a th:href="@{/work/{id}/edit(id=${wor.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Edit">
+                            <a th:href="@{/work/{id}/edit(id=${wor.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Собрать команду">
                                 <i class="fa fa-fw fa-edit"></i>
                             </a>
-                            <form th:action="@{/work/{id}/delete(id=${wor.id})}" th:method="delete" class="d-inline">
-                                <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">
-                                    <i class="fa fa-fw fa-trash"></i>
-                                </button>
-                            </form>
+<!--                            <form th:action="@{/work/{id}/delete(id=${wor.id})}" th:method="delete" class="d-inline">-->
+<!--                                <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">-->
+<!--                                    <i class="fa fa-fw fa-trash"></i>-->
+<!--                                </button>-->
+<!--                            </form>-->
                         </td>
                     </tr>
                     </tbody>
