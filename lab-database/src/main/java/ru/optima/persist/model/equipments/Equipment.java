@@ -37,4 +37,7 @@ public class Equipment implements Serializable {
     @Column(name = "verification_date_end")
     private Date verificationDateEnd;
 
+    @Column(name = "taken")
+    private Boolean taken;
+
 }

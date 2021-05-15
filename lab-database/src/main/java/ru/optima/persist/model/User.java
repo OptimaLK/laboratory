@@ -3,6 +3,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import ru.optima.persist.model.equipments.Bag;
+import ru.optima.persist.model.equipments.Equipment;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -46,6 +48,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "work_id"))
     private List<Work> works;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinTable(name = "users_bags",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "bag_id"))
+    private List<Bag> bags;
 
     @Override
     public String toString() {
