@@ -54,7 +54,6 @@ public class WorkController {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Work"); // TODO ?
         model.addAttribute("users", userRepository.findAll());
-        model.addAttribute("whois", pathCreator.getUserLogin(auth));
         model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
         return pathCreator.createPath(auth, "work_form");
     }
