@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.WorkRepr;
 import ru.optima.persist.model.Work;
 import ru.optima.persist.repo.WorkRepository;
+import ru.optima.warning.NotFoundException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,8 +36,6 @@ public class WorkServiceImpl implements WorkService, Serializable {
         work.setObjectName(workRepr.getObjectName());
         work.setRegistrationDate(workRepr.getRegistrationDate());
         work.setUsers(workRepr.getUsers());
-        //Это сразу удалить.
-        System.out.println(work);
         workRepository.save(work);
     }
 
