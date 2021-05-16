@@ -19,10 +19,12 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <input th:type="hidden" th:field="*{id}">
-                    <div class="form-group">
-                        <label for="registrationDate">Дата регистрации</label>
-                        <input th:field="*{registrationDate}" type="date" class="form-control" id="registrationDate" placeholder="Введите дату" required>
-                    </div>
+<!--                    Пока закомментил поле даты. В перспективе на удаление.-->
+<!--                    Подразумевается, что дата регистрации заявки создаётся автоматически текущим моментом.-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="registrationDate">Дата регистрации</label>-->
+<!--                        <input th:field="*{registrationDate}" type="date" class="form-control" id="registrationDate" placeholder="Введите дату" required>-->
+<!--                    </div>-->
                     <div class="form-group">
                         <label for="clientName">Название заказчика</label>
                         <input th:field="*{clientName}" type="text" class="form-control" id="clientName" placeholder="Введите название заказчика" required>

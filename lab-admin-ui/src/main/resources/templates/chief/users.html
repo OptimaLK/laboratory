@@ -37,10 +37,14 @@
                         <td th:text="${usr.lastName}"></td>
                         <td th:text="${usr.phone}"></td>
                         <td th:text="${usr.email}"></td>
-                        <td th:each="role : ${roles}"
-                                th:text="${role.name}"
-                                th:value="${role.id}"
-                                th:if="${usr.roles?.contains(role)}">
+<!--                        Здесь немного поправил шаблон для того, чтобы несколько ролей не отображались-->
+<!--                        в одну строку, а для каждой была своя стока-->
+                        <td>
+                            <p th:each="role : ${roles}"
+                            th:text="${role.name}"
+                            th:value="${role.id}"
+                            th:if="${usr.roles?.contains(role)}">
+                            </p>
                         </td>
                         <td>
                             <a th:href="@{/user/{id}/edit(id=${usr.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Edit">
