@@ -15,9 +15,6 @@ public interface BagService {
 
     List<BagRepr> findAll();
 
-    Equipment findByEquipmentId(Long equipmentId);
-
     void deleteEquipmentToBag(Equipment equipment, User user);
 
-    void presenceInBag(Equipment equipment);
 }

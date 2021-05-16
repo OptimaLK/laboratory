@@ -35,7 +35,6 @@ public class BagController {
         Equipment equipment = equipmentService.findByEId(equipmentId);
         User user = userService.findByName(principal.getName());
         bagService.addEquipmentToBag(equipment, user);
-        bagService.presenceInBag(equipment);
         response.sendRedirect(request.getHeader("referer"));
     }
 
@@ -44,7 +43,6 @@ public class BagController {
         Equipment equipment = equipmentService.findByEId(equipmentId);
         User user = userService.findByName(principal.getName());
         bagService.deleteEquipmentToBag(equipment, user);
-        bagService.presenceInBag(equipment);
         response.sendRedirect(request.getHeader("referer"));
     }
 
