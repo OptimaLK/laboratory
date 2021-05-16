@@ -27,7 +27,7 @@ public class ExcelSQL {
 
     public static void readFromExcel(Path file) throws IOException, SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/spring_lab_optima", "root", "12345678");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/spring_lab_optima?useUnicode=true&serverTimezone=UTC", "root", "123123");
         PreparedStatement stmt;
 
         XSSFSheet excelSheet = new XSSFWorkbook(new FileInputStream(String.valueOf(file))).getSheet("Лист3 (2)");

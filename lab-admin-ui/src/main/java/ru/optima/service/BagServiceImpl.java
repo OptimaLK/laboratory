@@ -18,72 +18,43 @@ import java.util.stream.Collectors;
 public class BagServiceImpl implements BagService{
 
     private BagRepository bagRepository;
-    private UserRepository userRepository;
     private EquipmentRepository equipmentRepository;
 
-    public BagServiceImpl(BagRepository bagRepository, UserRepository userRepository, EquipmentRepository equipmentRepository) {
+    public BagServiceImpl(BagRepository bagRepository, EquipmentRepository equipmentRepository) {
         this.bagRepository = bagRepository;
-        this.userRepository = userRepository;
         this.equipmentRepository = equipmentRepository;
     }
 
     @Override
     public void addEquipmentToBag(Equipment equipment, User user) {
-        User u = userRepository.findUserById(user.getId()).get();
-        List<Bag> bags = u.getBags();
-        if (bags.size() != 0){
-            Bag lastBag = bags.get(bags.size() - 1);
-            for (int i = 0; i < lastBag.getEquipments().size(); i++) {
-                if (lastBag.getEquipments().get(i).equals(equipment)){
-                    return;
-                }
-            }
-        } else {
+        List<Bag> bags = user.getBags();
+        if (bags.size() == 0){
             bags.add(new Bag(user));
         }
-        bags.get(bags.size() - 1).getEquipments().add(equipment);
-        bagRepository.save(bags.get(bags.size() - 1));
-    }
-
-    @Override
-    public void deleteEquipmentToBag(Equipment equipment, User user) {
-        User u = userRepository.findUserById(user.getId()).get();
-        List<Bag> bags = u.getBags();
-        Bag lastBag = bags.get(u.getBags().size() - 1);
-        for (int i = 0; i < lastBag.getEquipments().size(); i++) {
-            if (lastBag.getEquipments().get(i).equals(equipment)){
-                lastBag.getEquipments().remove(i);
-            }
-        }
-        bagRepository.save(lastBag);
-    }
-
-    @Override
-    public void presenceInBag(Equipment equipment) {
-        if(equipment.getTaken() == null || equipment.getTaken()) {
+        if (equipment.getTaken() == null || equipment.getTaken()) {
             equipment.setTaken(false);
+            bags.get(bags.size() - 1).getEquipments().add(equipment);
+            bagRepository.save(bags.get(bags.size() - 1));
         } else {
             equipment.setTaken(true);
         }
     }
 
-//    @Override
-//    public void delEquipmentToBag(Equipment equipment, User user) {
-//        User u = userRepository.findUserById(user.getId()).get();
-//        Bag bag = u.getBag();
-//        if (bag == null){
-//            bag = new Bag(user);
-//        }
-//        for (int i = 0; i < bag.getEquipments().size(); i++) {
-//            if (bag.getEquipments().get(i).equals(equipment)){
-//                break;
-//            }
-//        }
-//        bag.getEquipments().remove(equipment);
-//        equipment.setActivity(true);
-//        equipmentRepository.save(equipment);
-//        bagRepository.save(bag);
-//    }
+    @Override
+    public void deleteEquipmentToBag(Equipment equipment, User user) {
+        List<Bag> bags = user.getBags();
+        if (user.getBags().size() != 0) {
+            Bag lastBag = bags.get(user.getBags().size() - 1);
+            for (int i = 0; i < lastBag.getEquipments().size(); i++) {
+                if (lastBag.getEquipments().get(i).equals(equipment)){
+                    lastBag.getEquipments().remove(i);
+                    equipment.setTaken(true);
+                    bagRepository.save(lastBag);
+                    return;
+                }
+            }
+        }
+    }
 
     @Override
     public List<BagRepr> findAll() {
@@ -91,10 +62,4 @@ public class BagServiceImpl implements BagService{
                 .map(BagRepr::new)
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public Equipment findByEquipmentId(Long equipmentId) {
-        return equipmentRepository.findById(equipmentId).get();
-    }
-
 }
