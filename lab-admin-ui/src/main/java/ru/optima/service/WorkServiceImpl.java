@@ -1,6 +1,7 @@
 package ru.optima.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.optima.repr.WorkRepr;
@@ -53,6 +54,10 @@ public class WorkServiceImpl implements WorkService, Serializable {
     @Override
     public void delete(Long id) {
         workRepository.deleteById(id);
+    }
+
+    public List<Work> findAllWorksByUserId(Long id) {
+        return workRepository.findAllWorksByUserId(id);
     }
 
 }

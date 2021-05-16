@@ -13,5 +13,5 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
     Work findById(long id);
 
     @Query( "select w from Work w join w.users u where u.id = ?1")
-    public List<Work> findAllWorksByUserId(Long id);
+    List<Work> findAllWorksByUserId(Long id);
 }

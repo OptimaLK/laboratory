@@ -16,8 +16,6 @@ import java.util.List;
 public class WorkRepr implements Serializable {
 
     private Long id;
-    // Здесь поменял LocalDate на Date
-    // И добавил формат даты - для корректного распознавания спрингом даты, введённой в форму шаблона
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date registrationDate;
     private String clientName;

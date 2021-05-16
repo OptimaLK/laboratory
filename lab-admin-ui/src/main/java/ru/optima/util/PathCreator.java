@@ -12,11 +12,6 @@ import java.util.List;
 @Component
 public class PathCreator {
 
-    public String getUserName (SecurityContextHolder auth) {
-        Authentication authentication = auth.getContext().getAuthentication();
-        return authentication.getName();
-    }
-
     public String getRole (SecurityContextHolder auth) {
         return takePartPathString(auth);
     }
