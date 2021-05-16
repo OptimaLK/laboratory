@@ -2,11 +2,13 @@ package ru.optima.repr;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.optima.persist.model.Work;
 import ru.optima.persist.model.User;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -14,7 +16,8 @@ import java.util.List;
 public class WorkRepr implements Serializable {
 
     private Long id;
-    private LocalDate registrationDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date registrationDate;
     private String clientName;
     private String objectName;
     private String numberContract;

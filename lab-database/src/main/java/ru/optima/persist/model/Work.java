@@ -2,11 +2,13 @@ package ru.optima.persist.model;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.optima.persist.model.equipments.Equipment;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -20,8 +22,9 @@ public class Work implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "Registration_date", nullable = false)
-    private LocalDate registrationDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Column(name = "registration_date", nullable = false)
+    private Date registrationDate;
 
     @Column(name = "client_name", nullable = false)
     private String clientName;
@@ -32,7 +35,11 @@ public class Work implements Serializable {
     @Column(name = "number_contract", nullable = false, unique = true)
     private String numberContract;
 
-    @ManyToMany(mappedBy = "works")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_works",
+            joinColumns = @JoinColumn(name = "work_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> users;
 
     @Column(name = "customer")

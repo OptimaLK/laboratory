@@ -2,6 +2,7 @@ package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -54,6 +56,7 @@ public class WorkController {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Work"); // TODO ?
         model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("whois", pathCreator.getUserLogin(auth));
         model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
         return pathCreator.createPath(auth, "work_form");
     }
@@ -66,20 +69,17 @@ public class WorkController {
         return pathCreator.createPath(auth, "work_form");
     }
 
+    @Secured("ROLE_CHIEF")
     @PostMapping({"", "/"})
     public String createWork(SecurityContextHolder auth,  WorkRepr workRepr, BindingResult bindingResult, Model model) {
         model.addAttribute("activePage", "Work");
 
-//        if (bindingResult.hasErrors()) {
-//            return pathCreator.createPath(auth, "work_form");
-//        }
+        if (bindingResult.hasErrors()) {
+            return pathCreator.createPath(auth, "work_form");
+        }
 
         try {
-            workRepr.setRegistrationDate(LocalDate.now());
-            if (workRepr.getUsers() == null || workRepr.getNumberContract() == null || workRepr.getObjectName() == null
-                || workRepr.getClientName() == null || workRepr.getCustomer() == null) {
-                return pathCreator.createPath(auth, "work_form");
-            }
+            workRepr.setRegistrationDate(new Date());
             workService.save(workRepr);
         } catch (Exception e) {
             log.info("Не получилось сохранить объект  " + "\n" +
