@@ -16,64 +16,99 @@
         <div class="card mb-4">
 
             <div class="card-body">
-                <form th:object="${work}" method="post" th:action="@{/work}">
-                    <table id="work" class="table table-hover" cellspacing="0" width="100%">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>registrationDate</th>
-                            <th>clientName</th>
-                            <th>objectName</th>
-                            <th>numberContract</th>
-                            <th>customer</th>
-                            <th>users</th>
-                            <th class="actions">Select team</th>
-                            <th class="actions">Done</th>
-                            <th class="actions">Actions</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="wor : ${work}">
-                            <td th:text="${wor.id}"></td>
-                            <td th:text="${wor.registrationDate}"></td>
-                            <td th:text="${wor.clientName}"></td>
-                            <td th:text="${wor.objectName}"></td>
-                            <td th:text="${wor.numberContract}"></td>
-                            <td th:text="${wor.customer}"></td>
-                            <td>
-                                <p th:each="user : ${wor.users}" th:text="${user.lastName}"></p>
-                            </td>
-                            <td>
-                                <a th:href="@{/work/{id}/edit(id=${wor.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Собрать команду">
-                                    <i class="fa fa-fw fa-edit"></i>
-                                </a>
-    <!--                            <form th:action="@{/work/{id}/delete(id=${wor.id})}" th:method="delete" class="d-inline">-->
-    <!--                                <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">-->
-    <!--                                    <i class="fa fa-fw fa-trash"></i>-->
-    <!--                                </button>-->
-    <!--                            </form>-->
-                            </td>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Выполнено
-                                    </label>
+                <div class="work_attrs">
+                    <dl class="dl-horizontal attrs" th:each="wor : ${work}">
+                        <div>
+                            <dt>№ заявки:</dt>
+                            <dd th:text="${wor.id}"></dd>
+                            <dt>Заказчик:</dt>
+                            <dd th:text="${wor.customer}"></dd>
+                            <dt>Объект:</dt>
+                            <dd th:text="${wor.objectName}"></dd>
+                            <dt>Срок:</dt>
+                            <dd>04.05.2021</dd>
+                            <dt>Команда:</dt>
+                            <dd class="d-flex justify-content-between add_user" >
+                                <div></div>
+                                <div>
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                        <i aria-hidden="true" class="fa fa-user-plus"></i>
+                                    </a>
+                                    <div>
+                                        <ul aria-labelledby="logged-in-username"
+                                            class="dropdown-menu dropdown-menu-right drop_menu">
+                                            <li><a class="dropdown-item"  th:each= "usr : ${wor.users}" th:text="${usr.getLastName()}"
+                                                   th:href="@{/work/{id}/edit(id=${wor.id})}"></a></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </td>
-                            <td>
-                                <form th:action="@{/work/{id}/delete(id=${wor.id})}" th:method="delete" class="d-inline">
-                                    <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Удалить в архив">
-                                        <i class="fa fa-fw fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
+                            </dd>
+                            <dt>Заказчик:</dt>
+                            <dd th:text="${wor.clientName}"></dd>
+                            <dt>т. заказчика:</dt>
+                            <dd>8-999-999-99-99</dd>
+                        </div>
+                        <button type="submit">Закрыть</button>
+                    </dl>
+                </div>
+<!--                <form th:object="${work}" method="post" th:action="@{/work}">-->
+<!--                    <table id="work" class="table table-hover" cellspacing="0" width="100%">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th>Id</th>-->
+<!--                            <th>registrationDate</th>-->
+<!--                            <th>clientName</th>-->
+<!--                            <th>objectName</th>-->
+<!--                            <th>numberContract</th>-->
+<!--                            <th>customer</th>-->
+<!--                            <th>users</th>-->
+<!--                            <th class="actions">Select team</th>-->
+<!--                            <th class="actions">Done</th>-->
+<!--                            <th class="actions">Actions</th>-->
 
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr th:each="wor : ${work}">-->
+<!--                            <td th:text="${wor.id}"></td>-->
+<!--                            <td th:text="${wor.registrationDate}"></td>-->
+<!--                            <td th:text="${wor.clientName}"></td>-->
+<!--                            <td th:text="${wor.objectName}"></td>-->
+<!--                            <td th:text="${wor.numberContract}"></td>-->
+<!--                            <td th:text="${wor.customer}"></td>-->
+<!--                            <td>-->
+<!--                                <p th:each="user : ${wor.users}" th:text="${user.lastName}"></p>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <a th:href="@{/work/{id}/edit(id=${wor.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Собрать команду">-->
+<!--                                    <i class="fa fa-fw fa-edit"></i>-->
+<!--                                </a>-->
+<!--    &lt;!&ndash;                            <form th:action="@{/work/{id}/delete(id=${wor.id})}" th:method="delete" class="d-inline">&ndash;&gt;-->
+<!--    &lt;!&ndash;                                <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">&ndash;&gt;-->
+<!--    &lt;!&ndash;                                    <i class="fa fa-fw fa-trash"></i>&ndash;&gt;-->
+<!--    &lt;!&ndash;                                </button>&ndash;&gt;-->
+<!--    &lt;!&ndash;                            </form>&ndash;&gt;-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <div class="form-check">-->
+<!--                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">-->
+<!--                                    <label class="form-check-label" for="flexCheckDefault">-->
+<!--                                        Выполнено-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <form th:action="@{/work/{id}/done (id=${wor.id})}" th:method="delete" class="d-inline">-->
+<!--                                    <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Удалить в архив">-->
+<!--                                        <i class="fa fa-fw fa-trash"></i>-->
+<!--                                    </button>-->
+<!--                                </form>-->
+<!--                            </td>-->
+
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </form>-->
             </div>
         </div>
     </div>
