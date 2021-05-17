@@ -2,6 +2,7 @@ package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,6 +78,18 @@ public class UserController {
             return pathCreator.createPath(auth, "user_form");
         }
         userService.save(userRepr);
+        return "redirect:/user";
+    }
+
+    /**
+     * Создание/редактирование пользователя. Доступно только заведующему.
+     * @return Редирект на страницу со списком пользователей.
+     */
+    @Secured("ROLE_CHIEF")
+    @PostMapping({"", "/"})
+    public String editUser(@ModelAttribute UserRepr user) {
+        System.out.println(user);
+        userService.save(user);
         return "redirect:/user";
     }
 

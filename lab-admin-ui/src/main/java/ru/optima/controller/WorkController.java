@@ -85,16 +85,14 @@ public class WorkController {
     }
 
     /**
-     * Создание задания на работу. Доступно только заведующему.
-     * @return
+     * Создание/редактирование задания на работу. Доступно только заведующему.
+     * @return Редирект на страницу со списком работ.
      */
     @Secured("ROLE_CHIEF")
     @PostMapping({"", "/"})
     public String createWork(@ModelAttribute WorkRepr work) {
-        System.out.println("Creating new work...");
         // Дата регистрации заявки создаётся автоматически - это момент создания самой заявки.
         work.setRegistrationDate(new Date());
-        System.out.println(work);
         workService.save(work);
         return "redirect:/work";
     }
