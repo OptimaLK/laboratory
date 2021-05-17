@@ -7,12 +7,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.optima.persist.model.Work;
 import ru.optima.persist.repo.UserRepository;
 import ru.optima.repr.WorkRepr;
 import ru.optima.service.WorkServiceImpl;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Date;
 
@@ -39,7 +42,7 @@ public class WorkController {
             case "executor": {
                 String userLogin = principal.getName();
                 Long userId = userRepository.findUserByLastName(userLogin).orElseThrow(NotFoundException::new).getId();
-                model.addAttribute("work", workService.findAllWorksByUserId(userId));
+                model.addAttribute("work", workService.findAllTrueWorksByUserId(userId));
                 break;
             }
             default: {
@@ -72,15 +75,24 @@ public class WorkController {
         return "redirect:/work";
     }
 
+    @PostMapping ("/{id}/done")
+    private String getDoneWok( @PathVariable ("id") Long id ) {
+        WorkRepr work = workService.findWorkById(id);
+        work.setActual(false);
+        workService.save(work);
+        return "redirect:/work";
+    }
+
     /**
      * Создание задания на работу. Доступно только заведующему.
      * @return
      */
-    @Secured("ROLE_CHIEF")
+//    @Secured("ROLE_CHIEF")
     @PostMapping({"", "/"})
     public String createWork(@ModelAttribute WorkRepr work) {
         log.info("Creating new work...");
         work.setRegistrationDate(new Date());
+        work.setActual(true);
         workService.save(work);
         return "redirect:/work";
     }

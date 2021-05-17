@@ -45,4 +45,7 @@ public class Work implements Serializable {
     @Column(name = "customer")
     private String customer;
 
+    @Column(name = "actual")
+    private Boolean actual;
+
 }

@@ -48,10 +48,15 @@
                             <dt>т. заказчика:</dt>
                             <dd>8-999-999-99-99</dd>
                         </div>
-                        <button type="submit">Закрыть</button>
+                        <div th:switch="${wor.getActual}">
+                            <form th:case="${true}"  th:action="@{/work/{id}/done(id=${wor.id})}" method="POST" >
+                                <button type="submit" > Закрыть</button>
+                            </form>
+                            <button th:case="${false}" style="background-color: #ffbebe" type="submit" >Выполнено</button>
+                        </div>
                     </dl>
                 </div>
-<!--                <form th:object="${work}" method="post" th:action="@{/work}">-->
+                            <!--                <form th:object="${work}" method="post" th:action="@{/work}">-->
 <!--                    <table id="work" class="table table-hover" cellspacing="0" width="100%">-->
 <!--                        <thead>-->
 <!--                        <tr>-->
