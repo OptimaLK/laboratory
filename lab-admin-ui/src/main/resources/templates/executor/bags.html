@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/executor/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/executor/header :: header"></div>
+
+<div class="d-flex">
+    <div class="content">
+
+        <h2 class="mp-4">Имеющееся оборудование: </h2>
+
+        <form class="form-group" th:action="@{/bag/remove}">
+            <button class="btn btn-primary" type="submit">Вернуть все оборудование</button>
+        </form>
+
+<!--        <table id="bag" class="table table-hover" cellspacing="0" width="100%">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>Title</th>-->
+<!--                <th>InventoryNumber</th>-->
+<!--                <th>verificationDateEnd</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="bag_i : ${bag}">-->
+<!--                <td th:text="${bag_i.title}"></td>-->
+<!--                <td th:text="${bag_i.inventoryNumber}"></td>-->
+<!--                <td th:text="${bag_i.verificationDateEnd}"></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex flex-wrap justify-content-center">
+                    <dl class="dl-horizontal attrs" th:each="bag_i : ${bag}">
+                        <dt>Оборудование:</dt>
+                        <dd th:list="${bag_i.getEquipments()}"></dd>
+                            <form class="form-group" method="POST" th:action="@{'/bag/take/' + ${bag_i.id}}">
+                                <button type="submit">Удалить</button>
+                            </form>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/executor/footer :: scripts"></script>
+
+</body>
+</html>
