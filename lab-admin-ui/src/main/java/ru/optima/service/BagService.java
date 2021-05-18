@@ -17,4 +17,7 @@ public interface BagService {
 
     void deleteEquipmentToBag(Equipment equipment, User user);
 
+    List<Equipment> findAllEquipments(User user);
+
+    void deleteAllEquipmentsInBag(User user);
 }

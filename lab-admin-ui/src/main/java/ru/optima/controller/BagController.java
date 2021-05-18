@@ -2,16 +2,16 @@ package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.model.User;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.service.BagService;
 import ru.optima.service.EquipmentService;
 import ru.optima.service.UserService;
+import ru.optima.util.PathCreator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +29,16 @@ public class BagController {
     private EquipmentService equipmentService;
     @Autowired
     private BagService bagService;
+    @Autowired
+    private PathCreator pathCreator;
+
+    @GetMapping({"","/"})
+    public String equipmentsPage(Model model, Principal principal, SecurityContextHolder auth) {
+        User user = userService.findByName(principal.getName());
+        model.addAttribute("activePage", "Bags");
+        model.addAttribute("equipmentsInLastBag", bagService.findAllEquipments(user));
+        return pathCreator.createPath(auth, "bag");
+    }
 
     @PostMapping("/take/{equipmentId}")
     public void addEquipmentToBagById(@PathVariable Long equipmentId, Principal principal, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
@@ -46,5 +56,10 @@ public class BagController {
         response.sendRedirect(request.getHeader("referer"));
     }
 
-
+    @DeleteMapping("/delete")
+    public String deleteEquipmentsInLastBag(Principal principal, SecurityContextHolder auth) {
+        User user = userService.findByName(principal.getName());
+        bagService.deleteAllEquipmentsInBag(user);
+        return pathCreator.createPath(auth, "bag");
+    }
 }

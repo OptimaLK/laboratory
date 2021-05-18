@@ -57,6 +57,26 @@ public class BagServiceImpl implements BagService{
     }
 
     @Override
+    public List<Equipment> findAllEquipments(User user) {
+        if (user.getBags().size() == 0)
+            return null;
+        Bag lastBag = user.getBags().get(user.getBags().size() - 1);
+        return lastBag.getEquipments();
+    }
+
+    @Override
+    public void deleteAllEquipmentsInBag(User user) {
+        if (user.getBags().size() == 0)
+            return;
+        Bag lastBag = user.getBags().get(user.getBags().size() - 1);
+        for (int i = lastBag.getEquipments().size() - 1; i >= 0; i--) {
+            lastBag.getEquipments().get(i).setTaken(true);
+            lastBag.getEquipments().remove(i);
+        }
+        bagRepository.save(lastBag);
+    }
+
+    @Override
     public List<BagRepr> findAll() {
         return bagRepository.findAll().stream()
                 .map(BagRepr::new)
