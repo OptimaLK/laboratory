@@ -7,15 +7,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.optima.persist.repo.UserRepository;
+import ru.optima.service.UserService;
 import ru.optima.service.WorkService;
 
+import java.security.Principal;
 import java.util.Collection;
+
+import ru.optima.service.WorkServiceImpl;
 import ru.optima.util.PathCreator;
 @RequiredArgsConstructor
 @Controller
 public class MainController {
 
     private final PathCreator pathCreator;
+    private final UserService userService;
+    private final WorkServiceImpl workService;
 
     @RequestMapping("/")
     public String indexPage(Model model, SecurityContextHolder auth) {
@@ -39,8 +46,10 @@ public class MainController {
 
     @Secured("ROLE_EXECUTOR")
     @RequestMapping("/executor")
-    public String indexExecutorPage(Model model) {
+    public String indexExecutorPage(Model model, Principal principal) {
         model.addAttribute("activePage", "None");
+        Long userId = userService.findByName(principal.getName()).getId();
+        model.addAttribute("work", workService.findAllFalseWorksByUserId(userId));
         return "executor/index";
     }
 

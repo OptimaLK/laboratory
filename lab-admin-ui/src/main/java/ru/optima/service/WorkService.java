@@ -1,7 +1,10 @@
 package ru.optima.service;
 
 import org.springframework.stereotype.Service;
+import ru.optima.persist.model.Work;
+import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.WorkRepr;
+import ru.optima.warning.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
