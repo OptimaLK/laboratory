@@ -13,7 +13,6 @@ import ru.optima.persist.model.Role;
 import ru.optima.persist.repo.UserRepository;
 import ru.optima.repr.UserRepr;
 import ru.optima.persist.model.User;
-import ru.optima.persist.repo.KitRepository;
 import ru.optima.warning.UserNotFoundException;
 
 import java.util.Collection;
@@ -69,6 +68,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public List<User> findAllUsers (){
+        return userRepository.findAll();
+    }
+
+    @Override
     public User findById(Long id) {
         return userRepository.findUserById(id)
                 .orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
@@ -76,6 +80,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     public Optional<UserRepr> findByLastName(String lastName) {
         return userRepository.findUserByLastName(lastName).map(UserRepr::new);
+    }
+
+    public List<User> findAllUserWhoHasRole(String role){
+        return userRepository.findAllUserWhoHasRole(role);
     }
 
 
