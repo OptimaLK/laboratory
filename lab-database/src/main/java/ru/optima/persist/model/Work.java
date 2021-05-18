@@ -21,9 +21,7 @@ public class Work implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    // Здесь поменял LocalDate на Date
-    // И добавил формат даты - для корректного распознавания спрингом даты, введённой в форму шаблона
+    
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "registration_date", nullable = false)
     private Date registrationDate;
@@ -46,5 +44,8 @@ public class Work implements Serializable {
 
     @Column(name = "customer")
     private String customer;
+
+    @Column(name = "actual")
+    private Boolean actual;
 
 }
