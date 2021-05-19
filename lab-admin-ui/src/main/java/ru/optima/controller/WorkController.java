@@ -2,22 +2,19 @@ package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.optima.persist.model.Work;
-import ru.optima.persist.repo.UserRepository;
+import ru.optima.persist.model.User;
 import ru.optima.repr.WorkRepr;
+import ru.optima.service.UserServiceImpl;
 import ru.optima.service.WorkServiceImpl;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -26,7 +23,7 @@ import java.util.Date;
 public class WorkController {
 
     private final WorkServiceImpl workService;
-    private final UserRepository userRepository;
+    private final UserServiceImpl userService;
     private final PathCreator pathCreator;
 
     @GetMapping({"", "/"})
@@ -41,7 +38,7 @@ public class WorkController {
             }
             case "executor": {
                 String userLogin = principal.getName();
-                Long userId = userRepository.findUserByLastName(userLogin).orElseThrow(NotFoundException::new).getId();
+                Long userId = userService.findByName(userLogin).getId();
                 model.addAttribute("work", workService.findAllTrueWorksByUserId(userId));
                 break;
             }
@@ -53,10 +50,21 @@ public class WorkController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editWork(Model model,SecurityContextHolder auth, @PathVariable("id") Long id) {
+    public String editWork(Model model,SecurityContextHolder auth, Principal principal, @PathVariable("id") Long id) {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Works"); // TODO ?
-        model.addAttribute("users", userRepository.findAll());
+        if(pathCreator.getRole(auth).equals("chief")) {
+            model.addAttribute("users", userService.findAllUserWhoHasRole("ROLE_EXECUTOR"));
+            model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
+        } else if (pathCreator.getRole(auth).equals("executor")) {
+            List<User> allUsers = userService.findAllUserWhoHasRole("ROLE_EXECUTOR");
+            WorkRepr workRepr = workService.findById(id).orElseThrow(NotFoundException::new);
+            allUsers.removeAll(workRepr.getUsers());
+//            for (User user: workRepr.getUsers()) {
+//                if(allUsers.contains())
+//            }
+            model.addAttribute("users", allUsers);
+        }
         model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
         return pathCreator.createPath(auth, "work_form");
     }
@@ -64,7 +72,7 @@ public class WorkController {
     @GetMapping("/create")
     public String createWork(Model model, SecurityContextHolder auth) {
         model.addAttribute("activePage", "Works");
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.findAllUserWhoHasRole("ROLE_EXECUTOR"));
         model.addAttribute("work", new WorkRepr());
         return pathCreator.createPath(auth, "work_form");
     }
@@ -89,10 +97,19 @@ public class WorkController {
      */
 //    @Secured("ROLE_CHIEF")
     @PostMapping({"", "/"})
-    public String createWork(@ModelAttribute WorkRepr work) {
-        // Дата регистрации заявки создаётся автоматически - это момент создания самой заявки.
+
+    public String createWork(@ModelAttribute WorkRepr work,  SecurityContextHolder auth) {
+
         log.info("Creating new work...");
         work.setRegistrationDate(new Date());
+        if (pathCreator.getRole(auth).equals("executor")) {
+            WorkRepr workRepr = workService.findById(work.getId()).orElseThrow(NotFoundException::new);
+            // исполнители назначенные начальником
+            List<User> executorsList = workRepr.getUsers();
+            // добавлены исполнители выбранные в команду исполнителем
+            executorsList.addAll(work.getUsers());
+            work.setUsers(executorsList);
+        }
         work.setActual(true);
         workService.save(work);
         return "redirect:/work";
