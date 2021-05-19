@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/chief/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/chief/header :: header"></div>
+
+<div class="d-flex">
+
+    <div class="content p-4">
+        <h2 class="mb-4">Создать задание</h2>
+
+        <form th:object="${work}" method="post" th:action="@{/work}">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <input th:type="hidden" th:field="*{id}">
+                    <input th:type="hidden" th:field="*{clientName}">
+                    <input th:type="hidden" th:field="*{objectName}">
+                    <input th:type="hidden" th:field="*{numberContract}" >
+                    <input th:type="hidden" th:field="*{customer}" >
+
+                    <div class="form-group">
+                        <label >Название заказчика</label>
+                        <label th:text = "*{clientName}">Название заказчика</label>
+                    </div>
+                    <div class="form-group">
+                        <label >Название объекта</label>
+                        <label th:text ="*{objectName}">Название объекта</label>
+                    </div>
+                    <div class="form-group">
+                        <label >Номер контракта</label>
+                        <label th:text ="*{numberContract}">Номер контракта</label>
+                    </div>
+                    <div class="form-group">
+                        <label >Заказчик</label>
+                        <label th:text="*{customer}">Заказчик</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="users">Ответственные пользователи</label>
+                        <select multiple class="form-control" id="users" th:field="*{users}" required>
+                            <option th:each="user : ${users}"
+                                    th:text="${user.lastName}"
+                                    th:value="${user.id}"
+                                    th:selected="${work.users?.contains(user)}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:replace="fragments/chief/footer :: scripts"></script>
+
+</body>
+</html>

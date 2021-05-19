@@ -2,12 +2,15 @@ package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.optima.beans.PackageEquipments;
 import ru.optima.service.EquipmentServiceImpl;
+import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +19,17 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/package")
 public class PackageEquipmentsController {
 
-    private PackageEquipments packageEquipments;
-    private EquipmentServiceImpl equipmentService;
+    private final PackageEquipments packageEquipments;
+//    private final EquipmentServiceImpl equipmentService;
+    private final PathCreator creator;
 
-    @GetMapping("/package")
-    public String showPackageEquipments(Model model){
+    @GetMapping({"/", ""})
+    public String showPackageEquipments(Model model, SecurityContextHolder auth){
         model.addAttribute("package", packageEquipments);
-        return "package";
+        return creator.createPath(auth,"package");
     }
 
 //    @GetMapping("/bag/add/{id}")

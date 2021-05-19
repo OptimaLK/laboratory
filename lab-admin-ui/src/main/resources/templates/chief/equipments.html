@@ -8,64 +8,34 @@
 
 <div th:replace="fragments/chief/header :: header"></div>
 
-<div class="d-flex">
-    <div th:replace="fragments/chief/sidebar :: sidebar"></div>
-
-    <div class="content p-4">
-        <h2 class="mb-4">Список оборудования</h2>
-
+<div class="d-flex tools_container">
+    <div class="content">
+        <div th:replace="fragments/tools_menu :: tools"></div>
         <div class="card mb-4">
-
             <div class="card-body">
-                <form class="form-group" th:action="@{/admin/equipment/create}">
-                    <button type="submit" class="btn btn-primary">Создать новое оборудование</button>
-                </form>
-
-                <table id="equipments" class="table table-hover" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Название оборудования</th>
-                        <th>Инвентарный номер</th>
-                        <th>Заводской номер</th>
-                        <th>Номер поверки</th>
-                        <th>Дата поверки</th>
-                        <th class="actions">Изменения</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="equ : ${equipments}">
-                        <td th:text="${equ.id}"></td>
-                        <td th:text="${equ.name}"></td>
-                        <td th:text="${equ.inventoruNumber}"></td>
-                        <td th:text="${equ.factoryNumber}"></td>
-                        <td th:text="${equ.verificationNumber}"></td>
-                        <td th:text="${equ.verificationDateEnd}"></td>
-                        <td>
-                            <a th:href="@{/admin/equipment/{id}/edit(id=${equ.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Edit">
-                                <i class="fa fa-fw fa-edit"></i>
-                            </a>
-                            <form th:action="@{/admin/equipment/{id}/delete(id=${equ.id})}" th:method="delete" class="d-inline">
-                                <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">
-                                    <i class="fa fa-fw fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                    <label class="custom-control-label" for="customSwitch1">Только доступное</label>
+                </div>
+                <div class="d-flex flex-wrap justify-content-center">
+                    <dl th:each="equ : ${equipments}" class="dl-horizontal attrs">
+                        <dt>Название:</dt>
+                        <dd th:text="${equ.name}"></dd>
+                        <dt>Зав. №:</dt>
+                        <dd th:text="${equ.factoryNumber}"></dd>
+                        <dt>Свидетельство:</dt>
+                        <dd th:text="${equ.verificationNumber}"></dd>
+                        <dt>Дата поверки:</dt>
+                        <dd th:text="${equ.verificationDateEnd}"></dd>
+                        <button type="submit">Взять</button>
+                    </dl>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
-<script th:src="@{/js/datatables.min.js}"></script>
-<script>
-    $(document).ready(function () {
-        $('#equipment').DataTable();
-    });
-</script>
 
 </body>
 </html>

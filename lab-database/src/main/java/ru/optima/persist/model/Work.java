@@ -1,13 +1,18 @@
 package ru.optima.persist.model;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.optima.persist.model.equipments.Equipment;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
-
+@Data
+@RequiredArgsConstructor
 @Entity
 @Table(name = "works")
 public class Work implements Serializable {
@@ -16,9 +21,10 @@ public class Work implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "Registration_date", nullable = false)
-    private LocalDate registrationDate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Column(name = "registration_date", nullable = false)
+    private Date registrationDate;
 
     @Column(name = "client_name", nullable = false)
     private String clientName;
@@ -29,78 +35,17 @@ public class Work implements Serializable {
     @Column(name = "number_contract", nullable = false, unique = true)
     private String numberContract;
 
-    @ManyToMany(mappedBy = "works")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_works",
+            joinColumns = @JoinColumn(name = "work_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> users;
 
     @Column(name = "customer")
     private String customer;
 
-    public Work() {
-    }
+    @Column(name = "actual")
+    private Boolean actual;
 
-    public Work(Long id, LocalDate registrationDate, String clientName, String objectName, String numberContract, List<User> users, List<Equipment> equipment, String customer) {
-        this.id = id;
-        this.registrationDate = registrationDate;
-        this.clientName = clientName;
-        this.objectName = objectName;
-        this.numberContract = numberContract;
-        this.users = users;
-        this.customer = customer;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(LocalDate registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public String getObjectName() {
-        return objectName;
-    }
-
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
-    }
-
-    public String getNumberContract() {
-        return numberContract;
-    }
-
-    public void setNumberContract(String numberContract) {
-        this.numberContract = numberContract;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
 }

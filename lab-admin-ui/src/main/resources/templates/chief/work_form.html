@@ -9,7 +9,7 @@
 <div th:replace="fragments/chief/header :: header"></div>
 
 <div class="d-flex">
-    <div th:replace="fragments/chief/sidebar :: sidebar"></div>
+<!--    <div th:replace="fragments/chief/sidebar :: sidebar"></div>-->
 
     <div class="content p-4">
         <h2 class="mb-4" th:if="${edit}" >Изменить задание</h2>
@@ -19,10 +19,6 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <input th:type="hidden" th:field="*{id}">
-                    <div class="form-group">
-                        <label for="registrationDate">Дата регистрации</label>
-                        <input th:field="*{registrationDate}" type="date" class="form-control" id="registrationDate" placeholder="Введите дату" required>
-                    </div>
                     <div class="form-group">
                         <label for="clientName">Название заказчика</label>
                         <input th:field="*{clientName}" type="text" class="form-control" id="clientName" placeholder="Введите название заказчика" required>
@@ -41,7 +37,7 @@
                             <option th:each="user : ${users}"
                                     th:text="${user.lastName}"
                                     th:value="${user.id}"
-                                    th:selected="${user.lastName?.contains(user)}"></option>
+                                    th:selected="${work.users?.contains(user)}"></option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -50,7 +46,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </div>
         </form>

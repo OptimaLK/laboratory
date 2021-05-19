@@ -1,0 +1,35 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="maks_tarn (generated)" id="1621050402012-1">
+        <createTable tableName="users_bags">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bag_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1621050402012-2">
+        <addColumn tableName="equipments">
+            <column name="taken" type="bit"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1621050402012-3">
+        <addColumn tableName="bag">
+            <column name="user_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1621050402012-4">
+        <addUniqueConstraint columnNames="bag_id" constraintName="UK_tdp6usotrlsr7xja32gsy95ga" tableName="users_bags"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1621050402012-5">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="bag" constraintName="FK4jqudjjum1xna7cphv53d51dy" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1621050402012-6">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_bags" constraintName="FKgubjody6o7t6kjx5m4ehqrdcj" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1621050402012-7">
+        <addForeignKeyConstraint baseColumnNames="bag_id" baseTableName="users_bags" constraintName="FKiqg7knore3hgksnou4i3as94o" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="bag" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
