@@ -195,3 +195,41 @@ a:hover {
     border-bottom: 2px solid rgba(124, 202, 226, 0.65);
     line-height: 2;
 }
+
+legend {
+    display: block;
+    width: auto;
+    padding: 0 5px;
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: inherit;
+    border-bottom: none;
+}
+fieldset {
+    border: 1px #00BFFF solid;
+    padding: 5px 5px 5px 20px;
+    margin-bottom: 25px;
+    width: 740px;
+}
+
+fieldset p {;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+}
+
+fieldset input {
+    width: 370px;
+}
+
+.check input {
+    width: auto;
+}
+
+.check label {
+    padding-left: 10px;
+}
+
+.check p {
+    margin-left: 20px;
+}
