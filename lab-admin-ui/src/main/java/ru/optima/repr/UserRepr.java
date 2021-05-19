@@ -6,6 +6,7 @@ import lombok.ToString;
 import ru.optima.persist.model.Work;
 import ru.optima.persist.model.Role;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Bag;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -41,8 +42,11 @@ public class UserRepr {
 
     private List<Work> works;
 
+    private List<Bag> bag;
+
     public UserRepr(User user) {
         this.id = user.getId();
+        this.bag = user.getBags();
         this.password = user.getPassword();
         this.email = user.getEmail();
         this.firstName = user.getFirstName();

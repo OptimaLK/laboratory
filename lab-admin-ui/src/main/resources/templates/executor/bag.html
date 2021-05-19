@@ -10,15 +10,13 @@
 
 <div class="d-flex tools_container">
     <div class="content">
-        <div th:replace="fragments/tools_menu :: tools"></div>
         <div class="card mb-4">
             <div class="card-body">
-                <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                    <label class="custom-control-label" for="customSwitch1">Только доступное</label>
-                </div>
+                <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">
+                    <button type="btn btn-icon btn-pill btn-danger" >Выложить все оборудование</button>
+                </form>
                 <div class="d-flex flex-wrap justify-content-center">
-                    <dl th:each="equ : ${equipments}" class="dl-horizontal attrs">
+                    <dl th:each="equ : ${equipmentsInLastBag}" class="dl-horizontal attrs">
                         <dt>Название:</dt>
                         <dd th:text="${equ.name}"></dd>
                         <dt>Зав. №:</dt>
@@ -28,11 +26,8 @@
                         <dt>Дата поверки:</dt>
                         <dd th:text="${equ.verificationDateEnd}"></dd>
                         <div th:switch="${equ.getTaken}">
-                            <form th:case="${true}" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
-                                <button type="submit" >Взять</button>
-                            </form>
                             <form th:case="${false}" class="form-group" th:action="@{'/bag/get/' + ${equ.id}}" method="POST">
-                                <button style="background-color: #ffbebe" type="submit" >Положить</button>
+                                <button style="background-color: #ffbebe" type="submit" >Выложить</button>
                             </form>
                             <form th:case="*" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
                                 <button type="submit" >Взять</button>

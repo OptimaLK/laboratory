@@ -14,11 +14,14 @@ public interface UserService {
 
     List<UserRepr> findAll();
 
+    List<User> findAllUsers();
+
     User findById(Long id);
 
     void delete(Long id);
 
     User findByName(String name);
+
     Optional<User> findByOName(String name);
 
     void edit(User user);

@@ -40,4 +40,8 @@ public class Equipment implements Serializable {
 
     @Transient
     private boolean activ = false;
+
+    @Column(name = "taken")
+    private Boolean taken;
+
 }
