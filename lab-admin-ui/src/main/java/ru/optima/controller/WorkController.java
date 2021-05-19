@@ -92,12 +92,14 @@ public class WorkController {
     }
 
     /**
-     * Создание задания на работу. Доступно только заведующему.
-     * @return
+     * Создание/редактирование задания на работу. Доступно только заведующему.
+     * @return Редирект на страницу со списком работ.
      */
 //    @Secured("ROLE_CHIEF")
     @PostMapping({"", "/"})
+
     public String createWork(@ModelAttribute WorkRepr work,  SecurityContextHolder auth) {
+
         log.info("Creating new work...");
         work.setRegistrationDate(new Date());
         if (pathCreator.getRole(auth).equals("executor")) {
