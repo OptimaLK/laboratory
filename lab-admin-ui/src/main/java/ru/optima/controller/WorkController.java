@@ -5,13 +5,16 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.optima.persist.repo.UserRepository;
+import ru.optima.persist.model.User;
 import ru.optima.repr.WorkRepr;
-import ru.optima.service.WorkService;
+import ru.optima.service.UserServiceImpl;
+import ru.optima.service.WorkServiceImpl;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
+import java.security.Principal;
+import java.util.Date;
+import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -19,65 +22,96 @@ import ru.optima.warning.NotFoundException;
 @RequestMapping("/work")
 public class WorkController {
 
-    private final WorkService workService;
-    private final UserRepository userRepository;
+    private final WorkServiceImpl workService;
+    private final UserServiceImpl userService;
     private final PathCreator pathCreator;
 
     @GetMapping({"", "/"})
-    public String adminWorkPage(Model model, SecurityContextHolder auth) {
-        model.addAttribute("activePage", "Work");
-        model.addAttribute("work", workService.findAll());
+    public String workPage(Model model, SecurityContextHolder auth, Principal principal) {
+        model.addAttribute("activePage", "Works");
+
+//      для каждой роли (роль маленькими буквами) пользователя на клиент передается свой набор данных
+        switch (pathCreator.getRole(auth)) {
+            case "chief": {
+                model.addAttribute("work", workService.findAll());
+                break;
+            }
+            case "executor": {
+                String userLogin = principal.getName();
+                Long userId = userService.findByName(userLogin).getId();
+                model.addAttribute("work", workService.findAllTrueWorksByUserId(userId));
+                break;
+            }
+            default: {
+                model.addAttribute("work", workService.findAll());
+            }
+        }
         return pathCreator.createPath(auth, "works");
     }
 
     @GetMapping("/{id}/edit")
-    public String adminEditWork(Model model,SecurityContextHolder auth, @PathVariable("id") Long id) {
+    public String editWork(Model model,SecurityContextHolder auth, Principal principal, @PathVariable("id") Long id) {
         model.addAttribute("edit", true);
-        model.addAttribute("activePage", "Work"); // TODO ?
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("activePage", "Works"); // TODO ?
+        if(pathCreator.getRole(auth).equals("chief")) {
+            model.addAttribute("users", userService.findAllUserWhoHasRole("ROLE_EXECUTOR"));
+            model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
+        } else if (pathCreator.getRole(auth).equals("executor")) {
+            List<User> allUsers = userService.findAllUserWhoHasRole("ROLE_EXECUTOR");
+            WorkRepr workRepr = workService.findById(id).orElseThrow(NotFoundException::new);
+            allUsers.removeAll(workRepr.getUsers());
+//            for (User user: workRepr.getUsers()) {
+//                if(allUsers.contains())
+//            }
+            model.addAttribute("users", allUsers);
+        }
         model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
         return pathCreator.createPath(auth, "work_form");
     }
 
     @GetMapping("/create")
-    public String adminCreateWork(Model model, SecurityContextHolder auth) {
-        model.addAttribute("activePage", "Work");
-        model.addAttribute("users", userRepository.findAll());
+    public String createWork(Model model, SecurityContextHolder auth) {
+        model.addAttribute("activePage", "Works");
+        model.addAttribute("users", userService.findAllUserWhoHasRole("ROLE_EXECUTOR"));
         model.addAttribute("work", new WorkRepr());
         return pathCreator.createPath(auth, "work_form");
     }
 
-    @PostMapping("/create")
-    public String createUser(SecurityContextHolder auth,  WorkRepr workRepr, BindingResult bindingResult, Model model) {
-        model.addAttribute("activePage", "Work");
-        model.addAttribute("users", userRepository.findAll());
-
-//        if (bindingResult.hasErrors()) {
-//            return pathCreator.createPath(auth, "work_form");
-//        }
-
-        try {
-//            workRepr.setRegistrationDate(LocalDate.now());
-            workService.save(workRepr);
-        } catch (Exception e) {
-            log.info("Не получилось сохранить объект  " + "\n" +
-                    "  private LocalDate registrationDate = " + workRepr.getRegistrationDate() + "\n" +
-                    "  private String clientName = " + workRepr.getClientName() + "\n" +
-                    "  private String objectName = " + workRepr.getObjectName() + "\n" +
-                    "  private String numberContrac = " + workRepr.getNumberContract() + "\n" +
-                    "  private List<User> users = " + workRepr.getUsers().toString() + "\n" +
-                    "  private String customer = "  + workRepr.getCustomer() + "\n" );
-            return pathCreator.createPath(auth, "work_form");
-        }
-
-
-        return "redirect:/work";
-    }
-
     @DeleteMapping("/{id}/delete")
-    public String adminDeleteWork(@PathVariable("id") Long id) {
+    public String deleteWork(@PathVariable("id") Long id) {
         workService.delete(id);
         return "redirect:/work";
     }
 
+    @PostMapping ("/{id}/done")
+    private String getDoneWok( @PathVariable ("id") Long id ) {
+        WorkRepr work = workService.findWorkById(id);
+        work.setActual(false);
+        workService.save(work);
+        return "redirect:/work";
+    }
+
+    /**
+     * Создание/редактирование задания на работу. Доступно только заведующему.
+     * @return Редирект на страницу со списком работ.
+     */
+//    @Secured("ROLE_CHIEF")
+    @PostMapping({"", "/"})
+
+    public String createWork(@ModelAttribute WorkRepr work,  SecurityContextHolder auth) {
+
+        log.info("Creating new work...");
+        work.setRegistrationDate(new Date());
+        if (pathCreator.getRole(auth).equals("executor")) {
+            WorkRepr workRepr = workService.findById(work.getId()).orElseThrow(NotFoundException::new);
+            // исполнители назначенные начальником
+            List<User> executorsList = workRepr.getUsers();
+            // добавлены исполнители выбранные в команду исполнителем
+            executorsList.addAll(work.getUsers());
+            work.setUsers(executorsList);
+        }
+        work.setActual(true);
+        workService.save(work);
+        return "redirect:/work";
+    }
 }

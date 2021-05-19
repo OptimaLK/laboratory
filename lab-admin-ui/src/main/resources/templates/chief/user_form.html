@@ -13,10 +13,10 @@
 
     <div class="content p-4">
         <h2 class="mb-4" th:if="${edit}">Редактирование пользователя</h2>
-        <h2 class="mb-4" th:if="${create}">Create user</h2>
+        <h2 class="mb-4" th:if="${create}">Создание пользователя</h2>
 
         <form
-              method="post" th:action="@{/create}"
+              method="post" th:action="@{/user}"
               th:object="${user}">
             <div class="card mb-4">
                 <div class="card-body">
@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="firstname">Имя</label>
                         <input th:field="*{firstName}" type="text" class="form-control" id="firstname"
-                               placeholder="Иван">
+                               placeholder="Имя">
                     </div>
 
                     <div class="form-group">
@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label for="lastname">Фамилия</label>
                         <input th:field="*{lastName}" type="text" class="form-control" id="lastname"
-                               placeholder="Иванов">
+                               placeholder="Фамилия">
                     </div>
 
                     <div class="form-group">
@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input th:field="*{email}" type="text" class="form-control" id="email"
-                               placeholder="ivan@mail.ru">
+                               placeholder="email@mail.ru">
                     </div>
 
                     <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <button type="submit" class="btn btn-primary">Создать</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </div>
         </form>

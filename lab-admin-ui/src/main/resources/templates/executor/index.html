@@ -12,7 +12,7 @@
     <div class="content">
         <div class="card mb-4">
             <div class="card-body">
-                <form class="form-group btn_arch" th:action="@{/work/create}">
+                <form class="form-group btn_arch" th:action="@{/work/archive}">
                     <button type="submit">Архив</button>
                 </form>
                 <div class="work_attrs">
@@ -36,7 +36,7 @@
                                     <div>
                                         <ul aria-labelledby="logged-in-username"
                                             class="dropdown-menu dropdown-menu-right drop_menu">
-                                            <li><a class="dropdown-item" th:each="wrk : ${work}" th:text="${wrk.users}"></a></li>
+                                            <li><a class="dropdown-item" th:each= "usr : ${wor.users}" th:text="${usr.getLastName()}"></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                             <dt>т. заказчика:</dt>
                             <dd>8-999-999-99-99</dd>
                         </div>
-                        <button type="submit">Закрыть</button>
+                        <button type="submit">Выполнено</button>
                     </dl>
                 </div>
             </div>
