@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+<link rel="stylesheet" th:href="@{/css/works.css}">
 <head th:replace="fragments/executor/header :: head"></head>
 
 <body class="bg-light">
@@ -17,18 +18,24 @@
 
             <div class="card-body">
                 <div class="work_attrs">
-                    <dl class="dl-horizontal attrs" th:each="wor : ${work}">
+                    <dl class="dl-horizontal work_head" th:each="wor : ${work}">
                         <div>
                             <dt>№ заявки:</dt>
                             <dd th:text="${wor.id}"></dd>
+                            <dt>Дата регистрации:</dt>
+                            <dd th:text="${wor.registrationDate}"></dd>
                             <dt>Заказчик:</dt>
                             <dd th:text="${wor.customer}"></dd>
                             <dt>Объект:</dt>
                             <dd th:text="${wor.objectName}"></dd>
                             <dt>Срок:</dt>
                             <dd>04.05.2021</dd>
+                            <dt>Договор:</dt>
+                            <dd th:text="${wor.numberContract}"></dd>
+                            <dt>Доп. информация:</dt>
+                            <dd>т. 8-999-999-99-99</dd>
                             <dt>Команда:</dt>
-                            <dd class="d-flex justify-content-between add_user" >
+                            <dd class="d-flex justify-content-between add_user" style="width: 185px;">
                                 <div></div>
                                 <div>
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -43,10 +50,6 @@
                                     </div>
                                 </div>
                             </dd>
-                            <dt>Заказчик:</dt>
-                            <dd th:text="${wor.clientName}"></dd>
-                            <dt>т. заказчика:</dt>
-                            <dd>8-999-999-99-99</dd>
                         </div>
                         <div th:switch="${wor.getActual}">
                             <form th:case="${true}"  th:action="@{/work/{id}/done(id=${wor.id})}" method="POST" >
@@ -56,64 +59,6 @@
                         </div>
                     </dl>
                 </div>
-                            <!--                <form th:object="${work}" method="post" th:action="@{/work}">-->
-<!--                    <table id="work" class="table table-hover" cellspacing="0" width="100%">-->
-<!--                        <thead>-->
-<!--                        <tr>-->
-<!--                            <th>Id</th>-->
-<!--                            <th>registrationDate</th>-->
-<!--                            <th>clientName</th>-->
-<!--                            <th>objectName</th>-->
-<!--                            <th>numberContract</th>-->
-<!--                            <th>customer</th>-->
-<!--                            <th>users</th>-->
-<!--                            <th class="actions">Select team</th>-->
-<!--                            <th class="actions">Done</th>-->
-<!--                            <th class="actions">Actions</th>-->
-
-<!--                        </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody>-->
-<!--                        <tr th:each="wor : ${work}">-->
-<!--                            <td th:text="${wor.id}"></td>-->
-<!--                            <td th:text="${wor.registrationDate}"></td>-->
-<!--                            <td th:text="${wor.clientName}"></td>-->
-<!--                            <td th:text="${wor.objectName}"></td>-->
-<!--                            <td th:text="${wor.numberContract}"></td>-->
-<!--                            <td th:text="${wor.customer}"></td>-->
-<!--                            <td>-->
-<!--                                <p th:each="user : ${wor.users}" th:text="${user.lastName}"></p>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <a th:href="@{/work/{id}/edit(id=${wor.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Собрать команду">-->
-<!--                                    <i class="fa fa-fw fa-edit"></i>-->
-<!--                                </a>-->
-<!--    &lt;!&ndash;                            <form th:action="@{/work/{id}/delete(id=${wor.id})}" th:method="delete" class="d-inline">&ndash;&gt;-->
-<!--    &lt;!&ndash;                                <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">&ndash;&gt;-->
-<!--    &lt;!&ndash;                                    <i class="fa fa-fw fa-trash"></i>&ndash;&gt;-->
-<!--    &lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--    &lt;!&ndash;                            </form>&ndash;&gt;-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <div class="form-check">-->
-<!--                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">-->
-<!--                                    <label class="form-check-label" for="flexCheckDefault">-->
-<!--                                        Выполнено-->
-<!--                                    </label>-->
-<!--                                </div>-->
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <form th:action="@{/work/{id}/done (id=${wor.id})}" th:method="delete" class="d-inline">-->
-<!--                                    <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Удалить в архив">-->
-<!--                                        <i class="fa fa-fw fa-trash"></i>-->
-<!--                                    </button>-->
-<!--                                </form>-->
-<!--                            </td>-->
-
-<!--                        </tr>-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </form>-->
             </div>
         </div>
     </div>

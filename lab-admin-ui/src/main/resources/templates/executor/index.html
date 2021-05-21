@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
 
+<link rel="stylesheet" th:href="@{/css/works.css}">
 <head th:replace="fragments/executor/header :: head"></head>
 
 <body class="bg-light">
@@ -16,7 +17,7 @@
                     <button type="submit">Архив</button>
                 </form>
                 <div class="work_attrs">
-                    <dl class="dl-horizontal attrs" th:each="wor : ${work}">
+                    <dl class="dl-horizontal attrs" style="background: rgb(166 243 108 / 48%);" th:each="wor : ${work}">
                         <div>
                             <dt>№ заявки:</dt>
                             <dd th:text="${wor.id}"></dd>
@@ -46,7 +47,7 @@
                             <dt>т. заказчика:</dt>
                             <dd>8-999-999-99-99</dd>
                         </div>
-                        <button type="submit">Выполнено</button>
+                        <label class="good">Выполнено</label>
                     </dl>
                 </div>
             </div>
