@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,16 +18,16 @@ import java.util.Calendar;
 
 public class AppForVerification {
     Path pathIn = Path.of("lab-admin-ui/src/main/resources/templates/doc/maket/Forma_zayavki_na_provedenie_poverki_i_kalibrovki_SI_0.docx").toAbsolutePath();
-    Path pathOut = Path.of("lab-admin-ui/src/main/resources/templates/doc/outDOCX/" +
-            new SimpleDateFormat("dd.MMMM.yy").format(Calendar.getInstance().getTime()) + ".docx").toAbsolutePath();
+    Path pathOut = Path.of("lab-admin-ui/src/main/resources/templates/doc/outDOCX").toAbsolutePath();
+    String pathFile = pathOut + "\\" + new SimpleDateFormat("dd.MMMM.yy").format(Calendar.getInstance().getTime()) + ".docx";
     public AppForVerification(ArrayList <VerificationRepr> data) throws IOException, XmlException {
         FileInputStream fileInputStream = new FileInputStream(String.valueOf(pathIn));
         XWPFDocument document = new XWPFDocument(fileInputStream);
 
         /**
          *  Заполнение даты формирования заявки,
-         *  т. е. в шапке документа строка "от «___» ___________ 20___ г."
          *  перезаписывается текущей датой в виде "от « dd »   MMMM   20yy г."
+         *  т. е. в шапке документа строка "от «___» ___________ 20___ г."
          */
         XWPFParagraph xwpfParagraph = document.getTables().get(0).getRows().get(0).getCell(0).getParagraphs().get(5);
         String text = xwpfParagraph.getRuns().get(0).text();
@@ -172,14 +173,16 @@ public class AppForVerification {
     }
 
     private void rec(XWPFDocument document) throws IOException {
-        FileOutputStream outputStream = new FileOutputStream(String.valueOf(pathOut));
+        if (!Files.exists(pathOut))
+            Files.createDirectories(pathOut);
+        FileOutputStream outputStream = new FileOutputStream(String.valueOf(pathFile));
         document.write(outputStream);
         outputStream.close();
         openWord();
     }
 
     private void openWord() throws IOException {
-        File file = new File(String.valueOf(pathOut));
+        File file = new File(String.valueOf(pathFile));
         if(Desktop.isDesktopSupported()) {
             Desktop.getDesktop().open(file);
         } else {
