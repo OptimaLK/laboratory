@@ -44,4 +44,6 @@ public class Equipment implements Serializable {
     @Column(name = "taken")
     private Boolean taken;
 
+    @Transient
+    private boolean activ = false;
 }
