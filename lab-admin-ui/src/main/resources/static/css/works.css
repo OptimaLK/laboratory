@@ -28,6 +28,10 @@ table td {
     background: rgba(219, 242, 255, 0.69);
 }
 
+.add form {
+    margin: 0;
+}
+
 .add button {
     background: rgba(26, 197, 197, 0.45);
     border: 1px solid #19245B;
@@ -84,7 +88,7 @@ tr:nth-child(2n+1) {
 
 .work_head {
     width: 350px;
-    margin: 25px 20px 0 0;
+    margin: 0 20px 25px 0;
     padding: 12px 0 14px;
     overflow: hidden;
     background: rgb(255 0 0 / 15%);
@@ -135,6 +139,22 @@ tr:nth-child(2n+1) {
 
 .work_head button:hover {
     background-color: #fbb1b1;
+}
+
+.button_arc {
+    border: 0;
+    outline: none;
+    padding: 0;
+    width: 150px;
+    height: 35px;
+    background: #B6F2C3;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    margin: 10px 0 10px 0;
 }
 
 .on_review {
