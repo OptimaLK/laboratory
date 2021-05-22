@@ -23,7 +23,6 @@ public class EquipmentRepr {
     private List<User> users;
     private boolean activ;
     private Boolean taken;
-    private boolean activ;
 
     public EquipmentRepr(Equipment equipment) {
         this.id = equipment.getId();
