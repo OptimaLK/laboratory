@@ -10,7 +10,7 @@
 <div th:replace="fragments/executor/header :: header"></div>
 
 <div>
-    <form method="GET" th:action="@{/work/archive}">
+    <form>
         <button type="submit" class="button_arc">Архив</button>
     </form>
 </div>
@@ -49,14 +49,7 @@
                     </div>
                 </dd>
             </div>
-            <div th:switch="${wor.getStatus.getTitle()}">
-<!--                <form method="POST" th:action="@{/work/{id}/take(id=${wor.id})}" th:case="@{'NEW'}">-->
-<!--                    <button type="submit">Взять на исполнение</button>-->
-<!--                </form>-->
-                <form method="POST" th:action="@{/work/{id}/done(id=${wor.id})}" th:case="@{'NEW'}">
-                    <button type="submit">На проверку</button>
-                </form>
-                <button style="background-color: #ffbebe" th:case="${'ON_CHECK'}" type="submit">На проверке</button>
+                <label class="good">Выполнено</label>
             </div>
         </dl>
     </div>

@@ -48,8 +48,6 @@ public class MainController {
     @RequestMapping("/executor")
     public String indexExecutorPage(Model model, Principal principal) {
         model.addAttribute("activePage", "None");
-        Long userId = userService.findByName(principal.getName()).getId();
-        model.addAttribute("work", workService.findAllFalseWorksByUserId(userId));
         return "executor/index";
     }
 

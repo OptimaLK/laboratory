@@ -45,7 +45,23 @@ public class Work implements Serializable {
     @Column(name = "customer")
     private String customer;
 
-    @Column(name = "actual")
-    private Boolean actual;
+    @Column(name = "status")
+    private Status status;
 
+    public enum Status {
+        NEW ("NEW"),
+        IN_WORK("IN_WORK"),
+        ON_CHECK("ON_CHECK"),
+        COMPLETED("COMPLETED");
+
+        private String title;
+
+        Status(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+    }
 }

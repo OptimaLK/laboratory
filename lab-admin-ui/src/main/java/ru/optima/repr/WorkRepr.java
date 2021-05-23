@@ -1,7 +1,6 @@
 package ru.optima.repr;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
@@ -10,7 +9,6 @@ import ru.optima.persist.model.Work;
 import ru.optima.persist.model.User;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 @Log4j2
@@ -27,7 +25,7 @@ public class WorkRepr implements Serializable {
     private String numberContract;
     private List<User> users;
     private String customer;
-    private Boolean actual;
+    private Work.Status status;
 
     public WorkRepr(Work work) {
         this.id = work.getId();
@@ -37,7 +35,7 @@ public class WorkRepr implements Serializable {
         this.numberContract = work.getNumberContract();
         this.users = work.getUsers();
         this.customer = work.getCustomer();
-        this.actual = work.getActual();
+        this.status = work.getStatus();
     }
 }
 

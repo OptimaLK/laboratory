@@ -1,14 +1,11 @@
 package ru.optima.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.WorkRepr;
 import ru.optima.persist.model.Work;
 import ru.optima.persist.repo.WorkRepository;
-import ru.optima.warning.NotFoundException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -36,7 +33,7 @@ public class WorkServiceImpl implements WorkService, Serializable {
         work.setObjectName(workRepr.getObjectName());
         work.setRegistrationDate(workRepr.getRegistrationDate());
         work.setUsers(workRepr.getUsers());
-        work.setActual(workRepr.getActual());
+        work.setStatus(workRepr.getStatus());
         workRepository.save(work);
     }
 
@@ -65,11 +62,23 @@ public class WorkServiceImpl implements WorkService, Serializable {
         return workRepository.findAllWorksByUserId(id);
     }
 
-    public List<Work> findAllTrueWorksByUserId(Long id) {
-        return workRepository.findAllTrueWorksByUserId(id);
+    public List<Work> findAllNewWorksByUserId(Long id) {
+        return workRepository.findAllNewWorksByUserId(id);
     }
 
-    public List<Work> findAllFalseWorksByUserId(Long id) {
-        return workRepository.findAllFalseWorksByUserId(id);
+    public List<Work> findAllActualWorksByUserId(Long id) {
+        return workRepository.findAllActualWorksByUserId(id);
+    }
+
+    public List<Work> findAllInArchiveWorksByUserId (Long id) {
+        return workRepository.findAllInArchiveWorksByUserId(id);
+    }
+
+    public List<Work> findAllOnCheckWorksByUserId(Long id) {
+        return workRepository.findAllOnCheckWorksByUserId(id);
+    }
+
+    public List<Work> findAllInWorkWorksByUserId(Long id){
+        return workRepository.findAllInWorkWorksByUserId(id);
     }
 }

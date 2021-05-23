@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.Work;
 import ru.optima.repr.WorkRepr;
 import ru.optima.service.UserServiceImpl;
 import ru.optima.service.WorkServiceImpl;
@@ -39,7 +40,7 @@ public class WorkController {
             case "executor": {
                 String userLogin = principal.getName();
                 Long userId = userService.findByName(userLogin).getId();
-                model.addAttribute("work", workService.findAllTrueWorksByUserId(userId));
+                model.addAttribute("work", workService.findAllActualWorksByUserId(userId));
                 break;
             }
             default: {
@@ -60,9 +61,6 @@ public class WorkController {
             List<User> allUsers = userService.findAllUserWhoHasRole("ROLE_EXECUTOR");
             WorkRepr workRepr = workService.findById(id).orElseThrow(NotFoundException::new);
             allUsers.removeAll(workRepr.getUsers());
-//            for (User user: workRepr.getUsers()) {
-//                if(allUsers.contains())
-//            }
             model.addAttribute("users", allUsers);
         }
         model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
@@ -83,10 +81,27 @@ public class WorkController {
         return "redirect:/work";
     }
 
+    @GetMapping ("/archive")
+    private String getArchive( Model model, SecurityContextHolder auth, Principal principal) {
+        model.addAttribute("activePage", "Archive");
+        String userLogin = principal.getName();
+        Long userId = userService.findByName(userLogin).getId();
+        model.addAttribute("work", workService.findAllInArchiveWorksByUserId(userId));
+        return pathCreator.createPath(auth, "archive");
+    }
+
+    @PostMapping ("/{id}/take")
+    private String getWok( @PathVariable ("id") Long id ) {
+        WorkRepr work = workService.findWorkById(id);
+        work.setStatus(Work.Status.IN_WORK);
+        workService.save(work);
+        return "redirect:/work";
+    }
+
     @PostMapping ("/{id}/done")
     private String getDoneWok( @PathVariable ("id") Long id ) {
         WorkRepr work = workService.findWorkById(id);
-        work.setActual(false);
+        work.setStatus(Work.Status.ON_CHECK);
         workService.save(work);
         return "redirect:/work";
     }
@@ -110,7 +125,7 @@ public class WorkController {
             executorsList.addAll(work.getUsers());
             work.setUsers(executorsList);
         }
-        work.setActual(true);
+        work.setStatus(Work.Status.NEW);
         workService.save(work);
         return "redirect:/work";
     }
