@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.model.User;
 import ru.optima.persist.model.Work;
+import ru.optima.persist.model.WorkStatus;
 import ru.optima.repr.WorkRepr;
 import ru.optima.service.UserServiceImpl;
 import ru.optima.service.WorkServiceImpl;
+import ru.optima.service.WorkStatusService;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 import java.security.Principal;
@@ -25,6 +27,7 @@ public class WorkController {
 
     private final WorkServiceImpl workService;
     private final UserServiceImpl userService;
+    private final WorkStatusService workStatusService;
     private final PathCreator pathCreator;
 
     @GetMapping({"", "/"})
@@ -40,7 +43,7 @@ public class WorkController {
             case "executor": {
                 String userLogin = principal.getName();
                 Long userId = userService.findByName(userLogin).getId();
-                model.addAttribute("work", workService.findAllActualWorksByUserId(userId));
+                model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId, "NEW", "ON_CHECK"));
                 break;
             }
             default: {
@@ -86,22 +89,14 @@ public class WorkController {
         model.addAttribute("activePage", "Archive");
         String userLogin = principal.getName();
         Long userId = userService.findByName(userLogin).getId();
-        model.addAttribute("work", workService.findAllInArchiveWorksByUserId(userId));
+        model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId, "COMPLETED"));
         return pathCreator.createPath(auth, "archive");
-    }
-
-    @PostMapping ("/{id}/take")
-    private String getWok( @PathVariable ("id") Long id ) {
-        WorkRepr work = workService.findWorkById(id);
-        work.setStatus(Work.Status.IN_WORK);
-        workService.save(work);
-        return "redirect:/work";
     }
 
     @PostMapping ("/{id}/done")
     private String getDoneWok( @PathVariable ("id") Long id ) {
         WorkRepr work = workService.findWorkById(id);
-        work.setStatus(Work.Status.ON_CHECK);
+        work.setWorkStatus(workStatusService.findByName("ON_CHECK"));
         workService.save(work);
         return "redirect:/work";
     }
@@ -125,7 +120,7 @@ public class WorkController {
             executorsList.addAll(work.getUsers());
             work.setUsers(executorsList);
         }
-        work.setStatus(Work.Status.NEW);
+        work.setWorkStatus(workStatusService.findByName("NEW"));
         workService.save(work);
         return "redirect:/work";
     }

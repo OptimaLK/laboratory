@@ -49,7 +49,7 @@
                     </div>
                 </dd>
             </div>
-            <div th:switch="${wor.getStatus.getTitle()}">
+            <div th:switch="${wor.getWorkStatus().getName()}">
 <!--                <form method="POST" th:action="@{/work/{id}/take(id=${wor.id})}" th:case="@{'NEW'}">-->
 <!--                    <button type="submit">Взять на исполнение</button>-->
 <!--                </form>-->

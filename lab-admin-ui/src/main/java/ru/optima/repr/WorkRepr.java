@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 import ru.optima.persist.model.Work;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.WorkStatus;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class WorkRepr implements Serializable {
     private String numberContract;
     private List<User> users;
     private String customer;
-    private Work.Status status;
+    private WorkStatus workStatus;
 
     public WorkRepr(Work work) {
         this.id = work.getId();
@@ -35,7 +36,7 @@ public class WorkRepr implements Serializable {
         this.numberContract = work.getNumberContract();
         this.users = work.getUsers();
         this.customer = work.getCustomer();
-        this.status = work.getStatus();
+        this.workStatus = work.getWorkStatus();
     }
 }
 
