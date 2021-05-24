@@ -33,7 +33,7 @@
             </thead>
             <tbody>
             <tr th:each="wor : ${work}">
-                <td th:text="${wor.id}"></td>
+                <td id="workId" th:text="${wor.id}"></td>
                 <td th:text="${wor.registrationDate}"></td>
                 <td th:text="${wor.customer}"></td>
                 <td th:text="${wor.objectName}"></td>
