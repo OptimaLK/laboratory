@@ -139,7 +139,7 @@ public class WorkController {
     @GetMapping ("/back/{id}")
     private void getBackWok( @PathVariable ("id") Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         WorkRepr work = workService.findWorkById(id);
-        work.setActual(true);
+        work.setWorkStatus(workStatusService.findByName("NEW"));
         workService.save(work);
         response.sendRedirect(request.getHeader("referer"));
     }
