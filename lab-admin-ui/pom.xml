@@ -54,12 +54,6 @@
         </dependency>
 
         <dependency>
-            <groupId>ru.optima</groupId>
-            <artifactId>lab-ui</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
             <version>4.4.1</version>
