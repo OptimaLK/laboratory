@@ -54,6 +54,18 @@ tr:nth-child(2n+1) {
     background: #E6FCFF;
 }
 
+tr:nth-child(2n) input {
+    border: none;
+    text-align: center;
+    background: rgba(192, 247, 255, 0.75);
+}
+
+tr:nth-child(2n+1) input {
+    border: none;
+    text-align: center;
+    background: #E6FCFF;
+}
+
 .ico_ok-del {
     display: flex;
     justify-content: space-around;

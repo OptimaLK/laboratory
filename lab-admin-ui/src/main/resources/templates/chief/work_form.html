@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="users">Ответственные пользователи</label>
-                        <select multiple class="form-control" id="users" th:field="*{users}" required>
+                        <select multiple class="form-control" id="users" th:field="*{users}">
                             <option th:each="user : ${users}"
                                     th:text="${user.lastName}"
                                     th:value="${user.id}"
