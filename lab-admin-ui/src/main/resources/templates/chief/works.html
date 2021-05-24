@@ -33,22 +33,21 @@
             </thead>
             <tbody>
             <tr th:each="wor : ${work}">
-                <td id="workId" th:text="${wor.id}"></td>
+                <td th:text="${wor.id}"></td>
                 <td th:text="${wor.registrationDate}"></td>
                 <td th:text="${wor.customer}"></td>
                 <td th:text="${wor.objectName}"></td>
                 <td>12.12.2012</td>
                 <td class="add_user">
-                    <div th:each="user : ${wor.users}">
-                        <div id="user"><input class="userU" th:id="${wor.id}" th:value="${user.lastName}"></div>
+                    <div>
+                        <div id="user"><input class="userU" th:value="${wor.getUsers[0].getLastName()}"></div>
                     </div>
                     <div id="sel">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
                             <i aria-hidden="true" class="fa fa-user-plus" style="color: #4E26BB;"></i>
                         </a>
                         <div>
-                            <ul aria-labelledby="logged-in-username" class="dropdown-menu dropdown-menu-right drop_menu"
-                                th:id="${wor.id}">
+                            <ul aria-labelledby="logged-in-username" class="dropdown-menu dropdown-menu-right drop_menu">
                                 <li><a class="dropdown-item" style="display:block;" th:each="usr : ${users}"
                                        th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
                                        th:text="${usr.getLastName()}"></a></li>
