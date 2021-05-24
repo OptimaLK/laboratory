@@ -11,7 +11,7 @@
 
 <div>
     <form>
-        <button type="submit" class="button_arc">Архив</button>
+        <button class="button_arc" type="submit">Архив</button>
     </form>
 </div>
 <div class="d-flex justify-content-center">
@@ -34,16 +34,22 @@
                 <dd>т. 8-999-999-99-99</dd>
                 <dt>Команда:</dt>
                 <dd class="d-flex justify-content-between add_user" style="width: 185px;">
-                    <div></div>
                     <div>
+                        <ul th:id="team">
+                            <li th:each="user : ${wor.users}" th:text="${user.lastName}"></li>
+                        </ul>
+                    </div>
+                    <div th:id="addU">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
                             <i aria-hidden="true" class="fa fa-user-plus"></i>
                         </a>
                         <div>
                             <ul aria-labelledby="logged-in-username"
                                 class="dropdown-menu dropdown-menu-right drop_menu">
-                                <li><a class="dropdown-item" th:each="usr : ${wor.users}" th:href="@{/work/{id}/edit(id=${wor.id})}"
-                                       th:text="${usr.getLastName()}"></a></li>
+                                <li th:id="menu"><a class="dropdown-item" style="display:block;"
+                                                     th:each="usr : ${users}"
+                                                     th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
+                                                     th:text="${usr.getLastName()}"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -60,6 +66,25 @@
 </div>
 
 <script th:replace="fragments/executor/footer :: scripts"></script>
+<script>
+    $(function () {
+        $('.add_user').each(function () {
+            var master = this;
+            $('#addU a', master).on('click', function () {
+                console.log('exec');
+                $('#team li', master).each(function () {
+                    var te = this;
+                    $('#menu a', master).each(function () {
+                        if ($(this).text() === $(te).text()) {
+                            console.log('true', $(this).text(), $(te).text());
+                            $(this).hide();
+                        }
+                    })
+                })
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
