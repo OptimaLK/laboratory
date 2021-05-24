@@ -8,6 +8,7 @@ import ru.optima.persist.model.equipments.Equipment;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -45,23 +46,7 @@ public class Work implements Serializable {
     @Column(name = "customer")
     private String customer;
 
-    @Column(name = "status")
-    private Status status;
+    @ManyToOne(optional = false)
+    private WorkStatus workStatus;
 
-    public enum Status {
-        NEW ("NEW"),
-        IN_WORK("IN_WORK"),
-        ON_CHECK("ON_CHECK"),
-        COMPLETED("COMPLETED");
-
-        private String title;
-
-        Status(String title) {
-            this.title = title;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-    }
 }

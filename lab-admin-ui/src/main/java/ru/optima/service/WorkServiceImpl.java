@@ -33,7 +33,7 @@ public class WorkServiceImpl implements WorkService, Serializable {
         work.setObjectName(workRepr.getObjectName());
         work.setRegistrationDate(workRepr.getRegistrationDate());
         work.setUsers(workRepr.getUsers());
-        work.setStatus(workRepr.getStatus());
+        work.setWorkStatus(workRepr.getWorkStatus());
         workRepository.save(work);
     }
 
@@ -58,27 +58,11 @@ public class WorkServiceImpl implements WorkService, Serializable {
         return new WorkRepr(workRepository.findById(id).orElse(new Work()));
     }
 
-    public List<Work> findAllWorksByUserId(Long id) {
-        return workRepository.findAllWorksByUserId(id);
+    public List<Work> findAllWorksByUserIdWithStatusName(Long id, String statusName) {
+        return workRepository.findAllWorksByUserIdWithStatusName(id, statusName);
     }
 
-    public List<Work> findAllNewWorksByUserId(Long id) {
-        return workRepository.findAllNewWorksByUserId(id);
-    }
-
-    public List<Work> findAllActualWorksByUserId(Long id) {
-        return workRepository.findAllActualWorksByUserId(id);
-    }
-
-    public List<Work> findAllInArchiveWorksByUserId (Long id) {
-        return workRepository.findAllInArchiveWorksByUserId(id);
-    }
-
-    public List<Work> findAllOnCheckWorksByUserId(Long id) {
-        return workRepository.findAllOnCheckWorksByUserId(id);
-    }
-
-    public List<Work> findAllInWorkWorksByUserId(Long id){
-        return workRepository.findAllInWorkWorksByUserId(id);
+    public List<Work> findAllWorksByUserIdWithStatusName(Long id, String statusNameOne, String statusNameTwo) {
+        return workRepository.findAllWorksByUserIdWithStatusName(id, statusNameOne, statusNameTwo);
     }
 }
