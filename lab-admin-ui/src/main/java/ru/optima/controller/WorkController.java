@@ -7,12 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.WorkRepr;
 import ru.optima.service.UserServiceImpl;
 import ru.optima.service.WorkServiceImpl;
 import ru.optima.service.WorkStatusService;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +36,7 @@ public class WorkController {
     @GetMapping({"", "/"})
     public String workPage(Model model, SecurityContextHolder auth, Principal principal) {
         model.addAttribute("activePage", "Works");
+        model.addAttribute("users", userService.findAllUserWhoHasRole("ROLE_EXECUTOR"));
 
 //      для каждой роли (роль маленькими буквами) пользователя на клиент передается свой набор данных
         switch (pathCreator.getRole(auth)) {
@@ -118,5 +124,23 @@ public class WorkController {
         work.setWorkStatus(workStatusService.findByName("NEW"));
         workService.save(work);
         return "redirect:/work";
+    }
+
+    @GetMapping("/user/{workId}/{userId}")
+    public void addEquipmentToBagById(@PathVariable Long workId, @PathVariable Long userId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        WorkRepr workRepr = workService.findWorkById(workId);
+        List<User> executorsList = workRepr.getUsers();
+        executorsList.add(userService.findById(userId));
+        workRepr.setUsers(executorsList);
+        workService.save(workRepr);
+        response.sendRedirect(request.getHeader("referer"));
+    }
+
+    @GetMapping ("/back/{id}")
+    private void getBackWok( @PathVariable ("id") Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        WorkRepr work = workService.findWorkById(id);
+        work.setActual(true);
+        workService.save(work);
+        response.sendRedirect(request.getHeader("referer"));
     }
 }
