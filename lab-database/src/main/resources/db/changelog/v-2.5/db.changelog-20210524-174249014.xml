@@ -20,9 +20,6 @@
     <changeSet author="maks_tarn (generated)" id="1621878500613-3">
         <addUniqueConstraint columnNames="name" constraintName="UC_WORK_STATUSESNAME_COL" tableName="work_statuses"/>
     </changeSet>
-    <changeSet author="maks_tarn (generated)" id="1621878500613-4">
-        <addForeignKeyConstraint baseColumnNames="work_status_id" baseTableName="works" constraintName="FKh1cxy8n7lhlvdnu09i05n9y9e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="work_statuses" validate="true"/>
-    </changeSet>
     <changeSet author="maks_tarn (generated)" id="1621878500613-5">
         <dropColumn columnName="status" tableName="works"/>
     </changeSet>
