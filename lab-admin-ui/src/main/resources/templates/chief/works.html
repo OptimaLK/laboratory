@@ -40,7 +40,8 @@
                 <td>12.12.2012</td>
                 <td class="add_user">
                     <div>
-                        <div id="user"><input class="userU" th:value="${wor.getUsers[0].getLastName()}"></div>
+                        <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
+                            <input class="userU" th:value="${wor.getUsers[0].getLastName()}"></div>
                     </div>
                     <div id="sel">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
