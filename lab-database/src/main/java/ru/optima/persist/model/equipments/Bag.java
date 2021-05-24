@@ -51,5 +51,4 @@ public class Bag implements Serializable {
         this.equipments = new ArrayList<>();
         this.user = user;
     }
-
 }

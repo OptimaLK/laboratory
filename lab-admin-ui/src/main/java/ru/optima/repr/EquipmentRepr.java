@@ -21,8 +21,8 @@ public class EquipmentRepr {
     private Date verificationDate;
     private Date verificationDateEnd;
     private List<User> users;
-    private Boolean taken;
     private boolean activ;
+    private Boolean taken;
 
     public EquipmentRepr(Equipment equipment) {
         this.id = equipment.getId();
@@ -32,6 +32,7 @@ public class EquipmentRepr {
         this.verificationNumber = equipment.getVerificationNumber();
         this.verificationDate = equipment.getVerificationDate();
         this.verificationDateEnd = equipment.getVerificationDateEnd();
+        this.activ = equipment.isActiv();
         this.taken = equipment.getTaken();
         this.activ = equipment.isActiv();
     }

@@ -26,8 +26,8 @@ public class AppForVerification {
 
         /**
          *  Заполнение даты формирования заявки,
-         *  перезаписывается текущей датой в виде "от « dd »   MMMM   20yy г."
          *  т. е. в шапке документа строка "от «___» ___________ 20___ г."
+         *  перезаписывается текущей датой в виде "от « dd »   MMMM   20yy г."
          */
         XWPFParagraph xwpfParagraph = document.getTables().get(0).getRows().get(0).getCell(0).getParagraphs().get(5);
         String text = xwpfParagraph.getRuns().get(0).text();
