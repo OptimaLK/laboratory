@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.model.User;
-import ru.optima.persist.model.Work;
-import ru.optima.persist.model.WorkStatus;
 import ru.optima.repr.WorkRepr;
 import ru.optima.service.UserServiceImpl;
 import ru.optima.service.WorkServiceImpl;
@@ -105,11 +103,8 @@ public class WorkController {
      * Создание/редактирование задания на работу. Доступно только заведующему.
      * @return Редирект на страницу со списком работ.
      */
-//    @Secured("ROLE_CHIEF")
     @PostMapping({"", "/"})
-
     public String createWork(@ModelAttribute WorkRepr work,  SecurityContextHolder auth) {
-
         log.info("Creating new work...");
         work.setRegistrationDate(new Date());
         if (pathCreator.getRole(auth).equals("executor")) {
