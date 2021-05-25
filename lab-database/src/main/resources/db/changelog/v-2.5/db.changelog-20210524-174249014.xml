@@ -20,9 +20,7 @@
     <changeSet author="maks_tarn (generated)" id="1621878500613-3">
         <addUniqueConstraint columnNames="name" constraintName="UC_WORK_STATUSESNAME_COL" tableName="work_statuses"/>
     </changeSet>
-    <changeSet author="maks_tarn (generated)" id="1621878500613-5">
-        <dropColumn columnName="status" tableName="works"/>
-    </changeSet>
+
     <changeSet author="maks" id="1621878500613-6">
         <sqlFile path="insert-default-works-status.sql"
                  dbms="mysql"
