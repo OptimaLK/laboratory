@@ -55,7 +55,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="ico_ok-del" th:unless="${wor.getActual}">
+                    <div class="ico_ok-del" th:unless="${wor.getWorkStatus().getName() == 'NEW'}">
                             <a th:href="@{/work/sendToArchive/{workId}(workId=${wor.id})}"><i class="fas fa-check-circle"
                                                              style="color: #26BB50;"></i></a>
                             <a th:href="@{/work/back/{workId}(workId=${wor.id})}"><i
