@@ -18,15 +18,14 @@ import java.util.stream.Collectors;
 public class BagServiceImpl implements BagService{
 
     private BagRepository bagRepository;
-    private EquipmentRepository equipmentRepository;
 
-    public BagServiceImpl(BagRepository bagRepository, EquipmentRepository equipmentRepository) {
+    public BagServiceImpl(BagRepository bagRepository) {
         this.bagRepository = bagRepository;
-        this.equipmentRepository = equipmentRepository;
     }
 
     @Override
     public void addEquipmentToBag(Equipment equipment, User user) {
+        equipment.setNameUserWhoTakenEquipment(user.getLastName());
         List<Bag> bags = user.getBags();
         if (bags.size() == 0){
             bags.add(new Bag(user));
@@ -42,6 +41,7 @@ public class BagServiceImpl implements BagService{
 
     @Override
     public void deleteEquipmentToBag(Equipment equipment, User user) {
+        equipment.setNameUserWhoTakenEquipment("");
         List<Bag> bags = user.getBags();
         if (user.getBags().size() != 0) {
             Bag lastBag = bags.get(user.getBags().size() - 1);

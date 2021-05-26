@@ -43,4 +43,7 @@ public class Equipment implements Serializable {
 
     @Column(name = "taken")
     private Boolean taken;
+
+    @Column(name = "name_user_who_taken_equipment")
+    private String nameUserWhoTakenEquipment;
 }
