@@ -29,17 +29,10 @@
                             <dd>04.05.2021</dd>
                             <dt>Команда:</dt>
                             <dd class="d-flex justify-content-between add_user">
-                                <div></div>
                                 <div>
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                        <i aria-hidden="true" class="fa fa-user-plus"></i>
-                                    </a>
-                                    <div>
-                                        <ul aria-labelledby="logged-in-username"
-                                            class="dropdown-menu dropdown-menu-right drop_menu">
-                                            <li><a class="dropdown-item" th:each= "usr : ${wor.users}" th:text="${usr.getLastName()}"></a></li>
-                                        </ul>
-                                    </div>
+                                    <ul>
+                                        <li th:each="user : ${wor.users}" th:text="${user.lastName}"></li>
+                                    </ul>
                                 </div>
                             </dd>
                             <dt>Заказчика:</dt>
@@ -47,7 +40,7 @@
                             <dt>т. заказчика:</dt>
                             <dd>8-999-999-99-99</dd>
                         </div>
-                        <label class="good">Выполнено</label>
+                        <label class="good">На проверке</label>
                     </dl>
                 </div>
             </div>

@@ -33,28 +33,33 @@
             </thead>
             <tbody>
             <tr th:each="wor : ${work}">
-                <td th:text="${wor.id}"></td>
+                <td id="workId" th:text="${wor.id}"></td>
                 <td th:text="${wor.registrationDate}"></td>
                 <td th:text="${wor.customer}"></td>
                 <td th:text="${wor.objectName}"></td>
                 <td>12.12.2012</td>
-                <td>
-                    <div th:each="user : ${wor.users}" class="add_user">
-                        <div id="str" th:text="${user.lastName}"></div>
+                <td class="add_user">
+                    <div>
+                        <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
+                            <input class="userU" th:value="${wor.getUsers[0].getLastName()}"></div>
+                    </div>
+                    <div id="sel">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <i aria-hidden="true" class="fa fa-user-plus" style="color: #4E26BB;"></i>
+                        </a>
                         <div>
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                <i aria-hidden="true" class="fa fa-user-plus" style="color: #4E26BB;"></i>
-                            </a>
-                            <div>
-                                <ul aria-labelledby="logged-in-username" class="dropdown-menu dropdown-menu-right drop_menu">
-                                    <li><a class="dropdown-item"></a></li>
-                                </ul>
-                            </div>
+                            <ul aria-labelledby="logged-in-username" class="dropdown-menu dropdown-menu-right drop_menu">
+                                <li><a class="dropdown-item" style="display:block;" th:each="usr : ${users}"
+                                       th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
+                                       th:text="${usr.getLastName()}"></a></li>
+                            </ul>
                         </div>
-                        <div class="ico_ok-del">
-                            <a href="#"><i class="fas fa-check-circle" style="color: #26BB50;"></i></a>
-                            <a href="#"><i class="fas fa-times-circle" style="color: #B00101;"></i></a>
-                        </div>
+                    </div>
+                    <div class="ico_ok-del" th:unless="${wor.getWorkStatus().getName() == 'NEW'}">
+                            <a th:href="@{/work/sendToArchive/{workId}(workId=${wor.id})}"><i class="fas fa-check-circle"
+                                                             style="color: #26BB50;"></i></a>
+                            <a th:href="@{/work/back/{workId}(workId=${wor.id})}"><i
+                                    class="fas fa-times-circle" style="color: #B00101;"></i></a>
                     </div>
                 </td>
                 <td th:text="${wor.numberContract}"></td>
@@ -66,6 +71,17 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
+<script>
+    $(function () {
+        $('.add_user').each(function () {
+            if ($('#user input', this).val()) {
+                $('#sel', this).hide();
+            } else {
+                $('.ico_ok-del', this).hide();
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

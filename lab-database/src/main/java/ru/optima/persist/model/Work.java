@@ -8,6 +8,7 @@ import ru.optima.persist.model.equipments.Equipment;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,9 @@ public class Work implements Serializable {
     @Column(name = "customer")
     private String customer;
 
-    @Column(name = "actual")
-    private Boolean actual;
+
+    @ManyToOne
+    @JoinColumn(name="work_status_id", nullable=false)
+    private WorkStatus workStatus;
 
 }

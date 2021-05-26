@@ -10,7 +10,7 @@
 <div th:replace="fragments/executor/header :: header"></div>
 
 <div>
-    <form method="GET" th:action="@{/work/archive}">
+    <form>
         <button type="submit" class="button_arc">Архив</button>
     </form>
 </div>
@@ -34,60 +34,28 @@
                 <dd>т. 8-999-999-99-99</dd>
                 <dt>Команда:</dt>
                 <dd class="d-flex justify-content-between add_user" style="width: 185px;">
+                    <div></div>
                     <div>
-                        <ul th:id="team">
-                            <li th:each="user : ${wor.users}" th:text="${user.lastName}"></li>
-                        </ul>
-                    </div>
-                    <div th:id="addU">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
                             <i aria-hidden="true" class="fa fa-user-plus"></i>
                         </a>
                         <div>
                             <ul aria-labelledby="logged-in-username"
                                 class="dropdown-menu dropdown-menu-right drop_menu">
-                                <li th:id="menu"><a class="dropdown-item" style="display:block;"
-                                                     th:each="usr : ${users}"
-                                                     th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
-                                                     th:text="${usr.getLastName()}"></a></li>
+                                <li><a class="dropdown-item" th:each="usr : ${wor.users}" th:href="@{/work/{id}/edit(id=${wor.id})}"
+                                       th:text="${usr.getLastName()}"></a></li>
                             </ul>
                         </div>
                     </div>
                 </dd>
             </div>
-            <div th:switch="${wor.getWorkStatus().getName()}">
-<!--                <form method="POST" th:action="@{/work/{id}/take(id=${wor.id})}" th:case="@{'NEW'}">-->
-<!--                    <button type="submit">Взять на исполнение</button>-->
-<!--                </form>-->
-                <form method="POST" th:action="@{/work/{id}/done(id=${wor.id})}" th:case="@{'NEW'}">
-                    <button type="submit">На проверку</button>
-                </form>
-                <button style="background-color: #ffbebe" th:case="${'ON_CHECK'}" type="submit">На проверке</button>
+                <label class="good">Выполнено</label>
             </div>
         </dl>
     </div>
 </div>
 
 <script th:replace="fragments/executor/footer :: scripts"></script>
-<script>
-    $(function () {
-        $('.add_user').each(function () {
-            var master = this;
-            $('#addU a', master).on('click', function () {
-                console.log('exec');
-                $('#team li', master).each(function () {
-                    var te = this;
-                    $('#menu a', master).each(function () {
-                        if ($(this).text() === $(te).text()) {
-                            console.log('true', $(this).text(), $(te).text());
-                            $(this).hide();
-                        }
-                    })
-                })
-            });
-        });
-    });
-</script>
 
 </body>
 </html>

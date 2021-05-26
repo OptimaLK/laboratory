@@ -7,11 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.WorkRepr;
 import ru.optima.service.UserServiceImpl;
 import ru.optima.service.WorkServiceImpl;
+import ru.optima.service.WorkStatusService;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -24,11 +30,13 @@ public class WorkController {
 
     private final WorkServiceImpl workService;
     private final UserServiceImpl userService;
+    private final WorkStatusService workStatusService;
     private final PathCreator pathCreator;
 
     @GetMapping({"", "/"})
     public String workPage(Model model, SecurityContextHolder auth, Principal principal) {
         model.addAttribute("activePage", "Works");
+        model.addAttribute("users", userService.findAllUserWhoHasRole("ROLE_EXECUTOR"));
 
 //      для каждой роли (роль маленькими буквами) пользователя на клиент передается свой набор данных
         switch (pathCreator.getRole(auth)) {
@@ -39,7 +47,7 @@ public class WorkController {
             case "executor": {
                 String userLogin = principal.getName();
                 Long userId = userService.findByName(userLogin).getId();
-                model.addAttribute("work", workService.findAllTrueWorksByUserId(userId));
+                model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId, "NEW", "ON_CHECK"));
                 break;
             }
             default: {
@@ -60,9 +68,6 @@ public class WorkController {
             List<User> allUsers = userService.findAllUserWhoHasRole("ROLE_EXECUTOR");
             WorkRepr workRepr = workService.findById(id).orElseThrow(NotFoundException::new);
             allUsers.removeAll(workRepr.getUsers());
-//            for (User user: workRepr.getUsers()) {
-//                if(allUsers.contains())
-//            }
             model.addAttribute("users", allUsers);
         }
         model.addAttribute("work", workService.findById(id).orElseThrow(NotFoundException::new));
@@ -83,10 +88,19 @@ public class WorkController {
         return "redirect:/work";
     }
 
+    @GetMapping ("/archive")
+    private String getArchive( Model model, SecurityContextHolder auth, Principal principal) {
+        model.addAttribute("activePage", "Archive");
+        String userLogin = principal.getName();
+        Long userId = userService.findByName(userLogin).getId();
+        model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId, "COMPLETED"));
+        return pathCreator.createPath(auth, "archive");
+    }
+
     @PostMapping ("/{id}/done")
     private String getDoneWok( @PathVariable ("id") Long id ) {
         WorkRepr work = workService.findWorkById(id);
-        work.setActual(false);
+        work.setWorkStatus(workStatusService.findByName("ON_CHECK"));
         workService.save(work);
         return "redirect:/work";
     }
@@ -95,11 +109,8 @@ public class WorkController {
      * Создание/редактирование задания на работу. Доступно только заведующему.
      * @return Редирект на страницу со списком работ.
      */
-//    @Secured("ROLE_CHIEF")
     @PostMapping({"", "/"})
-
     public String createWork(@ModelAttribute WorkRepr work,  SecurityContextHolder auth) {
-
         log.info("Creating new work...");
         work.setRegistrationDate(new Date());
         if (pathCreator.getRole(auth).equals("executor")) {
@@ -110,8 +121,26 @@ public class WorkController {
             executorsList.addAll(work.getUsers());
             work.setUsers(executorsList);
         }
-        work.setActual(true);
+        work.setWorkStatus(workStatusService.findByName("NEW"));
         workService.save(work);
         return "redirect:/work";
+    }
+
+    @GetMapping("/user/{workId}/{userId}")
+    public void addEquipmentToBagById(@PathVariable Long workId, @PathVariable Long userId, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        WorkRepr workRepr = workService.findWorkById(workId);
+        List<User> executorsList = workRepr.getUsers();
+        executorsList.add(userService.findById(userId));
+        workRepr.setUsers(executorsList);
+        workService.save(workRepr);
+        response.sendRedirect(request.getHeader("referer"));
+    }
+
+    @GetMapping ("/back/{id}")
+    private void getBackWok( @PathVariable ("id") Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        WorkRepr work = workService.findWorkById(id);
+        work.setWorkStatus(workStatusService.findByName("NEW"));
+        workService.save(work);
+        response.sendRedirect(request.getHeader("referer"));
     }
 }
