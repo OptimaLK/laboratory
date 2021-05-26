@@ -56,13 +56,10 @@
                 </dd>
             </div>
             <div th:switch="${wor.getWorkStatus().getName()}">
-<!--                <form method="POST" th:action="@{/work/{id}/take(id=${wor.id})}" th:case="@{'NEW'}">-->
-<!--                    <button type="submit">Взять на исполнение</button>-->
-<!--                </form>-->
                 <form method="POST" th:action="@{/work/{id}/done(id=${wor.id})}" th:case="@{'NEW'}">
                     <button type="submit">На проверку</button>
                 </form>
-                <button style="background-color: #ffbebe" th:case="${'ON_CHECK'}" type="submit">На проверке</button>
+                <button th:id="onCheck" style="background-color: #ffbebe" th:case="${'ON_CHECK'}" type="submit">На проверке</button>
             </div>
         </dl>
     </div>
@@ -71,20 +68,27 @@
 <script th:replace="fragments/executor/footer :: scripts"></script>
 <script>
     $(function () {
+        $('.work_head').each(function () {
+            const head = this;
+            if ($('button#onCheck', this).text() === 'На проверке'){
+                $(this).css('background-color', 'rgb(138 249 152 / 48%)');
+                $('button#onCheck', this).css('background-color', 'rgb(123 236 121)');
+            }
+        })
+    });
+    $(function () {
         $('.add_user').each(function () {
             var master = this;
             $('#addU a', master).on('click', function () {
-                console.log('exec');
                 $('#team li', master).each(function () {
                     var te = this;
                     $('#menu a', master).each(function () {
                         if ($(this).text() === $(te).text()) {
-                            console.log('true', $(this).text(), $(te).text());
                             $(this).hide();
                         }
                     })
                 })
-            });
+            })
         });
     });
 </script>
