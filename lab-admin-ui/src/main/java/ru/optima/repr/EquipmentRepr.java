@@ -23,6 +23,7 @@ public class EquipmentRepr {
     private List<User> users;
     private boolean activ;
     private Boolean taken;
+    private String nameUserWhoTakenEquipment;
 
     public EquipmentRepr(Equipment equipment) {
         this.id = equipment.getId();
@@ -35,6 +36,7 @@ public class EquipmentRepr {
         this.activ = equipment.isActiv();
         this.taken = equipment.getTaken();
         this.activ = equipment.isActiv();
+        this.nameUserWhoTakenEquipment = equipment.getNameUserWhoTakenEquipment();
     }
 }
 
