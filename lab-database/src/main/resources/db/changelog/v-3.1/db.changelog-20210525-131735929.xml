@@ -5,7 +5,4 @@
             <column name="name_user_who_taken_equipment" type="varchar(255)"/>
         </addColumn>
     </changeSet>
-    <changeSet author="maks_tarn (generated)" id="1621948665044-1">
-        <dropNotNullConstraint columnDataType="boolean" columnName="actual" tableName="works"/>
-    </changeSet>
 </databaseChangeLog>
