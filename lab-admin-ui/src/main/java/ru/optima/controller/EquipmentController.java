@@ -1,18 +1,22 @@
 package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.beans.PackageEquipments;
+import ru.optima.persist.model.User;
 import ru.optima.repr.EquipmentRepr;
 import ru.optima.service.EquipmentServiceImpl;
 import ru.optima.service.KitService;
+import ru.optima.service.UserService;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,15 +25,16 @@ public class EquipmentController {
 
 
     private final PathCreator pathCreator;
-    private final PackageEquipments packageEquipments;
     private final EquipmentServiceImpl equipmentService;
-    private final KitService kitService;
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping({"","/"})
-    public String equipmentsPage(Model model, SecurityContextHolder auth) {
+    public String equipmentsPage(Model model, Principal principal, SecurityContextHolder auth) {
         model.addAttribute("activePage", "Equipments");
         model.addAttribute("equipments", equipmentService.findAll());
+        model.addAttribute("user", userService.findByName(principal.getName()));
         return pathCreator.createPath(auth, "equipments");
     }
 
@@ -66,30 +71,4 @@ public class EquipmentController {
         equipmentService.delete(id);
         return pathCreator.createPath(auth) + "/equipments";
     }
-
-
-//  ****** 
-
-//
-//    @GetMapping("/equipments_guest")
-//    public String equipmentPage(Model model,SecurityContextHolder auth) {
-//        model.addAttribute("activePage", "Equipments");
-//        model.addAttribute("equipments", equipmentService.findAll());
-//        model.addAttribute("kits", kitService.findAll());
-//        return "equipments_guest";
-//    }
-//
-//    @GetMapping("/equipments_guest/package")
-//    public String packageEquipmentsPage(Model model) {
-//        model.addAttribute("activePage", "Equipments");
-//        model.addAttribute("equipments", equipmentService.findAll());
-//        return "equipments_guest/package";
-//    }
-//
-//    @GetMapping("/equipments_guest/package/add/{equipmentId}")
-//    public void addEquipmentToBagById(@PathVariable Long equipmentId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        packageEquipments.add(equipmentService.findByEId(equipmentId));
-//        System.out.println(packageEquipments.getEquipments());
-//        response.sendRedirect(request.getHeader("referer"));
-//    }
 }

@@ -3,6 +3,7 @@ package ru.optima.persist.model.equipments;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,7 +38,12 @@ public class Equipment implements Serializable {
     @Column(name = "verification_date_end")
     private Date verificationDateEnd;
 
+    @Transient
+    private boolean activ = false;
+
     @Column(name = "taken")
     private Boolean taken;
 
+    @Column(name = "name_user_who_taken_equipment")
+    private String nameUserWhoTakenEquipment;
 }

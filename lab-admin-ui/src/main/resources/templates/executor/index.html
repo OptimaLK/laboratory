@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
 
+<link rel="stylesheet" th:href="@{/css/works.css}">
 <head th:replace="fragments/executor/header :: head"></head>
 
 <body class="bg-light">
@@ -16,7 +17,7 @@
                     <button type="submit">Архив</button>
                 </form>
                 <div class="work_attrs">
-                    <dl class="dl-horizontal attrs" th:each="wor : ${work}">
+                    <dl class="dl-horizontal attrs" style="background: rgb(166 243 108 / 48%);" th:each="wor : ${work}">
                         <div>
                             <dt>№ заявки:</dt>
                             <dd th:text="${wor.id}"></dd>
@@ -28,17 +29,10 @@
                             <dd>04.05.2021</dd>
                             <dt>Команда:</dt>
                             <dd class="d-flex justify-content-between add_user">
-                                <div></div>
                                 <div>
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                        <i aria-hidden="true" class="fa fa-user-plus"></i>
-                                    </a>
-                                    <div>
-                                        <ul aria-labelledby="logged-in-username"
-                                            class="dropdown-menu dropdown-menu-right drop_menu">
-                                            <li><a class="dropdown-item" th:each= "usr : ${wor.users}" th:text="${usr.getLastName()}"></a></li>
-                                        </ul>
-                                    </div>
+                                    <ul>
+                                        <li th:each="user : ${wor.users}" th:text="${user.lastName}"></li>
+                                    </ul>
                                 </div>
                             </dd>
                             <dt>Заказчика:</dt>
@@ -46,7 +40,7 @@
                             <dt>т. заказчика:</dt>
                             <dd>8-999-999-99-99</dd>
                         </div>
-                        <button type="submit">Выполнено</button>
+                        <label class="good">На проверке</label>
                     </dl>
                 </div>
             </div>

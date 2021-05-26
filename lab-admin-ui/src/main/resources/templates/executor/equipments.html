@@ -28,12 +28,19 @@
                         <dt>Дата поверки:</dt>
                         <dd th:text="${equ.verificationDateEnd}"></dd>
                         <div th:switch="${equ.getTaken}">
-                            <form th:case="${true}" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
+                            <form th:case="${true}" class="form-group"  th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
                                 <button type="submit" >Взять</button>
                             </form>
-                            <form th:case="${false}" class="form-group" th:action="@{'/bag/get/' + ${equ.id}}" method="POST">
-                                <button style="background-color: #ffbebe" type="submit" >Положить</button>
-                            </form>
+                            <div th:case="${false}">
+                                <div th:switch="${user.lastName == equ.nameUserWhoTakenEquipment}">
+                                    <form th:case="${true}" class="form-group" th:action="@{'/bag/get/' + ${equ.id}}" method="POST">
+                                        <button style="background-color: #ffbebe" type="submit">Положить</button>
+                                    </form>
+                                    <form th:case="${false}" class="form-group">
+                                        <button style="background-color: #ffbebe" type="submit" th:text="${equ.nameUserWhoTakenEquipment}"></button>
+                                    </form>
+                                </div>
+                            </div>
                             <form th:case="*" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
                                 <button type="submit" >Взять</button>
                             </form>

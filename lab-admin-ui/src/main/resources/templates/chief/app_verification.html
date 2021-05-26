@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+
+<head th:replace="fragments/chief/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/chief/header :: header"></div>
+
+<div class="d-flex">
+    <div>
+        <div class="card-body">
+            <form method="post" th:action="@{/verification/save}"  th:object="${equipment}">
+                <div>
+                    <input th:type="hidden" name="id" th:field="${equipment.id}">
+                    <fieldset style="border:1px #00BFFF solid;">
+                        <legend><b>Информация о заказчике</b></legend>
+                        <p><label th:for="customer">Наименование организации (Заказчика)</label>
+                            <input name="customer" id="customer" type="text" value="ООО Оптима" readonly></p>
+                        <p><label th:for="person">Контактное лицо</label>
+                            <input name="person" id="person" type="text" value="Иванов Иван Иванович" readonly></p>
+                        <p><label th:for="phone">Телефон</label>
+                            <input name="phone" id="phone" type="tel" value="+78945612321" readonly></p>
+                        <p><label th:for="email">E-mail</label>
+                            <input name="email" id="email" type="email" value="mailmailmail@mail.ru" readonly></p>
+                        <p><label th:for="number">№ договора</label>
+                            <input name="number" id="number" type="number" value="7877654" readonly></p>
+                        <p><label th:for="date">Дата договора</label>
+                            <input name="date" id="date" style="width: 130px; margin-right: 240px;" type="date" value="01.01.2021" readonly></p>
+                        <p><label th:for="enterprise">Наименование юридического лица, ИНН<em>*</em></label>
+                            <input name="enterprise" id="enterprise" type="text" value="ООО Оптима, 789453434344631313864" readonly></p>
+                    </fieldset>
+                </div>
+                <div>
+                    <fieldset style="border:1px #00BFFF solid;">
+                        <legend><b>Перечень СИ и ИО</b></legend>
+                        <p><label th:for="name">Наименование СИ или ИО</label>
+                            <input th:field="${equipment.name}" type="text"></p>
+                        <p><label th:for="type_eq">Тип, модификация СИ, ИО</label>
+                            <input name="type_eq" id="type_eq" type="text"></p>
+                        <p><label th:for="sum">Количество</label>
+                            <input name="sum" id="sum" type="number"></p>
+                        <p><label th:for="number_reg">№ в Госреестре СИ</label>
+                            <input name="number_reg" id="number_reg" type="text"></p>
+                        <p><label th:for="factoryNumber">Зав. №, для эталона– регистрационные номера</label>
+                            <input th:field="${equipment.factoryNumber}" type="text"></p>
+                    </fieldset>
+                </div>
+                <div>
+                    <fieldset class="form-check check">
+                        <legend><b>Дополнительные сведения</b></legend>
+                        <p><input class="form-check-input" name="urgency" id="urgency_" type="checkbox" value="true">
+                            <input class="form-check-input" name="urgency" id="urgency" type="hidden" value="false">
+                            <label class="form-check-label" for="urgency">Срочность</label></p>
+                        <p><input class="form-check-input" name="protocol" id="protocol_" type="checkbox" value="true">
+                            <input class="form-check-input" name="protocol" id="protocol" type="hidden" value="false">
+                            <label class="form-check-label" for="protocol">Протокол поверки</label></p>
+                        <p><input class="form-check-input" name="certificate" id="certificate_" type="checkbox" value="true">
+                            <input class="form-check-input" name="certificate" id="certificate" type="hidden" value="false">
+                            <label class="form-check-label" for="certificate">Свидетельство о поверке</label></p>
+                        <p><input class="form-check-input" name="cal_uncertainty" id="cal_uncertainty_" type="checkbox" value="true">
+                            <input class="form-check-input" name="cal_uncertainty" id="cal_uncertainty" type="hidden" value="false">
+                            <label class="form-check-label" for="cal_uncertainty">Для калибруемых СИ расчет
+                                неопределенности</label></p>
+                        <p style="margin-left: 0;"><label style="padding-left: 0;" th:for="note">Примечание</label>
+                            <textarea name="note" id="note" style="width: 600px; height: 80px"></textarea></p>
+                    </fieldset>
+                </div>
+                <button type="submit" name="add" value="true">Добавить ещё</button>
+                <button type="submit" name="add" value="false">Сформировать</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/chief/footer :: scripts"></script>
+</body>
+</html>

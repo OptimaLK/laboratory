@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.model.User;
 import ru.optima.persist.model.equipments.Equipment;
+import ru.optima.repr.EquipmentRepr;
 import ru.optima.service.BagService;
 import ru.optima.service.EquipmentService;
 import ru.optima.service.UserService;
@@ -44,6 +45,7 @@ public class BagController {
     public void addEquipmentToBagById(@PathVariable Long equipmentId, Principal principal, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         Equipment equipment = equipmentService.findByEId(equipmentId);
         User user = userService.findByName(principal.getName());
+
         bagService.addEquipmentToBag(equipment, user);
         response.sendRedirect(request.getHeader("referer"));
     }

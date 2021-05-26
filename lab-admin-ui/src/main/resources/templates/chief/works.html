@@ -1,70 +1,87 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 
+<link rel="stylesheet" th:href="@{/css/works.css}">
 <head th:replace="fragments/chief/header :: head"></head>
 
 <body class="bg-light">
 
 <div th:replace="fragments/chief/header :: header"></div>
 
-<div class="d-flex">
-<!--    <div th:replace="fragments/chief/sidebar :: sidebar"></div>-->
-
-    <div class="content p-4">
-        <h2 class="mb-4">Список работ</h2>
-
-        <div class="card mb-4">
-
-            <div class="card-body">
-                <form class="form-group" th:action="@{/work/create}">
-                    <button type="submit" class="btn btn-primary">Создать новое задание</button>
-                </form>
-
-                <table id="work" class="table table-hover" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>registrationDate</th>
-                        <th>clientName</th>
-                        <th>objectName</th>
-                        <th>numberContract</th>
-                        <th>users</th>
-                        <th>customer</th>
-                        <th class="actions">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="wor : ${work}">
-                        <td th:text="${wor.id}"></td>
-                        <td th:text="${wor.registrationDate}"></td>
-                        <td th:text="${wor.clientName}"></td>
-                        <td th:text="${wor.objectName}"></td>
-                        <td th:text="${wor.numberContract}"></td>
-                        <td>
-                            <p th:each="user : ${wor.users}" th:text="${user.lastName}"></p>
-                        </td>
-                        <td th:text="${wor.customer}"></td>
-                        <td>
-                            <a th:href="@{/work/{id}/edit(id=${wor.id})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Edit">
-                                <i class="fa fa-fw fa-edit"></i>
-                            </a>
-                            <form th:action="@{/work/{id}/delete(id=${wor.id})}" th:method="delete" class="d-inline">
-                                <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Delete">
-                                    <i class="fa fa-fw fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
+<div>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Номер заявки</th>
+                <th>Дата регистрации</th>
+                <th>Заказчик</th>
+                <th>Наименование объекта</th>
+                <th>Срок</th>
+                <th>Ответственный</th>
+                <th>Договор</th>
+                <th>Дополнительная информация</th>
+            </tr>
+            <tr style="background: rgba(219, 242, 255, 0.69);">
+                <td class="add" colspan="8">
+                    <form class="form-group" th:action="@{/work/create}">
+                        <button type="submit">Добавить</button>
+                    </form>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="wor : ${work}">
+                <td id="workId" th:text="${wor.id}"></td>
+                <td th:text="${wor.registrationDate}"></td>
+                <td th:text="${wor.customer}"></td>
+                <td th:text="${wor.objectName}"></td>
+                <td>12.12.2012</td>
+                <td class="add_user">
+                    <div>
+                        <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
+                            <input class="userU" th:value="${wor.getUsers[0].getLastName()}"></div>
+                    </div>
+                    <div id="sel">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <i aria-hidden="true" class="fa fa-user-plus" style="color: #4E26BB;"></i>
+                        </a>
+                        <div>
+                            <ul aria-labelledby="logged-in-username" class="dropdown-menu dropdown-menu-right drop_menu">
+                                <li><a class="dropdown-item" style="display:block;" th:each="usr : ${users}"
+                                       th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
+                                       th:text="${usr.getLastName()}"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ico_ok-del" th:unless="${wor.getWorkStatus().getName() == 'NEW'}">
+                            <a th:href="@{/work/sendToArchive/{workId}(workId=${wor.id})}"><i class="fas fa-check-circle"
+                                                             style="color: #26BB50;"></i></a>
+                            <a th:href="@{/work/back/{workId}(workId=${wor.id})}"><i
+                                    class="fas fa-times-circle" style="color: #B00101;"></i></a>
+                    </div>
+                </td>
+                <td th:text="${wor.numberContract}"></td>
+                <td>т. 8-969-989-78-78</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
+<script>
+    $(function () {
+        $('.add_user').each(function () {
+            if ($('#user input', this).val()) {
+                $('#sel', this).hide();
+            } else {
+                $('.ico_ok-del', this).hide();
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
