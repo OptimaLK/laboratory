@@ -57,5 +57,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipmentRepository.deleteById(id);
     }
 
+    public List<Equipment> findAllByCategoryId(Long id){
+        return equipmentRepository.findAllByCategoryId(id);
+    }
 
 }
