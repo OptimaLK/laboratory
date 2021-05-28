@@ -62,7 +62,7 @@ public class WorkServiceImpl implements WorkService, Serializable {
         return workRepository.findAllWorksByUserIdWithStatusName(id, statusName);
     }
 
-    public List<Work> findAllWorksByUserIdWithStatusName(Long id, String statusNameOne, String statusNameTwo) {
-        return workRepository.findAllWorksByUserIdWithStatusName(id, statusNameOne, statusNameTwo);
+    public List<Work> findAllWorksByUserIdWithStatusName(Long id) {
+        return workRepository.findAllWorksByUserIdWithStatusName(id);
     }
 }
