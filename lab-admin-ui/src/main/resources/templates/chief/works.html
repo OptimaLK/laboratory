@@ -16,9 +16,9 @@
             <tr>
                 <th>Номер заявки</th>
                 <th>Дата регистрации</th>
+                <th>Срок исполнения</th>
                 <th>Заказчик</th>
                 <th>Наименование объекта</th>
-                <th>Срок</th>
                 <th>Ответственный</th>
                 <th>Договор</th>
                 <th>Дополнительная информация</th>
@@ -41,9 +41,9 @@
             <tr th:each="wor : ${work}" th:id="work_head">
                 <td id="workId" th:text="${wor.id}"></td>
                 <td th:text="${wor.registrationDate}"></td>
-                <td th:text="${wor.customer}"></td>
+                <th th:text="${wor.deadline}"></th>
+                <td th:text="${wor.clientName}"></td>
                 <td th:text="${wor.objectName}"></td>
-                <td>12.12.2012</td>
                 <td class="add_user" th:value="${wor.getWorkStatus().getName()}">
                     <div>
                         <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
@@ -71,7 +71,7 @@
                     </div>
                 </td>
                 <td th:text="${wor.numberContract}"></td>
-                <td>т. 8-969-989-78-78</td>
+                <td th:text="${wor.additionalInformation}"></td>
                 <td style="display: none" th:id="status" th:text="${wor.getWorkStatus().getName()}"></td>
             </tr>
             </tbody>
