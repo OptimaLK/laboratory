@@ -58,7 +58,7 @@
                                         <strong class="fa fa-fw fa-edit"></strong>
                                     </a>
                                 </div>
-                                <form class="d-inline" th:action="@{/{id}/delete(id=${usr.id})}" th:method="delete">
+                                <form class="d-inline" th:action="@{user/{id}/delete(id=${usr.id})}" th:method="delete">
                                     <button th:onclick="clicked(event, /*[[${usr.lastName}]]*/)"
                                             class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip"
                                             title="Delete">
