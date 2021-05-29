@@ -43,12 +43,16 @@ public class Work implements Serializable {
     )
     private List<User> users;
 
-    @Column(name = "customer")
-    private String customer;
+    @Column(name = "additional_information")
+    private String additionalInformation;
 
 
     @ManyToOne
     @JoinColumn(name="work_status_id", nullable=false)
     private WorkStatus workStatus;
+
+    @Column(name = "deadline")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date deadline;
 
 }
