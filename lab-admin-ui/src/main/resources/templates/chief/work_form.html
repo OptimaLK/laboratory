@@ -32,6 +32,10 @@
                         <input th:field="*{numberContract}" type="text" class="form-control" id="numberContract" placeholder="Введите номер контракта">
                     </div>
                     <div class="form-group">
+                        <label for="deadline">Срок выполнения</label>
+                        <input th:field="*{deadline}" type="date" class="form-control" id="deadline">
+                    </div>
+                    <div class="form-group">
                         <label for="users">Ответственные пользователи</label>
                         <select multiple class="form-control" id="users" th:field="*{users}">
                             <option th:each="user : ${users}"
@@ -41,8 +45,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="customer">Заказчик</label>
-                        <input th:field="*{customer}" type="text" class="form-control" id="customer" placeholder="Введите Дополнительную информацию о заказчике: ФИО, телефон, почта">
+                        <label for="additionalInformation">Дополнительная информация</label>
+                        <input th:field="*{additionalInformation}" type="text" class="form-control" id="additionalInformation" placeholder="Введите Дополнительную информацию о заказчике: ФИО, телефон, почта">
                     </div>
                 </div>
                 <div class="card-footer bg-white">

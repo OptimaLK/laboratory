@@ -16,9 +16,9 @@
             <tr>
                 <th>Номер заявки</th>
                 <th>Дата регистрации</th>
-                <th>Срок исполнения</th>
                 <th>Заказчик</th>
                 <th>Наименование объекта</th>
+                <th>Срок</th>
                 <th>Ответственный</th>
                 <th>Договор</th>
                 <th>Дополнительная информация</th>
@@ -41,9 +41,9 @@
             <tr th:each="wor : ${work}" th:id="work_head">
                 <td id="workId" th:text="${wor.id}"></td>
                 <td th:text="${wor.registrationDate}"></td>
-                <th th:text="${wor.deadline}"></th>
                 <td th:text="${wor.clientName}"></td>
                 <td th:text="${wor.objectName}"></td>
+                <td th:text="${#dates.format(wor.deadline, 'dd-MM-yyyy')}"></td>
                 <td class="add_user" th:value="${wor.getWorkStatus().getName()}">
                     <div>
                         <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
