@@ -9,14 +9,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.optima.beans.PackageEquipments;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Category;
 import ru.optima.repr.EquipmentRepr;
-import ru.optima.service.EquipmentServiceImpl;
-import ru.optima.service.KitService;
-import ru.optima.service.UserService;
+import ru.optima.service.*;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -26,14 +26,25 @@ public class EquipmentController {
 
     private final PathCreator pathCreator;
     private final EquipmentServiceImpl equipmentService;
-    @Autowired
-    private UserService userService;
+    private final CategoryServiceImpl categoryService;
+    private final UserService userService;
 
 
     @GetMapping({"","/"})
     public String equipmentsPage(Model model, Principal principal, SecurityContextHolder auth) {
+        List<Category> categoryList = categoryService.findAll();
         model.addAttribute("activePage", "Equipments");
-        model.addAttribute("equipments", equipmentService.findAll());
+        model.addAttribute("categories", categoryList);
+        model.addAttribute("equipments", equipmentService.findAllByCategoryId(categoryList.get(0).getId()));
+        model.addAttribute("user", userService.findByName(principal.getName()));
+        return pathCreator.createPath(auth, "equipments");
+    }
+
+    @GetMapping("/{id}")
+    public String equipmentsPageWithCategory(Model model, @PathVariable ("id") Long id,  Principal principal, SecurityContextHolder auth) {
+        model.addAttribute("activePage", "Equipments");
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("equipments", equipmentService.findAllByCategoryId(id));
         model.addAttribute("user", userService.findByName(principal.getName()));
         return pathCreator.createPath(auth, "equipments");
     }
