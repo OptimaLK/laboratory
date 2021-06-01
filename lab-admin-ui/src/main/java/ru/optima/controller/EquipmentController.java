@@ -63,12 +63,12 @@ public class EquipmentController {
         }
 
         equipmentService.save(equipment);
-        return pathCreator.createPath(auth) + "/equipments";
+        return "redirect:/equipment";
     }
 
-    @DeleteMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String deleteEquipment(Model model, @PathVariable("id") Long id, SecurityContextHolder auth) {
         equipmentService.delete(id);
-        return pathCreator.createPath(auth) + "/equipments";
+        return "redirect:/equipment";
     }
 }
