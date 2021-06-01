@@ -25,7 +25,9 @@ public class WorkRepr implements Serializable {
     private String objectName;
     private String numberContract;
     private List<User> users;
-    private String customer;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date deadline;
+    private String additionalInformation;
     private WorkStatus workStatus;
 
     public WorkRepr(Work work) {
@@ -35,7 +37,8 @@ public class WorkRepr implements Serializable {
         this.objectName = work.getObjectName();
         this.numberContract = work.getNumberContract();
         this.users = work.getUsers();
-        this.customer = work.getCustomer();
+        this.deadline = work.getDeadline();
+        this.additionalInformation = work.getAdditionalInformation();
         this.workStatus = work.getWorkStatus();
     }
 }
