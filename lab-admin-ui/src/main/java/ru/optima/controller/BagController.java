@@ -85,7 +85,7 @@ public class BagController {
             case "executor": {
                 String userLogin = principal.getName();
                 Long userId = userService.findByName(userLogin).getId();
-                model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId, "NEW", "ON_CHECK"));
+                model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId));
                 break;
             }
             default: {

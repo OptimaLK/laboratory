@@ -20,5 +20,5 @@ public interface WorkService {
 
     void delete(Long id);
 
-    List<Work> findAllWorksByUserIdWithStatusName(Long userId, String aNew, String on_check);
+    List<Work> findAllWorksByUserIdWithStatusName(Long userId);
 }

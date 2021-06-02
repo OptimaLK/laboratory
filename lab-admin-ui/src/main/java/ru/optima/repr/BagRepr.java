@@ -23,7 +23,7 @@ public class BagRepr {
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date birthTime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Timestamp lifeTime;
     private int countHourLifeTime;
     private List<Equipment> equipments;
