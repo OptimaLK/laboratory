@@ -19,4 +19,6 @@ public interface WorkService {
     Optional<WorkRepr> findById(Long id);
 
     void delete(Long id);
+
+    List<Work> findAllWorksByUserIdWithStatusName(Long userId, String aNew, String on_check);
 }

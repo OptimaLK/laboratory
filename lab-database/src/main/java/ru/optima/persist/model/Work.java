@@ -3,6 +3,7 @@ package ru.optima.persist.model;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import ru.optima.persist.model.equipments.Bag;
 import ru.optima.persist.model.equipments.Equipment;
 
 import javax.persistence.*;
@@ -46,9 +47,10 @@ public class Work implements Serializable {
     @Column(name = "customer")
     private String customer;
 
-
     @ManyToOne
     @JoinColumn(name="work_status_id", nullable=false)
     private WorkStatus workStatus;
 
+    @OneToOne(mappedBy = "work")
+    private Bag bag;
 }

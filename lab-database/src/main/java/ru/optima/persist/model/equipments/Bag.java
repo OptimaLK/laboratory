@@ -4,11 +4,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import ru.optima.persist.model.Protocol;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.Work;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +34,8 @@ public class Bag implements Serializable {
     @Column(name = "birth_time")
     private Date birthTime;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "life_time")
-    private Date lifeTime;
+    private Timestamp lifeTime;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinTable(name = "bags_equipments",
@@ -44,11 +46,23 @@ public class Bag implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     private User user;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name = "work_id")
+    private Work work;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinTable(name = "bag_protocol",
+            joinColumns = @JoinColumn(name = "bag_id"),
+            inverseJoinColumns = @JoinColumn(name = "protocol_id"))
+    private List<Protocol> numberProtocol;
+
     public Bag(User user) {
         this.name = "Сумка";
-        this.birthTime = new Date(System.currentTimeMillis());
-        this.lifeTime = new Date(System.currentTimeMillis() + 50000);
+        this.birthTime = null;
+        this.lifeTime = null;
         this.equipments = new ArrayList<>();
         this.user = user;
+        this.work = null;
+        this.numberProtocol = new ArrayList<>();
     }
 }

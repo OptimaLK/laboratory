@@ -15,6 +15,11 @@
                 <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">
                     <button type="btn btn-icon btn-pill btn-danger" >Выложить все оборудование</button>
                 </form>
+                <td class="add" colspan="8">
+                    <form class="form-group" th:action="@{'/bag/form'}">
+                        <button type="submit">Сформировать</button>
+                    </form>
+                </td>
                 <div class="d-flex flex-wrap justify-content-center">
                     <dl th:each="equ : ${equipmentsInLastBag}" class="dl-horizontal attrs">
                         <dt>Название:</dt>
@@ -25,12 +30,9 @@
                         <dd th:text="${equ.verificationNumber}"></dd>
                         <dt>Дата поверки:</dt>
                         <dd th:text="${equ.verificationDateEnd}"></dd>
-                        <div th:switch="${equ.getTaken}">
-                            <form th:case="${false}" class="form-group" th:action="@{'/bag/get/' + ${equ.id}}" method="POST">
+                        <div>
+                            <form class="form-group" th:action="@{'/bag/get/' + ${equ.id}}" method="POST">
                                 <button style="background-color: #ffbebe" type="submit" >Выложить</button>
-                            </form>
-                            <form th:case="*" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
-                                <button type="submit" >Взять</button>
                             </form>
                         </div>
                     </dl>
