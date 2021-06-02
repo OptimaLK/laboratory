@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/executor/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/executor/header :: header"></div>
+
+<div class="d-flex">
+    <form method="post" th:action="@{/bag/registration}">
+        <div class="card mb-4">
+            <div class="card-body">
+                <input th:type="hidden" th:field="${bag.id}">
+                <input th:type="hidden" th:field="${bag.equipments}">
+                <input th:type="hidden" th:field="${bag.user}">
+                <input th:type="hidden" th:field="${bag.numberProtocol}">
+
+
+                <div class="form-group">
+                    <label for="name">Название сумки</label>
+                    <input th:field="${bag.name}" type="text" class="form-control" id="name" placeholder="Сумка №1">
+                </div>
+
+                <div class="form-group">
+                    <label for="lifeTime">Время использования</label>
+                    <input th:field="${bag.countHourLifeTime}" type="number" class="form-control" id="lifeTime" min="1" value="4">
+                </div>
+
+                <div class="form-group">
+                    <label for="countProtocol">Количество протоколов</label>
+                    <input th:field="${bag.countProtocol}" type="number" class="form-control" id="countProtocol" min="1" value="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="work">Заявка</label>
+                    <select multiple class="form-control" id="work" th:field="${bag.work}" required>
+                        <option th:each="wor : ${work}" th:value="${wor.id}">
+                            <td th:text="${wor.id}"></td>
+                            <td th:text="${wor.clientName}"></td>
+                            <td th:text="${wor.objectName}"></td>
+                        </option>
+                    </select>
+                </div>
+                <div class="card-footer bg-white">
+                    <button type="submit" class="btn btn-primary">Регистрация сумки</button>
+                </div>
+        </div>
+    </form>
+</div>
+
+<script th:replace="fragments/chief/footer :: scripts"></script>
+
+</body>
+</html>
