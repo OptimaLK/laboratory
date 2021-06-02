@@ -24,21 +24,27 @@
                 <th>Дополнительная информация</th>
             </tr>
             <tr style="background: rgba(219, 242, 255, 0.69);">
-                <td class="add" colspan="8">
-                    <form class="form-group" th:action="@{/work/create}">
+                <td class="add" colspan="7">
+                    <form th:action="@{/work/create}">
                         <button type="submit">Добавить</button>
                     </form>
+                </td>
+                <td class="add">
+                    <div style="margin: 0; text-align: end;">
+                        <button th:id="archive" type="submit">Архив</button>
+                        <button th:id="back" type="submit">Назад</button>
+                    </div>
                 </td>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="wor : ${work}">
+            <tr th:each="wor : ${work}" th:id="work_head">
                 <td id="workId" th:text="${wor.id}"></td>
                 <td th:text="${wor.registrationDate}"></td>
-                <td th:text="${wor.customer}"></td>
+                <td th:text="${wor.clientName}"></td>
                 <td th:text="${wor.objectName}"></td>
-                <td>12.12.2012</td>
-                <td class="add_user">
+                <td th:text="${#dates.format(wor.deadline, 'dd-MM-yyyy')}"></td>
+                <td class="add_user" th:value="${wor.getWorkStatus().getName()}">
                     <div>
                         <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
                             <input class="userU" th:value="${wor.getUsers[0].getLastName()}"></div>
@@ -48,22 +54,25 @@
                             <i aria-hidden="true" class="fa fa-user-plus" style="color: #4E26BB;"></i>
                         </a>
                         <div>
-                            <ul aria-labelledby="logged-in-username" class="dropdown-menu dropdown-menu-right drop_menu">
+                            <ul aria-labelledby="logged-in-username"
+                                class="dropdown-menu dropdown-menu-right drop_menu">
                                 <li><a class="dropdown-item" style="display:block;" th:each="usr : ${users}"
                                        th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
                                        th:text="${usr.getLastName()}"></a></li>
                             </ul>
                         </div>
                     </div>
-                    <div class="ico_ok-del" th:unless="${wor.getWorkStatus().getName() == 'NEW'}">
-                            <a th:href="@{/work/sendToArchive/{workId}(workId=${wor.id})}"><i class="fas fa-check-circle"
-                                                             style="color: #26BB50;"></i></a>
-                            <a th:href="@{/work/back/{workId}(workId=${wor.id})}"><i
-                                    class="fas fa-times-circle" style="color: #B00101;"></i></a>
+                    <div class="ico_ok-del" th:if="!${wor.getWorkStatus().getName() == 'COMPLETED'}"
+                         th:unless="${wor.getWorkStatus().getName() == 'NEW'}">
+                        <a th:href="@{/work/sendToArchive/{workId}(workId=${wor.id})}"><i class="fas fa-check-circle"
+                                                                                          style="color: #26BB50;"></i></a>
+                        <a th:href="@{/work/back/{workId}(workId=${wor.id})}"><i
+                                class="fas fa-times-circle" style="color: #B00101;"></i></a>
                     </div>
                 </td>
                 <td th:text="${wor.numberContract}"></td>
-                <td>т. 8-969-989-78-78</td>
+                <td th:text="${wor.additionalInformation}"></td>
+                <td style="display: none" th:id="status" th:text="${wor.getWorkStatus().getName()}"></td>
             </tr>
             </tbody>
         </table>
@@ -79,6 +88,38 @@
             } else {
                 $('.ico_ok-del', this).hide();
             }
+        });
+    });
+    $(function () {
+        $('tr#work_head').each(function () {
+            if ($('td#status', this).text() === 'COMPLETED') {
+                $(this).css('background', 'rgba(128, 128, 128, 0.27)');
+                $('input.userU', this).css('background', 'rgb(128 128 128 / 0%)');
+                $(this).hide();
+                $('button#back').hide();
+            }
+        });
+    });
+    $(function () {
+        $('button#archive').on('click', function () {
+            $('tr#work_head').each(function () {
+                if ($('td#status', this).text() === 'COMPLETED')
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+            $('button#back').show();
+            $('button#archive').hide();
+        });
+        $('button#back').on('click', function () {
+            $('tr#work_head').each(function () {
+                if ($('td#status', this).text() !== 'COMPLETED')
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+            $('button#back').hide();
+            $('button#archive').show();
         });
     });
 </script>

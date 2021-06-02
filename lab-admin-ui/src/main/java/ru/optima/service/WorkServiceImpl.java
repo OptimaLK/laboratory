@@ -28,11 +28,12 @@ public class WorkServiceImpl implements WorkService, Serializable {
         Work work = new Work();
         work.setId(workRepr.getId());
         work.setClientName(workRepr.getClientName());
-        work.setCustomer(workRepr.getCustomer());
+        work.setAdditionalInformation(workRepr.getAdditionalInformation());
         work.setNumberContract(workRepr.getNumberContract());
         work.setObjectName(workRepr.getObjectName());
         work.setRegistrationDate(workRepr.getRegistrationDate());
         work.setUsers(workRepr.getUsers());
+        work.setDeadline(workRepr.getDeadline());
         work.setWorkStatus(workRepr.getWorkStatus());
         workRepository.save(work);
     }
@@ -62,7 +63,7 @@ public class WorkServiceImpl implements WorkService, Serializable {
         return workRepository.findAllWorksByUserIdWithStatusName(id, statusName);
     }
 
-    public List<Work> findAllWorksByUserIdWithStatusName(Long id, String statusNameOne, String statusNameTwo) {
-        return workRepository.findAllWorksByUserIdWithStatusName(id, statusNameOne, statusNameTwo);
+    public List<Work> findAllWorksByUserIdWithStatusName(Long id) {
+        return workRepository.findAllWorksByUserIdWithStatusName(id);
     }
 }

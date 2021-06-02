@@ -9,10 +9,9 @@
 
 <div th:replace="fragments/executor/header :: header"></div>
 
-<div>
-    <form method="GET" th:action="@{/work/archive}">
-        <button type="submit" class="button_arc">Архив</button>
-    </form>
+<div class="button_arc">
+    <button th:id="archive" type="submit">Архив</button>
+    <button th:id="back" type="submit">Назад</button>
 </div>
 <div class="d-flex justify-content-center">
     <div class="work_attrs">
@@ -22,16 +21,14 @@
                 <dd th:text="${wor.id}"></dd>
                 <dt>Дата регистрации:</dt>
                 <dd th:text="${wor.registrationDate}"></dd>
-                <dt>Заказчик:</dt>
-                <dd th:text="${wor.customer}"></dd>
+                <dt>Договор:</dt>
+                <dd th:text="${wor.numberContract}"></dd>
+                <dt>Доп. инфо:</dt>
+                <dd th:text="${wor.additionalInformation}"></dd>
                 <dt>Объект:</dt>
                 <dd th:text="${wor.objectName}"></dd>
                 <dt>Срок:</dt>
-                <dd>04.05.2021</dd>
-                <dt>Договор:</dt>
-                <dd th:text="${wor.numberContract}"></dd>
-                <dt>Доп. информация:</dt>
-                <dd>т. 8-999-999-99-99</dd>
+                <dd th:text="${wor.deadline}"></dd>
                 <dt>Команда:</dt>
                 <dd class="d-flex justify-content-between add_user" style="width: 185px;">
                     <div>
@@ -39,7 +36,7 @@
                             <li th:each="user : ${wor.users}" th:text="${user.lastName}"></li>
                         </ul>
                     </div>
-                    <div th:id="addU">
+                    <div th:id="addU" th:if="${wor.getWorkStatus().getName() == 'NEW'}">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
                             <i aria-hidden="true" class="fa fa-user-plus"></i>
                         </a>
@@ -56,10 +53,12 @@
                 </dd>
             </div>
             <div th:switch="${wor.getWorkStatus().getName()}">
-                <form method="POST" th:action="@{/work/{id}/done(id=${wor.id})}" th:case="@{'NEW'}">
+                <form method="POST" th:action="@{/work/{id}/done(id=${wor.id})}" th:case="${'NEW'}">
                     <button type="submit">На проверку</button>
                 </form>
-                <button th:id="onCheck" style="background-color: #ffbebe" th:case="${'ON_CHECK'}" type="submit">На проверке</button>
+                <label class="good" th:id="onCheck" th:case="${'ON_CHECK'}">На проверке</label>
+                <label class="good" th:id="completed" th:case="${'COMPLETED'}" style="background: rgb(208 208 208);">Выполнено</label>
+                <label style="display: none" th:id="status" th:text="${wor.getWorkStatus().getName()}"></label>
             </div>
         </dl>
     </div>
@@ -69,19 +68,24 @@
 <script>
     $(function () {
         $('.work_head').each(function () {
-            const head = this;
-            if ($('button#onCheck', this).text() === 'На проверке'){
+            if ($('label#onCheck', this).text() === 'На проверке'){
                 $(this).css('background-color', 'rgb(138 249 152 / 48%)');
-                $('button#onCheck', this).css('background-color', 'rgb(123 236 121)');
+                $('label#onCheck', this).css('background-color', 'rgb(123 236 121 0)');
+            }
+            if ($('label#completed', this).text() === 'Выполнено') {
+                $(this).css('background-color', 'rgb(208 208 208)');
+                $('label#completed', this).css('background-color', 'rgb(208 208 208 0)');
+                $(this).hide();
+                $('button#back').hide();
             }
         })
     });
     $(function () {
         $('.add_user').each(function () {
-            var master = this;
+            const master = this;
             $('#addU a', master).on('click', function () {
                 $('#team li', master).each(function () {
-                    var te = this;
+                    const te = this;
                     $('#menu a', master).each(function () {
                         if ($(this).text() === $(te).text()) {
                             $(this).hide();
@@ -89,6 +93,28 @@
                     })
                 })
             })
+        });
+    });
+    $(function () {
+        $('button#archive').on('click', function () {
+            $('dl.work_head').each(function () {
+                if ($('label#status', this).text() === 'COMPLETED')
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+            $('button#back').show();
+            $('button#archive').hide();
+        });
+        $('button#back').on('click', function () {
+            $('dl.work_head').each(function () {
+                if ($('label#status', this).text() !== 'COMPLETED')
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+            $('button#back').hide();
+            $('button#archive').show();
         });
     });
 </script>
