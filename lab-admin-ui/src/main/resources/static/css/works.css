@@ -55,15 +55,16 @@ table td {
 }
 
 .dark {
-   border: none;
-   text-align: center;
+    border: none;
+    text-align: center;
     background: rgba(192, 247, 255, 0);
 }
 
 .light {
-   border: none;
-   text-align: center;
-   background: #E6FCFF;
+    border: none;
+    text-align: center;
+    background: #E6FCFF;
+}
 
 .archive {
     border: none;
