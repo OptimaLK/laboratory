@@ -47,7 +47,7 @@ public class WorkController {
             case "executor": {
                 String userLogin = principal.getName();
                 Long userId = userService.findByName(userLogin).getId();
-                model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId, "NEW", "ON_CHECK"));
+                model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId));
                 break;
             }
             default: {
@@ -86,15 +86,6 @@ public class WorkController {
     public String deleteWork(@PathVariable("id") Long id) {
         workService.delete(id);
         return "redirect:/work";
-    }
-
-    @GetMapping ("/archive")
-    private String getArchive( Model model, SecurityContextHolder auth, Principal principal) {
-        model.addAttribute("activePage", "Archive");
-        String userLogin = principal.getName();
-        Long userId = userService.findByName(userLogin).getId();
-        model.addAttribute("work", workService.findAllWorksByUserIdWithStatusName(userId, "COMPLETED"));
-        return pathCreator.createPath(auth, "archive");
     }
 
     @PostMapping ("/{id}/done")
@@ -140,6 +131,14 @@ public class WorkController {
     private void getBackWok( @PathVariable ("id") Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         WorkRepr work = workService.findWorkById(id);
         work.setWorkStatus(workStatusService.findByName("NEW"));
+        workService.save(work);
+        response.sendRedirect(request.getHeader("referer"));
+    }
+
+    @GetMapping ("/sendToArchive/{id}")
+    private void sendToArchive( @PathVariable ("id") Long id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        WorkRepr work = workService.findWorkById(id);
+        work.setWorkStatus(workStatusService.findByName("COMPLETED"));
         workService.save(work);
         response.sendRedirect(request.getHeader("referer"));
     }

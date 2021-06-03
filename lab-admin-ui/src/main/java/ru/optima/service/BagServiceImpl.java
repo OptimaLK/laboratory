@@ -1,15 +1,19 @@
 package ru.optima.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.optima.persist.model.Protocol;
 import ru.optima.persist.model.User;
 import ru.optima.persist.model.equipments.Bag;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.persist.repo.BagRepository;
-import ru.optima.persist.repo.EquipmentRepository;
-import ru.optima.persist.repo.UserRepository;
+import ru.optima.persist.repo.ProtocolRepository;
 import ru.optima.repr.BagRepr;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +22,11 @@ import java.util.stream.Collectors;
 public class BagServiceImpl implements BagService{
 
     private BagRepository bagRepository;
+    private ProtocolRepository protocolRepository;
 
-    public BagServiceImpl(BagRepository bagRepository) {
+    public BagServiceImpl(BagRepository bagRepository, ProtocolRepository protocolRepository) {
         this.bagRepository = bagRepository;
+        this.protocolRepository = protocolRepository;
     }
 
     @Override
@@ -56,12 +62,21 @@ public class BagServiceImpl implements BagService{
         }
     }
 
+
     @Override
     public List<Equipment> findAllEquipments(User user) {
         if (user.getBags().size() == 0)
             return null;
         Bag lastBag = user.getBags().get(user.getBags().size() - 1);
         return lastBag.getEquipments();
+    }
+
+    @Override
+    public List<Equipment> findAllEquipmentsFirstBag(User user) {
+        if (user.getBags().size() == 0)
+            return null;
+        Bag firstBag = user.getBags().get(0);
+        return firstBag.getEquipments();
     }
 
     @Override
@@ -75,6 +90,41 @@ public class BagServiceImpl implements BagService{
         }
         bagRepository.save(lastBag);
     }
+
+    @Override
+    public Bag createBagReprByBag(Bag bag) {
+        return bag;
+    }
+
+    @Override
+    public void createNewBagAndSaveOldBag(BagRepr bag) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new java.util.Date());
+        calendar.add(Calendar.HOUR, bag.getCountHourLifeTime());
+        Bag bagUser = new Bag();
+        bagUser.setId(bag.getId());
+        bagUser.setName(bag.getName());
+        bagUser.setBirthTime(new Date(System.currentTimeMillis()));
+        bagUser.setLifeTime(new Timestamp(calendar.getTimeInMillis()));
+        bagUser.setEquipments(bag.getEquipments());
+        bagUser.setUser(bag.getUser());
+        bagUser.setWork(bag.getWork());
+        bagUser.setNumberProtocol(bag.getNumberProtocol());
+        for (int i = 0; i < bag.getCountProtocol(); i++) {
+            Protocol protocol = new Protocol();
+            bagUser.getNumberProtocol().add(protocol);
+        }
+        bagRepository.save(bagUser);
+    }
+
+    @Override
+    public BagRepr createBagReprAndAddUserAndEquipments(User user, List<Equipment> equipments) {
+        BagRepr bagRepr = new BagRepr();
+        bagRepr.setUser(user);
+        bagRepr.setEquipments(equipments);
+        return bagRepr;
+    }
+
 
     @Override
     public List<BagRepr> findAll() {
