@@ -16,12 +16,12 @@
             <tr>
                 <th>Номер заявки</th>
                 <th>Дата регистрации</th>
-                <th>Заказчик</th>
-                <th>Наименование объекта</th>
+                <th style="min-width: 200px;">Заказчик</th>
+                <th style="max-width: 500px;">Наименование объекта</th>
                 <th>Срок</th>
                 <th>Ответственный</th>
                 <th>Договор</th>
-                <th>Дополнительная информация</th>
+                <th colspan="2">Дополнительная информация</th>
             </tr>
             <tr style="background: rgba(219, 242, 255, 0.69);">
                 <td class="add" colspan="7">
@@ -29,7 +29,7 @@
                         <button type="submit">Добавить</button>
                     </form>
                 </td>
-                <td class="add">
+                <td class="add" colspan="2">
                     <div style="margin: 0; text-align: end;">
                         <button th:id="archive" type="submit">Архив</button>
                         <button th:id="back" type="submit">Назад</button>
@@ -39,15 +39,15 @@
             </thead>
             <tbody>
             <tr th:each="wor : ${work}" th:id="work_head">
-                <td id="workId" th:text="${wor.id}"></td>
-                <td th:text="${wor.registrationDate}"></td>
-                <td th:text="${wor.clientName}"></td>
-                <td th:text="${wor.objectName}"></td>
-                <td th:text="${#dates.format(wor.deadline, 'dd-MM-yyyy')}"></td>
-                <td class="add_user" th:value="${wor.getWorkStatus().getName()}">
+                <td style="max-width: 60px" class="userU"  th:text="${wor.id}"></td>
+                <td style="max-width: 90px" th:text="${wor.registrationDate}"></td>
+                <td style="min-width: 200px;" th:text="${wor.clientName}"></td>
+                <td style="max-width: 500px;" th:text="${wor.objectName}"></td>
+                <td style="max-width: 90px" th:text="${wor.deadline}"></td>
+                <td class="add_user">
                     <div>
                         <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
-                            <input class="userU" th:value="${wor.getUsers[0].getLastName()}"></div>
+                            <input class="userU" readonly th:value="${wor.getUsers[0].getLastName()}"></div>
                     </div>
                     <div id="sel">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -70,9 +70,22 @@
                                 class="fas fa-times-circle" style="color: #B00101;"></i></a>
                     </div>
                 </td>
-                <td th:text="${wor.numberContract}"></td>
+                <td style="max-width: 140px" th:text="${wor.numberContract}"></td>
                 <td th:text="${wor.additionalInformation}"></td>
-                <td style="display: none" th:id="status" th:text="${wor.getWorkStatus().getName()}"></td>
+                <td th:id="status" style="max-width: 50px">
+                    <div class="ico_ok-del">
+                        <div style="padding-right: 10px;">
+                            <a id="edit" th:href="@{/work/{workId}/edit(workId=${wor.id})}" type="submit"><i
+                                    class="fas fa-edit" style="color: #4E26BB;"></i></a>
+                        </div>
+                        <div>
+                            <a id="del" th:href="@{/work/{workId}/delete(workId=${wor.id})}" type="submit"><i
+                                    class="fas fa-trash-alt" style="color: #B00101;"></i></a>
+                        </div>
+                    </div>
+                    <input  style="display: none" th:name="status"
+                            th:value="${wor.getWorkStatus().getName()}">
+                </td>
             </tr>
             </tbody>
         </table>
@@ -84,42 +97,48 @@
     $(function () {
         $('.add_user').each(function () {
             if ($('#user input', this).val()) {
-                $('#sel', this).hide();
+                $('#sel', this).addClass('hide');
             } else {
-                $('.ico_ok-del', this).hide();
+                $('.ico_ok-del', this).addClass('hide');
             }
         });
     });
     $(function () {
         $('tr#work_head').each(function () {
-            if ($('td#status', this).text() === 'COMPLETED') {
+            if ($('td#status input', this).val() === 'COMPLETED') {
                 $(this).css('background', 'rgba(128, 128, 128, 0.27)');
-                $('input.userU', this).css('background', 'rgb(128 128 128 / 0%)');
-                $(this).hide();
-                $('button#back').hide();
+                $('td.add_user div div#user input', this).addClass('archive');
+                $(this).addClass('hide');
+                $('button#back').addClass('hide');
             }
         });
+        $('tr#work_head:not(.hide):odd').addClass('dark');
+        $('tr#work_head:not(.hide):even').addClass('light');
+        $('tr#work_head:not(.hide):odd input').addClass('dark');
+        $('tr#work_head:not(.hide):even input').addClass('light');
     });
     $(function () {
         $('button#archive').on('click', function () {
             $('tr#work_head').each(function () {
-                if ($('td#status', this).text() === 'COMPLETED')
-                    $(this).show();
+                if ($('td#status input', this).val() === 'COMPLETED')
+                    $(this).removeClass('hide');
                 else
-                    $(this).hide();
+                    $(this).addClass('hide');
             });
-            $('button#back').show();
-            $('button#archive').hide();
+            $('button#back').removeClass('hide');
+            $('button#archive').addClass('hide');
+            $('div.ico_ok-del div').addClass('hide');
         });
         $('button#back').on('click', function () {
             $('tr#work_head').each(function () {
-                if ($('td#status', this).text() !== 'COMPLETED')
-                    $(this).show();
+                if ($('td#status input', this).val() !== 'COMPLETED')
+                    $(this).removeClass('hide');
                 else
-                    $(this).hide();
+                    $(this).addClass('hide');
             });
-            $('button#back').hide();
-            $('button#archive').show();
+            $('button#back').addClass('hide');
+            $('button#archive').removeClass('hide');
+            $('div.ico_ok-del div').removeClass('hide');
         });
     });
 </script>
