@@ -21,4 +21,5 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     @Query( "select distinct w from Work w join w.users u where u.id = ?1 order by w.registrationDate desc")
     List<Work> findAllWorksByUserIdWithStatusName(Long id);
+
 }

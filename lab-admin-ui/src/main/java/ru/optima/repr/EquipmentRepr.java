@@ -3,6 +3,7 @@ package ru.optima.repr;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import ru.optima.persist.model.equipments.Category;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.persist.model.User;
 
@@ -24,6 +25,7 @@ public class EquipmentRepr {
     private boolean activ;
     private Boolean taken;
     private String nameUserWhoTakenEquipment;
+    private Category category;
 
     public EquipmentRepr(Equipment equipment) {
         this.id = equipment.getId();
@@ -35,8 +37,8 @@ public class EquipmentRepr {
         this.verificationDateEnd = equipment.getVerificationDateEnd();
         this.activ = equipment.isActiv();
         this.taken = equipment.getTaken();
-        this.activ = equipment.isActiv();
         this.nameUserWhoTakenEquipment = equipment.getNameUserWhoTakenEquipment();
+        this.category = equipment.getCategory();
     }
 }
 
