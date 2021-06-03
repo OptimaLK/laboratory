@@ -41,9 +41,9 @@
             <tr th:each="wor : ${work}" th:id="work_head">
                 <td style="max-width: 60px" class="userU"  th:text="${wor.id}"></td>
                 <td style="max-width: 90px" th:text="${wor.registrationDate}"></td>
-                <td style="min-width: 200px;" th:text="${wor.customer}"></td>
+                <td style="min-width: 200px;" th:text="${wor.clientName}"></td>
                 <td style="max-width: 500px;" th:text="${wor.objectName}"></td>
-                <td style="max-width: 90px" th:text="12.12.2012"></td>
+                <td style="max-width: 90px" th:text="${wor.deadline}"></td>
                 <td class="add_user">
                     <div>
                         <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
@@ -71,7 +71,7 @@
                     </div>
                 </td>
                 <td style="max-width: 140px" th:text="${wor.numberContract}"></td>
-                <td th:text="${wor.clientName}"></td>
+                <td th:text="${wor.additionalInformation}"></td>
                 <td th:id="status" style="max-width: 50px">
                     <div class="ico_ok-del">
                         <div style="padding-right: 10px;">
