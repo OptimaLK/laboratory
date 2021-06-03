@@ -58,8 +58,9 @@
                                         <strong class="fa fa-fw fa-edit"></strong>
                                     </a>
                                 </div>
-                                <form class="d-inline" th:action="@{/{id}/delete(id=${usr.id})}" th:method="delete">
-                                    <button class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip"
+                                <form class="d-inline" th:action="@{user/{id}/delete(id=${usr.id})}" th:method="delete">
+                                    <button th:onclick="clicked(event, /*[[${usr.lastName}]]*/)"
+                                            class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip"
                                             title="Delete">
                                         <em class="fa fa-fw fa-trash"></em>
                                     </button>
@@ -75,6 +76,13 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
-
+<script>
+    function clicked(e, user){
+        var text = 'Вы уверены, что хотите удалить пользователя ' + user +  ' ?';
+        if(!confirm(text)) {
+            e.preventDefault();
+        }
+    }
+</script>
 </body>
 </html>
