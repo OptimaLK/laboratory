@@ -23,7 +23,7 @@
                         <dt>Зав. №:</dt>
                         <dd th:text="${equ.factoryNumber}"></dd>
                         <dt>Свидетельство:</dt>
-                        <dd  th:text="${equ.verificationNumber}"></dd>
+                        <dd th:text="${equ.verificationNumber}"></dd>
                         <dt>Дата поверки:</dt>
                         <dd th:id="verDate" th:text="${equ.verificationDateEnd}"></dd>
                         <div th:switch="${equ.getTaken}">
@@ -55,16 +55,22 @@
 
 <script th:replace="fragments/executor/footer :: scripts"></script>
 <script >
+      var date = new Date();
+      var dateForAlert = new Date();
+      dateForAlert.setDate(date.getDate() + 30);
       $(function () {
             $('.attrs').each(function() {
-                if(new Date($('dd#verDate', this).text()) <= new Date()){
-                    $(this).css('background-color', '#ffbebe');
-                    $('button#get', this).hide();
-                    $('button#take', this).hide();
-                    $('button#all', this).hide();
-                    $('label#needVer', this).show();
-                } else {
-                    $('label#needVer', this).hide();
+                if(new Date($('dd#verDate', this).text()) <= dateForAlert) {
+                    if(new Date($('dd#verDate', this).text()) <= date){
+                        $(this).css('background-color', '#ffbebe');
+                        $('button#get', this).hide();
+                        $('button#take', this).hide();
+                        $('button#all', this).hide();
+                        $('label#needVer', this).show();
+                    } else {
+                        $(this).css('background-color', '#f3de82e8');
+                        $('dd#verDate', this).css('color', '#ff110a');
+                    }
                 }
             })
       });
