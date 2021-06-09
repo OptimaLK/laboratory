@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
-
+<link rel="stylesheet" th:href="@{/css/equipments.css}">
 <head th:replace="fragments/chief/header :: head"></head>
 
 <body class="bg-light">
@@ -28,7 +28,7 @@
                                 <dt>Свидетельство:</dt>
                                 <dd th:text="${equ.verificationNumber}"></dd>
                                 <dt>Дата поверки:</dt>
-                                <dd th:text="${equ.verificationDateEnd}"></dd>
+                                <dd id="verDate" th:text="${equ.verificationDateEnd}"></dd>
                             </div>
                             <div class="ico_ok-del edit">
                                 <div style="padding-right: 10px;">
@@ -43,11 +43,12 @@
                         </div>
                         <div th:switch="${equ.isActiv}">
                             <form class="form-group" th:case="${false}">
-                                <button type="submit">Взять</button>
+                                <button id="get" type="submit">Взять</button>
                             </form>
                             <form class="form-group" th:case="${true}">
                                 <button style="display: none" type="submit"></button>
                             </form>
+                            <label class="alertlabel" id="needVer">Требует поверки</label>
                         </div>
                         <form th:action="@{'/verification/app_verification/' + ${equ.id}}"
                               th:object="${equipments}">
@@ -64,6 +65,24 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
-
+<script >
+      var date = new Date();
+      var dateForAlert = new Date();
+      dateForAlert.setDate(date.getDate() + 30);
+      $(function () {
+            $('.attrs').each(function() {
+                if(new Date($('dd#verDate', this).text()) <= dateForAlert) {
+                    if(new Date($('dd#verDate', this).text()) <= date){
+                        $(this).css('background-color', '#ffbebe');
+                        $('button#get', this).hide();
+                        $('label#needVer', this).show();
+                    } else {
+                        $(this).css('background-color', '#f3de82e8');
+                        $('dd#verDate', this).css('color', '#ff110a');
+                    }
+                }
+            })
+      });
+</script>
 </body>
 </html>
