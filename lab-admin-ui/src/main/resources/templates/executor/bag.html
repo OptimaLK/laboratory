@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 
 <head th:replace="fragments/executor/header :: head"></head>
 
@@ -12,16 +12,18 @@
     <div class="content">
         <div class="card mb-4">
             <div class="card-body">
-                <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">
-                    <button type="btn btn-icon btn-pill btn-danger" >Выложить все оборудование</button>
-                </form>
-                <td class="add" colspan="8">
-                    <form class="form-group" th:action="@{'/bag/form'}">
-                        <button type="submit">Сформировать</button>
+                <div class="attrs" style="background: none; margin: auto;">
+                    <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">
+                        <button style="width: 100%; margin-bottom: 15px;" type="btn btn-icon btn-pill btn-danger">
+                            Выложить все оборудование
+                        </button>
                     </form>
-                </td>
+                    <form class="form-group" th:action="@{'/bag/form'}">
+                        <button style="width: 100%; margin: 0;" type="submit">Сформировать</button>
+                    </form>
+                </div>
                 <div class="d-flex flex-wrap justify-content-center">
-                    <dl th:each="equ : ${equipmentsInLastBag}" class="dl-horizontal attrs">
+                    <dl class="dl-horizontal attrs" th:each="equ : ${equipmentsInLastBag}">
                         <dt>Название:</dt>
                         <dd th:text="${equ.name}"></dd>
                         <dt>Зав. №:</dt>
@@ -31,8 +33,8 @@
                         <dt>Дата поверки:</dt>
                         <dd th:text="${equ.verificationDateEnd}"></dd>
                         <div>
-                            <form class="form-group" th:action="@{'/bag/get/' + ${equ.id}}" method="POST">
-                                <button style="background-color: #ffbebe" type="submit" >Выложить</button>
+                            <form class="form-group" method="POST" th:action="@{'/bag/get/' + ${equ.id}}">
+                                <button style="background-color: #ffbebe" type="submit">Выложить</button>
                             </form>
                         </div>
                     </dl>
