@@ -65,4 +65,14 @@ public class Bag implements Serializable {
         this.work = null;
         this.numberProtocol = new ArrayList<>();
     }
+
+    public void setBag(User user) {
+        this.name = "Сумка";
+        this.birthTime = null;
+        this.lifeTime = null;
+        this.equipments = new ArrayList<>();
+        this.user = user;
+        this.work = null;
+        this.numberProtocol = new ArrayList<>();
+    }
 }
