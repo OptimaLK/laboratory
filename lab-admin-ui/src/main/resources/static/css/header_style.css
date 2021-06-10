@@ -75,8 +75,21 @@ a:hover {
     text-shadow: 4px 2px 8px rgb(3 0 172 / 10%);
 }
 
+.card_flex {
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.edit {
+    display: flex;
+    justify-content: space-around;
+    margin-right: 15px;
+}
+
 .attrs {
-    width: 350px;
+    width: 400px;
     margin: 25px 20px 0 0;
     padding: 12px 0 14px;
     overflow: hidden;
@@ -97,13 +110,14 @@ a:hover {
 }
 
 .attrs dd {
-    margin: 0 18px 0 125px;
+    margin: 0 5px 0 125px;
     text-align: start;
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
     color: #000000;
     padding: 0 0 15px 15px;
+    width: 200px;
 }
 
 .attrs button {

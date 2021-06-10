@@ -37,6 +37,7 @@ public class WorkController {
     public String workPage(Model model, SecurityContextHolder auth, Principal principal) {
         model.addAttribute("activePage", "Works");
         model.addAttribute("users", userService.findAllUserWhoHasRole("ROLE_EXECUTOR"));
+        model.addAttribute("workEdit", new WorkRepr());
 
 //      для каждой роли (роль маленькими буквами) пользователя на клиент передается свой набор данных
         switch (pathCreator.getRole(auth)) {
@@ -82,7 +83,7 @@ public class WorkController {
         return pathCreator.createPath(auth, "work_form");
     }
 
-    @DeleteMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String deleteWork(@PathVariable("id") Long id) {
         workService.delete(id);
         return "redirect:/work";
@@ -141,5 +142,16 @@ public class WorkController {
         work.setWorkStatus(workStatusService.findByName("COMPLETED"));
         workService.save(work);
         response.sendRedirect(request.getHeader("referer"));
+    }
+
+    @GetMapping("/editSave")
+    public String editSave(@ModelAttribute("workEdit") WorkRepr workEdit) {
+        WorkRepr workRepr = workService.findById(workEdit.getId()).orElseThrow(NotFoundException::new);
+        workRepr.setClientName(workEdit.getClientName());
+        workRepr.setObjectName(workEdit.getObjectName());
+        workRepr.setNumberContract(workEdit.getNumberContract());
+        workRepr.setAdditionalInformation(workEdit.getAdditionalInformation());
+        workService.save(workRepr);
+        return "redirect:/work";
     }
 }

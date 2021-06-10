@@ -23,6 +23,7 @@ public class BagServiceImpl implements BagService{
 
     private BagRepository bagRepository;
     private ProtocolRepository protocolRepository;
+    private Bag bag;
 
     public BagServiceImpl(BagRepository bagRepository, ProtocolRepository protocolRepository) {
         this.bagRepository = bagRepository;
@@ -34,7 +35,9 @@ public class BagServiceImpl implements BagService{
         equipment.setNameUserWhoTakenEquipment(user.getLastName());
         List<Bag> bags = user.getBags();
         if (bags.size() == 0){
-            bags.add(new Bag(user));
+            bag = new Bag();
+            bag.setBag(user);
+            bags.add(bag);
         }
         if (equipment.getTaken() == null || equipment.getTaken()) {
             equipment.setTaken(false);
@@ -98,23 +101,33 @@ public class BagServiceImpl implements BagService{
 
     @Override
     public void createNewBagAndSaveOldBag(BagRepr bag) {
+        List<Bag> bagList = bagRepository.findAll();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new java.util.Date());
         calendar.add(Calendar.HOUR, bag.getCountHourLifeTime());
-        Bag bagUser = new Bag();
-        bagUser.setId(bag.getId());
-        bagUser.setName(bag.getName());
-        bagUser.setBirthTime(new Date(System.currentTimeMillis()));
-        bagUser.setLifeTime(new Timestamp(calendar.getTimeInMillis()));
-        bagUser.setEquipments(bag.getEquipments());
-        bagUser.setUser(bag.getUser());
-        bagUser.setWork(bag.getWork());
-        bagUser.setNumberProtocol(bag.getNumberProtocol());
+        for(int i = 0; i < bagList.size() - 1; i++) {
+            if(bagList.get(i).getWork() == null && bagList.get(i).getUser().getId().equals(bag.getUser().getId())) {
+                if(this.bag == null) {
+                    this.bag = new Bag();
+                    this.bag.setBag(bagList.get(i).getUser());
+                }
+                this.bag.setId(bagList.get(i).getId());
+                break;
+            }
+        }
+//        this.bag.setId(bag.getId());
+        this.bag.setName(bag.getName());
+        this.bag.setBirthTime(new Date(System.currentTimeMillis()));
+        this.bag.setLifeTime(new Timestamp(calendar.getTimeInMillis()));
+        this.bag.setEquipments(bag.getEquipments());
+        this.bag.setUser(bag.getUser());
+        this.bag.setWork(bag.getWork());
+        this.bag.setNumberProtocol(bag.getNumberProtocol());
         for (int i = 0; i < bag.getCountProtocol(); i++) {
             Protocol protocol = new Protocol();
-            bagUser.getNumberProtocol().add(protocol);
+            this.bag.getNumberProtocol().add(protocol);
         }
-        bagRepository.save(bagUser);
+        bagRepository.save(this.bag);
     }
 
     @Override
