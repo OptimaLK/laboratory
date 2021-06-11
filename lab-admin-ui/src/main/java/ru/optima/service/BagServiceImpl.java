@@ -1,6 +1,5 @@
 package ru.optima.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.optima.persist.model.Protocol;
@@ -8,7 +7,6 @@ import ru.optima.persist.model.User;
 import ru.optima.persist.model.equipments.Bag;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.persist.repo.BagRepository;
-import ru.optima.persist.repo.ProtocolRepository;
 import ru.optima.repr.BagRepr;
 
 import java.sql.Date;
@@ -22,11 +20,9 @@ import java.util.stream.Collectors;
 public class BagServiceImpl implements BagService{
 
     private BagRepository bagRepository;
-    private ProtocolRepository protocolRepository;
 
-    public BagServiceImpl(BagRepository bagRepository, ProtocolRepository protocolRepository) {
+    public BagServiceImpl(BagRepository bagRepository) {
         this.bagRepository = bagRepository;
-        this.protocolRepository = protocolRepository;
     }
 
     @Override
