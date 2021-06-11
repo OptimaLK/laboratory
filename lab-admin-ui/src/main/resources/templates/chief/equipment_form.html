@@ -13,7 +13,7 @@
         <h2 class="mb-4" th:if="${edit}" >Изменить оборудлвание</h2>
         <h2 class="mb-4" th:if="${create}" >Создать оборудлвание</h2>
 
-        <form th:object="${equipment}" method="post" th:action="@{/equipment/create}">
+        <form th:object="${equipment}" method="post" th:action="@{/equipment}">
             <div class="card mb-4">
                 <div class="card-body">
                     <input th:type="hidden" th:field="*{id}">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="form-group">
                         <label for="inventoruNumber">Инвентарный номер</label>
-                        <input th:field="*{inventoruNumber}" type="text" class="form-control" id="inventoruNumber" placeholder="Введите инвентарный номер" required>
+                        <input th:field="*{inventoryNumber}" type="text" class="form-control" id="inventoruNumber" placeholder="Введите инвентарный номер" required>
                     </div>
                     <div class="form-group">
                         <label for="factoryNumber">Заводской номер</label>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
             </div>
         </form>

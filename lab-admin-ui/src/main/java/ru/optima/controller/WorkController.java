@@ -82,7 +82,7 @@ public class WorkController {
         return pathCreator.createPath(auth, "work_form");
     }
 
-    @DeleteMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String deleteWork(@PathVariable("id") Long id) {
         workService.delete(id);
         return "redirect:/work";

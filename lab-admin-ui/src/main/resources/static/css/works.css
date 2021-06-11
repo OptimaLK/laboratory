@@ -46,24 +46,34 @@ table td {
     height: 32px;
 }
 
-tr:nth-child(2n) {
+.dark {
     background: rgba(192, 247, 255, 0.75);
 }
 
-tr:nth-child(2n+1) {
+.light {
     background: #E6FCFF;
 }
 
-tr:nth-child(2n) input {
+.dark {
     border: none;
     text-align: center;
     background: rgba(192, 247, 255, 0);
 }
 
-tr:nth-child(2n+1) input {
+.light {
     border: none;
     text-align: center;
     background: #E6FCFF;
+}
+
+.archive {
+    border: none;
+    text-align: center;
+    background: rgba(128, 128, 128, 0);
+}
+
+.hide {
+    display: none;
 }
 
 .ico_ok-del {
@@ -96,6 +106,18 @@ tr:nth-child(2n+1) input {
     margin: 0 18px 0 10px;
     padding-left: 0;
     text-indent: 15px;
+}
+
+#work_head textarea {
+    width: 100%;
+    padding-top: 8px;
+    border: none;
+    overflow: hidden;
+    outline: none;
+    resize: none;
+    white-space: pre-wrap;
+    text-align: center;
+    background: rgba(230, 252, 255, 0);
 }
 
 .work_head {
