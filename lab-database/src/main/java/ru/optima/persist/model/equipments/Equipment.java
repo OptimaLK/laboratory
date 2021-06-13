@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @RequiredArgsConstructor
@@ -48,4 +49,10 @@ public class Equipment implements Serializable {
     @ManyToOne
     @JoinColumn(name="category_id", nullable=false)
     private Category category;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinTable(name = "bags_equipments",
+            joinColumns = @JoinColumn(name = "equipment_id"),
+            inverseJoinColumns = @JoinColumn(name = "bag_id"))
+    private List<Bag> bags;
 }

@@ -21,6 +21,14 @@
                     <form class="form-group" th:action="@{'/bag/form'}">
                         <button style="width: 100%; margin: 0;" type="submit">Сформировать</button>
                     </form>
+                    <div class="form-group">
+                        <label for="users">Выбор сумки</label>
+                        <select class="form-control" id="users" size="1" onchange="location = this.value;">
+                            <option th:id="bg" th:each="bags : ${bagAll}"
+                                    th:text="${bags.name}"
+                                    th:value="'/bag/select/' + ${bags.id}"></option>
+                        </select>
+                    </div>
                 </div>
                 <div class="d-flex flex-wrap justify-content-center">
                     <dl class="dl-horizontal attrs" th:each="equ : ${equipmentsInLastBag}">
@@ -32,12 +40,35 @@
                         <dd th:text="${equ.verificationNumber}"></dd>
                         <dt>Дата поверки:</dt>
                         <dd th:text="${equ.verificationDateEnd}"></dd>
-                        <div>
+                            <div>
                             <form class="form-group" method="POST" th:action="@{'/bag/get/' + ${equ.id}}">
                                 <button style="background-color: #ffbebe" type="submit">Выложить</button>
                             </form>
                         </div>
                     </dl>
+                </div>
+                <div>
+                    <table th:each="bag : ${bagAll}">
+                        <thead>
+                        <tr>
+                            <td th:text="${bag.name}"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="${bag.birthTime}"></td>
+                            <td th:text="${bag.lifeTime}"></td>
+                            <td th:text="${bag.work.objectName}"></td>
+                        </tr>
+                        <tr><td>Оборудование</td></tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="bagEq : ${bag.equipments}">
+                            <td th:text="${bagEq.name}"></td>
+                            <td th:text="${bagEq.factoryNumber}"></td>
+                            <td th:text="${bagEq.verificationNumber}"></td>
+                            <td th:text="${bagEq.verificationDateEnd}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

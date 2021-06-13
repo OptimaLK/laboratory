@@ -43,34 +43,32 @@ public class Bag implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "equipment_id"))
     private List<Equipment> equipments;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinTable(name = "users_bags",
+            joinColumns = @JoinColumn(name = "bag_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id", nullable=false)
     private User user;
 
     @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinColumn(name = "work_id")
     private Work work;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinTable(name = "bag_protocol",
             joinColumns = @JoinColumn(name = "bag_id"),
             inverseJoinColumns = @JoinColumn(name = "protocol_id"))
     private List<Protocol> numberProtocol;
-
-    public Bag(User user) {
-        this.name = "Сумка";
-        this.birthTime = null;
-        this.lifeTime = null;
-        this.equipments = new ArrayList<>();
-        this.user = user;
-        this.work = null;
-        this.numberProtocol = new ArrayList<>();
-    }
 
     public void setBag(User user) {
         this.name = "Сумка";
         this.birthTime = null;
         this.lifeTime = null;
         this.equipments = new ArrayList<>();
+        this.users = new ArrayList <>();
         this.user = user;
         this.work = null;
         this.numberProtocol = new ArrayList<>();
