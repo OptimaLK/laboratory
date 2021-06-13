@@ -1,4 +1,4 @@
-INSERT INTO `spring_lab_optima`.`equipments` (`factory_number`, `inventory_number`, `name`, `verification_date`, `verification_date_end`, `verification_number`)
+INSERT INTO `equipments` (`factory_number`, `inventory_number`, `name`, `verification_date`, `verification_date_end`, `verification_number`)
 VALUES  ('10223', '44', 'Газосигнализатор мультигазовый «Комета-М»', '2020.11.15', '2021.11.15', 'КРУ20-04600142066'),
         ('180230', '76', 'Анализатор аэрозоля KANOMAX, модель 3521', '2020.10.26', '2021.10.26', '6/640-2024-20'),
         ('036', '77', 'Газоанализатор "Геолан-1П"', '2020.06.12', '2021.06.12', 'КРУ20-046-00150807'),
