@@ -55,28 +55,10 @@
                 <td th:form="editForm" th:name="deadline" th:text="${wor.deadline}"></td>
                 <td class="add_user">
                     <div>
-                        <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
-                            <input class="userU" readonly th:value="${wor.getUsers[0].getLastName()}"></div>
-                    </div>
-                    <div id="sel">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <i aria-hidden="true" class="fa fa-user-plus" style="color: #4E26BB;"></i>
-                        </a>
-                        <div>
-                            <ul aria-labelledby="logged-in-username"
-                                class="dropdown-menu dropdown-menu-right drop_menu">
-                                <li><a class="dropdown-item" style="display:block;" th:each="usr : ${users}"
-                                       th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
-                                       th:text="${usr.getLastName()}"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="ico_ok-del" th:if="!${wor.getWorkStatus().getName() == 'COMPLETED'}"
-                         th:unless="${wor.getWorkStatus().getName() == 'NEW'}">
-                        <a th:href="@{/work/sendToArchive/{workId}(workId=${wor.id})}"><i class="fas fa-check-circle"
-                                                                                          style="color: #26BB50;"></i></a>
-                        <a th:href="@{/work/back/{workId}(workId=${wor.id})}"><i
-                                class="fas fa-times-circle" style="color: #B00101;"></i></a>
+                        <p th:each="user : ${users}"
+                           th:if="${wor.users?.contains(user)}"
+                           th:text="${user.lastName}"
+                           th:value="${user.id}">
                     </div>
                 </td>
                 <td><textarea readonly th:text="${wor.numberContract}"></textarea></td>
