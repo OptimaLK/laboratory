@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<link rel="stylesheet" th:href="@{/css/equipments.css}">
+<head th:replace="fragments/secretary/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/secretary/header :: header"></div>
+
+<div class="d-flex tools_container">
+    <div class="content">
+        <div th:replace="fragments/tools_menu :: tools"></div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="custom-control custom-switch">
+                    <input class="custom-control-input" id="customSwitch1" type="checkbox">
+                    <label class="custom-control-label" for="customSwitch1">Только доступное</label>
+                </div>
+                <div class="d-flex flex-wrap justify-content-center">
+                    <dl class="dl-horizontal attrs card_flex" th:each="equ : ${equipments}" th:method="isActiv">
+                        <div class="d-flex justify-content-center">
+                            <div>
+                                <dt>Название:</dt>
+                                <dd th:text="${equ.name}"></dd>
+                                <dt>Зав. №:</dt>
+                                <dd th:text="${equ.factoryNumber}"></dd>
+                                <dt>Свидетельство:</dt>
+                                <dd th:text="${equ.verificationNumber}"></dd>
+                                <dt>Дата поверки:</dt>
+                                <dd id="verDate" th:text="${equ.verificationDateEnd}"></dd>
+                                <label class="alertlabel" id="needVer">Требует поверки</label>
+                        </div>
+                    </dl>
+                    <form class="attrs" th:action="@{'/equipment/create/'}" style="height: 100%;">
+                        <button type="submit" style="top: 50%;">Создать</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/secretary/footer :: scripts"></script>
+<script >
+      var date = new Date();
+      var dateForAlert = new Date();
+      dateForAlert.setDate(date.getDate() + 30);
+      $(function () {
+            $('.attrs').each(function() {
+                if(new Date($('dd#verDate', this).text()) <= dateForAlert) {
+                    if(new Date($('dd#verDate', this).text()) <= date){
+                        $(this).css('background-color', '#ffbebe');
+                        $('label#needVer', this).show();
+                    } else {
+                        $(this).css('background-color', '#f3de82e8');
+                        $('dd#verDate', this).css('color', '#ff110a');
+                    }
+                }
+            })
+      });
+</script>
+</body>
+</html>
