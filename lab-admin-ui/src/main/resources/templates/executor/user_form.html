@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/executor/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/executor/header :: header"></div>
+
+<div class="d-flex">
+<!--    <div th:replace="fragments/chief/sidebar :: sidebar"></div>-->
+
+    <div class="content p-4">
+        <h2 class="mb-4" th:if="${edit}">Редактирование пользователя</h2>
+        <h2 class="mb-4" th:if="${create}">Создание пользователя</h2>
+
+        <form
+              method="post" th:action="@{/user}"
+              th:object="${user}">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <input th:type="hidden" th:field="*{id}">
+                    <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                    <div class="form-group">
+                        <label for="firstname">Имя</label>
+                        <input th:field="*{firstName}" type="text" class="form-control" id="firstname"
+                               placeholder="Имя">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-15">
+                            <div th:if="${registrationError != null}">
+                                <div class="alert alert-danger col-xs-offset-1 col-xs-10" th:text="${registrationError}">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                    <div class="form-group">
+                        <label for="lastname">Фамилия</label>
+                        <input th:field="*{lastName}" type="text" class="form-control" id="lastname"
+                               placeholder="Фамилия">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input th:field="*{password}" type="password" class="form-control" id="password"
+                               placeholder="Пароль" required>
+                    </div>
+
+                    <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input th:field="*{email}" type="text" class="form-control" id="email"
+                               placeholder="email@mail.ru">
+                    </div>
+
+                    <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input th:field="*{phone}" type="text" class="form-control" id="phone"
+                               placeholder="89996662211">
+                    </div>
+                    <div class="form-group">
+                        <label for="roles">Роли</label>
+                        <select multiple class="form-control" id="roles" th:field="*{roles}" required>
+                            <option th:each="role : ${roles}"
+                                    th:text="${role.name}"
+                                    th:value="${role.id}"
+                                    th:selected="${user.roles?.contains(role)}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:replace="fragments/executor/footer :: scripts"></script>
+
+</body>
+</html>
