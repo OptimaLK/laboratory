@@ -11,4 +11,5 @@ import java.util.List;
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
     Equipment findById(long id);
     List<Equipment> findAllByCategoryId(long id);
+    List<Equipment> findAllByCategoryIdAndTaken(Long categoryId, Boolean taken);
 }
