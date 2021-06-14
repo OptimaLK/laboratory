@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+
+<link rel="stylesheet" th:href="@{/css/works.css}">
+<head th:replace="fragments/chief/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/chief/header :: header"></div>
+
+<div>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Номер заявки</th>
+                <th>Дата регистрации</th>
+                <th style="min-width: 350px;">Заказчик</th>
+                <th style="min-width: 350px;">Наименование объекта</th>
+                <th>Срок</th>
+                <th>Ответственный</th>
+                <th>Договор</th>
+                <th style="min-width: 250px;" colspan="2">Дополнительная информация</th>
+            </tr>
+            <tr style="background: rgba(219, 242, 255, 0.69);">
+                <td class="add" colspan="7">
+                    <form th:action="@{/work/create}">
+                        <button type="submit">Добавить</button>
+                    </form>
+                </td>
+                <td class="add" colspan="2">
+                    <div style="margin: 0; text-align: end;">
+                        <button th:id="archive" type="submit">Архив</button>
+                        <button th:id="back" class="hide" type="submit">Назад</button>
+                    </div>
+                </td>
+                <td class="add">
+                    <div th:id="input">
+                        <input type="text" class="hide" form="editForm" id="id" name="id" th:value="_">
+                        <input type="text" class="hide" form="editForm" id="clientName" name="clientName" value=" ">
+                        <input type="text" class="hide" form="editForm" id="objectName" name="objectName" value=" ">
+                        <input type="text" class="hide" form="editForm" id="numberContract" name="numberContract" value=" ">
+                        <input type="text" class="hide" form="editForm" id="additionalInformation" name="additionalInformation" value=" ">
+                    </div>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="wor : ${work}" th:id="work_head">
+                <td class="userU" th:text="${wor.id}"></td>
+                <td th:text="${wor.registrationDate}"></td>
+                <td style="min-width: 350px;"><textarea readonly th:text="${wor.clientName}"></textarea></td>
+                <td style="min-width: 350px;"><textarea readonly th:text="${wor.objectName}"></textarea></td>
+                <td th:form="editForm" th:name="deadline" th:text="${wor.deadline}"></td>
+                <td class="add_user">
+                    <div>
+                        <div id="user" th:if="${#lists.size(wor.getUsers) > 0}">
+                            <input class="userU" readonly th:value="${wor.getUsers[0].getLastName()}"></div>
+                    </div>
+                    <div id="sel">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <i aria-hidden="true" class="fa fa-user-plus" style="color: #4E26BB;"></i>
+                        </a>
+                        <div>
+                            <ul aria-labelledby="logged-in-username"
+                                class="dropdown-menu dropdown-menu-right drop_menu">
+                                <li><a class="dropdown-item" style="display:block;" th:each="usr : ${users}"
+                                       th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
+                                       th:text="${usr.getLastName()}"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ico_ok-del" th:if="!${wor.getWorkStatus().getName() == 'COMPLETED'}"
+                         th:unless="${wor.getWorkStatus().getName() == 'NEW'}">
+                        <a th:href="@{/work/sendToArchive/{workId}(workId=${wor.id})}"><i class="fas fa-check-circle"
+                                                                                          style="color: #26BB50;"></i></a>
+                        <a th:href="@{/work/back/{workId}(workId=${wor.id})}"><i
+                                class="fas fa-times-circle" style="color: #B00101;"></i></a>
+                    </div>
+                </td>
+                <td><textarea readonly th:text="${wor.numberContract}"></textarea></td>
+                <td style="min-width: 250px;"><textarea readonly th:text="${wor.additionalInformation}"></textarea></td>
+                <td style="max-width: 50px" th:id="status">
+                    <div class="ico_ok-del">
+                        <div style="padding-right: 10px;">
+                            <a id="edit" type="button"><i class="fas fa-edit" style="color: #4E26BB;"></i></a>
+                            <form id="editForm" th:action="@{/work/editSave}" th:object="${workEdit}">
+                                <a class="hide" id="save" type="submit"><i
+                                        class="fas fa-save" style="color: #4E26BB;"></i></a>
+                            </form>
+                        </div>
+                        <div>
+                            <a id="del" th:href="@{/work/{workId}/delete(workId=${wor.id})}" type="submit"><i
+                                    class="fas fa-trash-alt" style="color: #B00101;"></i></a>
+                        </div>
+                    </div>
+                    <input style="display: none" th:id="hideStatus" th:name="status"
+                           th:value="${wor.getWorkStatus().getName()}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script th:replace="fragments/chief/footer :: scripts"></script>
+<script>
+    $(function () {
+        $('.add_user').each(function () {
+            if ($('#user input', this).val()) {
+                $('#sel', this).addClass('hide');
+            } else {
+                $('.ico_ok-del', this).addClass('hide');
+            }
+        });
+    });
+    $(function () {
+        $('tr#work_head').each(function () {
+            if ($('td#status input#hideStatus', this).val() === 'COMPLETED') {
+                $(this).css('background', 'rgba(128, 128, 128, 0.27)');
+                $('td.add_user div div#user input', this).addClass('archive');
+                $(this).addClass('hide');
+                $('button#back').addClass('hide');
+            }
+        });
+        $('tr#work_head:not(.hide):odd').addClass('dark');
+        $('tr#work_head:not(.hide):even').addClass('light');
+        $('tr#work_head:not(.hide):odd input').addClass('dark');
+        $('tr#work_head:not(.hide):even input').addClass('light');
+    });
+    $(function () {
+        $('button#archive').on('click', function () {
+            $('tr#work_head').each(function () {
+                if ($('td#status input#hideStatus', this).val() === 'COMPLETED')
+                    $(this).removeClass('hide');
+                else
+                    $(this).addClass('hide');
+            });
+            $('button#back').removeClass('hide');
+            $('button#archive').addClass('hide');
+            $('div.ico_ok-del div').addClass('hide');
+        });
+        $('button#back').on('click', function () {
+            $('tr#work_head').each(function () {
+                if ($('td#status input#hideStatus', this).val() !== 'COMPLETED')
+                    $(this).removeClass('hide');
+                else
+                    $(this).addClass('hide');
+            });
+            $('button#back').addClass('hide');
+            $('button#archive').removeClass('hide');
+            $('div.ico_ok-del div').removeClass('hide');
+        });
+    });
+    $(function () {
+        $('tr#work_head').each(function () {
+            $('td textarea', this).each(function () {
+                if (this.scrollHeight !== 0)
+                    $(this).height(0).height(this.scrollHeight + "px");
+            })
+        })
+    });
+    $(document).on("input", "textarea", function () {
+        $(this).outerHeight(38).outerHeight(this.scrollHeight);
+    });
+    $(function () {
+        $('tr#work_head').on('click', 'td a#edit', function () {
+            const idx = $(this).closest('tr').index();
+            const tbl = $('tr#work_head').eq(idx);
+            $(this).addClass('hide');
+            $('td a#save', 'tr#work_head').eq(idx).removeClass('hide');
+            $('table thead tr td div#input input#id').attr('value', $('td.userU', tbl).text());
+            $('td textarea', tbl).each(function () {
+                $(this).prop('readonly', false);
+                $(this).css('background', '#f8f9fa');
+            })
+        })
+    });
+    $(function () {
+        $('tr#work_head').on('click', 'td a#save', function () {
+            const idx = $(this).closest('tr').index();
+            const tbl = $('tr#work_head').eq(idx);
+            $('td a#edit', 'tr#work_head').eq(idx).removeClass('hide');
+            $(this).addClass('hide');
+            let textIn = $('td textarea', tbl), textOut = $('table thead tr td div#input input'), i;
+            for(i = 0; i < textIn.length; i++) {
+                $(textIn[i]).prop('readonly', true);
+                $(textOut[i + 1]).attr('value', $(textIn[i]).val());
+            }
+            $('#editForm').submit();
+        })
+    });
+</script>
+
+</body>
+</html>
