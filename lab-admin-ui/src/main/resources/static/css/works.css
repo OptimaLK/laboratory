@@ -54,13 +54,13 @@ table td {
     background: #E6FCFF;
 }
 
-.dark {
+.dark input {
     border: none;
     text-align: center;
     background: rgba(192, 247, 255, 0);
 }
 
-.light {
+.light input {
     border: none;
     text-align: center;
     background: #E6FCFF;
@@ -109,8 +109,9 @@ table td {
 }
 
 #work_head textarea {
+    display: block;
+    padding-top: 20px;
     width: 100%;
-    padding-top: 8px;
     border: none;
     overflow: hidden;
     outline: none;
