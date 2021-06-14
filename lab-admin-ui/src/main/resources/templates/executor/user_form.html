@@ -9,15 +9,14 @@
 <div th:replace="fragments/executor/header :: header"></div>
 
 <div class="d-flex">
-<!--    <div th:replace="fragments/chief/sidebar :: sidebar"></div>-->
 
     <div class="content p-4">
         <h2 class="mb-4" th:if="${edit}">Редактирование пользователя</h2>
         <h2 class="mb-4" th:if="${create}">Создание пользователя</h2>
 
         <form
-              method="post" th:action="@{/user}"
-              th:object="${user}">
+                method="post" th:action="@{/user}"
+                th:object="${user}">
             <div class="card mb-4">
                 <div class="card-body">
                     <input th:type="hidden" th:field="*{id}">
@@ -40,10 +39,12 @@
                     <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                     <div class="form-group">
                         <label for="lastname">Фамилия</label>
-                        <input th:field="*{lastName}" type="text" class="form-control" id="lastname"
+                        <input th:field="*{lastName}" type="hidden" class="form-control" id="lastname"
                                placeholder="Фамилия">
                     </div>
-
+                    <div class="form-group">
+                        <label th:text="*{lastName}"></label>
+                    </div>
                     <div class="form-group">
                         <label for="password">Пароль</label>
                         <input th:field="*{password}" type="password" class="form-control" id="password"
@@ -65,13 +66,12 @@
                     </div>
                     <div class="form-group">
                         <label for="roles">Роли</label>
-                        <select multiple class="form-control" id="roles" th:field="*{roles}" required>
-                            <option th:each="role : ${roles}"
-                                    th:text="${role.name}"
-                                    th:value="${role.id}"
-                                    th:selected="${user.roles?.contains(role)}">
-                            </option>
-                        </select>
+                        <input type="hidden" multiple class="form-control" id="roles" th:field="*{roles}" required>
+                        <p th:each="role : ${roles}"
+                           th:if="${user.roles?.contains(role)}"
+                           th:text="${role.name}"
+                           th:value="${role.id}">
+                        </p>
                     </div>
                 </div>
                 <div class="card-footer bg-white">
@@ -81,7 +81,6 @@
         </form>
     </div>
 </div>
-
 <script th:replace="fragments/executor/footer :: scripts"></script>
 
 </body>
