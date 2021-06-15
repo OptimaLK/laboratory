@@ -61,4 +61,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         return equipmentRepository.findAllByCategoryId(id);
     }
 
+    public List<Equipment> findAllByCategoryIdAndTaken(Long categoryId, boolean taken) {
+        return equipmentRepository.findAllByCategoryIdAndTaken(categoryId, taken);
+    }
+
 }

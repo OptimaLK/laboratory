@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.optima.beans.PackageEquipments;
 import ru.optima.persist.model.User;
 import ru.optima.persist.model.equipments.Category;
+import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.EquipmentRepr;
 import ru.optima.service.*;
 import ru.optima.util.PathCreator;
@@ -32,19 +33,35 @@ public class EquipmentController {
 
     @GetMapping({"","/"})
     public String equipmentsPage(Model model, Principal principal, SecurityContextHolder auth) {
-        List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("activePage", "Equipments");
-        model.addAttribute("categories", categoryList);
-        model.addAttribute("equipments", equipmentService.findAllByCategoryId(categoryList.get(0).getId()));
-        model.addAttribute("user", userService.findByName(principal.getName()));
-        return pathCreator.createPath(auth, "equipments");
+//        List<Category> categoryList = categoryService.findAll();
+//        model.addAttribute("activePage", "Equipments");
+//        model.addAttribute("categories", categoryList);
+//        model.addAttribute("equipments", equipmentService.findAllByCategoryId(categoryList.get(0).getId()));
+//        model.addAttribute("user", userService.findByName(principal.getName()));
+//        return pathCreator.createPath(auth, "equipments");
+
+        // Две практически идентичные функции - дублирование, большая вероятность ошибок.
+        // В качестве костыля сделал редирект с заданными жёстко параметрами.
+        // Впоследствии, считаю, нужно свести к одной функции с параметрами, но можно и раскомментить обратно.
+        // Тем более, что полный список оборудования (без разбивки по категориям), вроде как, нигде не используется.
+        return equipmentsPageWithCategory(model, 7L, "", principal, auth);
     }
 
-    @GetMapping("/{id}")
-    public String equipmentsPageWithCategory(Model model, @PathVariable ("id") Long id,  Principal principal, SecurityContextHolder auth) {
+    @GetMapping({"/{id}", "/{id}/"})
+    public String equipmentsPageWithCategory(Model model,
+                                             @PathVariable ("id") Long categoryId,
+                                             @RequestParam (value = "active-only", defaultValue = "") String activeOnly,
+                                             Principal principal,
+                                             SecurityContextHolder auth) {
+        if (activeOnly.equals("on")) {
+            model.addAttribute("equipments", equipmentService.findAllByCategoryIdAndTaken(categoryId, true));
+        } else {
+            model.addAttribute("equipments", equipmentService.findAllByCategoryId(categoryId));
+        }
+        model.addAttribute("activeOnly", activeOnly.equals("on") ? true : false);
+        model.addAttribute("categoryId", categoryId);
         model.addAttribute("activePage", "Equipments");
         model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("equipments", equipmentService.findAllByCategoryId(id));
         model.addAttribute("user", userService.findByName(principal.getName()));
         return pathCreator.createPath(auth, "equipments");
     }

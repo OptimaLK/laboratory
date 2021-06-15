@@ -13,8 +13,10 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                    <label class="custom-control-label" for="customSwitch1">Только доступное</label>
+                    <form th:action="@{/equipment/{id}(id = ${categoryId})}" method="get">
+                        <input type="checkbox" name="active-only" class="custom-control-input" id="activeOnlyCheckBox" th:checked="${activeOnly}" onchange="this.form.submit()">
+                        <label class="custom-control-label" for="activeOnlyCheckBox">Только доступное</label>
+                    </form>
                 </div>
                 <div class="d-flex flex-wrap justify-content-center">
                     <dl th:id="equ-cart" th:each="equ : ${equipments}" class="dl-horizontal attrs">
@@ -23,18 +25,18 @@
                         <dt>Зав. №:</dt>
                         <dd th:text="${equ.factoryNumber}"></dd>
                         <dt>Свидетельство:</dt>
-                        <dd  th:text="${equ.verificationNumber}"></dd>
+                        <dd th:text="${equ.verificationNumber}"></dd>
                         <dt>Дата поверки:</dt>
                         <dd th:id="verDate" th:text="${equ.verificationDateEnd}"></dd>
                         <div th:switch="${equ.getTaken}">
                             <form th:case="${true}" class="form-group"  th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
-                                <button id="get" type="submit" >Взять</button>
+                                <button type="submit" >Взять</button>
                             </form>
 
                             <div th:case="${false}">
                                 <div th:switch="${user.lastName == equ.nameUserWhoTakenEquipment}">
                                     <form th:case="${true}" class="form-group" th:action="@{'/bag/get/' + ${equ.id}}" method="POST">
-                                        <button id="take" style="background-color: #ffbebe" type="submit">Положить</button>
+                                        <button style="background-color: #ffbebe" type="submit">Положить</button>
                                     </form>
                                     <form th:case="${false}" class="form-group">
                                         <button style="background-color: #ffbebe" type="submit" th:text="${equ.nameUserWhoTakenEquipment}"></button>
@@ -42,7 +44,7 @@
                                 </div>
                             </div>
                             <form th:case="*" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
-                                <button id="all" type="submit" >Взять</button>
+                                <button type="submit" >Взять</button>
                             </form>
                             <label class="alertlabel" id="needVer">Требует поверки</label>
                         </div>
@@ -55,16 +57,20 @@
 
 <script th:replace="fragments/executor/footer :: scripts"></script>
 <script >
+      var date = new Date();
+      var dateForAlert = new Date();
+      dateForAlert.setDate(date.getDate() + 30);
       $(function () {
             $('.attrs').each(function() {
-                if(new Date($('dd#verDate', this).text()) <= new Date()){
-                    $(this).css('background-color', '#ffbebe');
-                    $('button#get', this).hide();
-                    $('button#take', this).hide();
-                    $('button#all', this).hide();
-                    $('label#needVer', this).show();
-                } else {
-                    $('label#needVer', this).hide();
+                if(new Date($('dd#verDate', this).text()) <= dateForAlert) {
+                    if(new Date($('dd#verDate', this).text()) <= date){
+                        $(this).css('background-color', '#ffbebe');
+                        $('button', this).hide();
+                        $('label#needVer', this).show();
+                    } else {
+                        $(this).css('background-color', '#f3de82e8');
+                        $('dd#verDate', this).css('color', '#ff110a');
+                    }
                 }
             })
       });

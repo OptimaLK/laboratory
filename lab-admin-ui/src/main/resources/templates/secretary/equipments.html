@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
 <link rel="stylesheet" th:href="@{/css/equipments.css}">
-<head th:replace="fragments/chief/header :: head"></head>
+<head th:replace="fragments/secretary/header :: head"></head>
 
 <body class="bg-light">
 
-<div th:replace="fragments/chief/header :: header"></div>
+<div th:replace="fragments/secretary/header :: header"></div>
 
 <div class="d-flex tools_container">
     <div class="content">
@@ -29,31 +29,8 @@
                                 <dd th:text="${equ.verificationNumber}"></dd>
                                 <dt>Дата поверки:</dt>
                                 <dd id="verDate" th:text="${equ.verificationDateEnd}"></dd>
-                            </div>
-                            <div class="ico_ok-del edit">
-                                <div style="padding-right: 10px;">
-                                    <a id="edit" th:href="@{/equipment/{eqId}/edit(eqId=${equ.id})}" type="submit"><i
-                                            class="fas fa-edit" style="color: #4E26BB;"></i></a>
-                                </div>
-                                <div>
-                                    <a id="del" th:href="@{/equipment/{eqId}/delete(eqId=${equ.id})}" type="submit"><i
-                                            class="fas fa-trash-alt" style="color: #B00101;"></i></a>
-                                </div>
-                            </div>
+                                <label class="alertlabel" id="needVer">Требует поверки</label>
                         </div>
-                        <div th:switch="${equ.isActiv}">
-                            <form class="form-group" th:case="${false}">
-                                <button id="get" type="submit">Взять</button>
-                            </form>
-                            <form class="form-group" th:case="${true}">
-                                <button style="display: none" type="submit"></button>
-                            </form>
-                            <label class="alertlabel" id="needVer">Требует поверки</label>
-                        </div>
-                        <form th:action="@{'/verification/app_verification/' + ${equ.id}}"
-                              th:object="${equipments}">
-                            <button style="margin-top: 10px;" type="submit">На поверку</button>
-                        </form>
                     </dl>
                     <form class="attrs" th:action="@{'/equipment/create/'}" style="height: 100%;">
                         <button type="submit" style="top: 50%;">Создать</button>
@@ -64,7 +41,7 @@
     </div>
 </div>
 
-<script th:replace="fragments/chief/footer :: scripts"></script>
+<script th:replace="fragments/secretary/footer :: scripts"></script>
 <script >
       var date = new Date();
       var dateForAlert = new Date();
@@ -74,7 +51,6 @@
                 if(new Date($('dd#verDate', this).text()) <= dateForAlert) {
                     if(new Date($('dd#verDate', this).text()) <= date){
                         $(this).css('background-color', '#ffbebe');
-                        $('button#get', this).hide();
                         $('label#needVer', this).show();
                     } else {
                         $(this).css('background-color', '#f3de82e8');

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+
+<link rel="stylesheet" th:href="@{/css/works.css}">
+<head th:replace="fragments/secretary/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/secretary/header :: header"></div>
+
+<div>
+    <div>
+        <div>
+            <div>
+                <table id="users">
+                    <thead>
+                    <tr>
+                        <th>Номер</th>
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Телефон</th>
+                        <th>Почта</th>
+                        <th class="actions">Изменения</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usr : ${users}" th:id="tabUs">
+                        <td th:text="${usr.id}"></td>
+                        <td th:text="${usr.firstName}"></td>
+                        <td th:id="lName" th:text="${usr.lastName}"></td>
+                        <td th:text="${usr.phone}"></td>
+                        <td th:text="${usr.email}"></td>
+                        <td th:id="edDel">
+                            <div class="ico_ok-del">
+                                <div>
+                                    <a class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip"
+                                       th:href="@{/user/{id}/edit(id=${usr.id})}" title="Редактировать">
+                                        <strong class="fa fa-fw fa-edit"></strong>
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="display: none" th:id="emp">&nbsp;</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/secretary/footer :: scripts"></script>
+<script>
+    $(document).ready(function () {
+        $('#users tr#tabUs').each(function () {
+            if ($('#dd_user').text() !== $('td#lName', this).text()) {
+                $('td#edDel', this).hide();
+                $('td#emp', this).show();
+            }
+        })
+    });
+</script>
+</body>
+</html>
