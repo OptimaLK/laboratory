@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/secretary/header :: head"></head>
+
+<body class="bg-light">
+
+<div th:replace="fragments/secretary/header :: header"></div>
+
+<div class="d-flex">
+    <div class="content p-4">
+        <h2 class="mb-4" th:if="${edit}" >Изменить задание</h2>
+        <h2 class="mb-4" th:if="${create}" >Создать задание</h2>
+
+        <form th:object="${work}" method="post" th:action="@{/work}">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <input th:type="hidden" th:field="*{id}">
+                    <div class="form-group">
+                        <label for="clientName">Название заказчика</label>
+                        <input th:field="*{clientName}" type="text" class="form-control" id="clientName" placeholder="Введите название заказчика" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="objectName">Название объекта</label>
+                        <input th:field="*{objectName}" type="text" class="form-control" id="objectName" placeholder="Введите название объекта" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numberContract">Номер контракта</label>
+                        <input th:field="*{numberContract}" type="text" class="form-control" id="numberContract" placeholder="Введите номер контракта">
+                    </div>
+                    <div class="form-group">
+                        <label for="deadline">Срок выполнения</label>
+                        <input th:field="*{deadline}" type="date" class="form-control" id="deadline">
+                    </div>
+                    <div class="form-group">
+                        <label for="users">Ответственные пользователи</label>
+                        <select class="form-control" id="users" size="1" th:field="*{users}">
+                            <option th:each="user : ${users}"
+                                    th:text="${user.lastName}"
+                                    th:value="${user.id}"
+                                    th:selected="${work.users?.contains(user)}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="additionalInformation">Дополнительная информация</label>
+                        <input th:field="*{additionalInformation}" type="text" class="form-control" id="additionalInformation" placeholder="Введите Дополнительную информацию о заказчике: ФИО, телефон, почта">
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:replace="fragments/secretary/footer :: scripts"></script>
+
+</body>
+</html>
