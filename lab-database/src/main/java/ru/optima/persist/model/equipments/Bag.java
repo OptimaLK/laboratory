@@ -32,7 +32,7 @@ public class Bag implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "birth_time")
-    private Date birthTime;
+    private Timestamp birthTime;
 
     @Column(name = "life_time")
     private Timestamp lifeTime;
@@ -63,6 +63,9 @@ public class Bag implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "protocol_id"))
     private List<Protocol> numberProtocol;
 
+    @Column(name = "status")
+    private Boolean status;
+
     public void setBag(User user) {
         this.name = "Сумка";
         this.birthTime = null;
@@ -72,5 +75,6 @@ public class Bag implements Serializable {
         this.user = user;
         this.work = null;
         this.numberProtocol = new ArrayList<>();
+        this.status = null;
     }
 }

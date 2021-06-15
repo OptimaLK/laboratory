@@ -28,16 +28,20 @@ public class BagServiceImpl implements BagService {
     public BagServiceImpl(BagRepository bagRepository, ProtocolRepository protocolRepository) {
         this.bagRepository = bagRepository;
         this.protocolRepository = protocolRepository;
-        bag = new Bag();
     }
 
     @Override
     public void addEquipmentToBag(Equipment equipment, User user) {
         equipment.setNameUserWhoTakenEquipment(user.getLastName());
         List <Bag> bags = user.getBags();
+        if(bags.size() != 0 && bag == null && bags.get(bags.size() - 1).getWork() == null)
+            bag = bags.get(bags.size() - 1);
+        else if(bag == null)
+            bag = new Bag();
         if(bags.size() == 0 || bag.getUser() == null) {
             bag.setBag(user);
             bag.setUser(user);
+            bag.setStatus(false);
             bags.add(bag);
         }
         if(equipment.getTaken() == null || equipment.getTaken()) {
@@ -93,6 +97,16 @@ public class BagServiceImpl implements BagService {
     }
 
     @Override
+    public void deleteBagById(User user, Long bagId) {
+        Bag bag = bagRepository.findById(bagId).orElse(new Bag());
+        for(int i = bag.getEquipments().size() - 1; i >= 0; i--) {
+            bag.getEquipments().get(i).setTaken(true);
+        }
+        bag.setStatus(false);
+        bagRepository.save(bag);
+    }
+
+    @Override
     public Bag createBagReprByBag(Bag bag) {
         return bag;
     }
@@ -106,25 +120,27 @@ public class BagServiceImpl implements BagService {
         calendar.setTime(new java.util.Date());
         calendar.add(Calendar.HOUR, bag.getCountHourLifeTime());
         for(Bag value : bagList) {
-                if(value.getWork() == null) {
-                    if(this.bag == null) {
-                        this.bag = new Bag();
-                        this.bag.setUsers(users);
-                        this.bag.setUser(user);
-                        if(bag.getId() != null)
-                            this.bag.setId(bag.getId());
-                    } else {
-                        this.bag = new Bag();
-                        this.bag.setUsers(users);
-                        this.bag.setUser(user);
+            if(value.getWork() == null) {
+                if(this.bag == null) {
+                    this.bag = new Bag();
+                    this.bag.setUsers(users);
+                    this.bag.setUser(user);
+                    if(bag.getId() != null)
+                        this.bag.setId(bag.getId());
                     }
-                    this.bag.setId(value.getId());
-                    this.bag.setEquipments(value.getEquipments());
-                    break;
+                    if(value.getId().equals(bag.getId())) {
+                        this.bag.setId(value.getId());
+                        this.bag.setEquipments(value.getEquipments());
+                    }
                 }
+            break;
+        }
+        if(this.bag == null) {
+            List <Bag> bags = user.getBags();
+            this.bag = bags.get(bags.size() - 1);
         }
         this.bag.setName(bag.getName());
-        this.bag.setBirthTime(new Date(System.currentTimeMillis()));
+        this.bag.setBirthTime(new Timestamp(System.currentTimeMillis()));
         this.bag.setLifeTime(new Timestamp(calendar.getTimeInMillis()));
         if(this.bag.getUsers() == null) {
             this.bag.setUsers(users);
@@ -136,6 +152,7 @@ public class BagServiceImpl implements BagService {
             Protocol protocol = new Protocol();
             this.bag.getNumberProtocol().add(protocol);
         }
+        this.bag.setStatus(true);
         bagRepository.save(this.bag);
         this.bag = new Bag();
     }

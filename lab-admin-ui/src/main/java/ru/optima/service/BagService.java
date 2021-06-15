@@ -23,6 +23,8 @@ public interface BagService {
 
     void deleteAllEquipmentsInBag(User user);
 
+    void deleteBagById(User user, Long bagId);
+
     Bag createBagReprByBag(Bag bag);
 
     void createNewBagAndSaveOldBag(BagRepr bagRepr, User user);

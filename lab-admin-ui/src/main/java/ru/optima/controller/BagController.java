@@ -45,6 +45,7 @@ public class BagController {
         User user = userService.findByName(principal.getName());
         model.addAttribute("activePage", "Bag");
         model.addAttribute("equipmentsInLastBag", bagService.findAllEquipments(user));
+        model.addAttribute("sel", true);
         List<Bag> bagList = new ArrayList <>();
         for(Bag value : user.getBags()) {
             if(value.getWork() != null) {
@@ -59,6 +60,7 @@ public class BagController {
     public String selectBag(@PathVariable Long id, Model model, Principal principal, SecurityContextHolder auth) throws IOException {
         User user = userService.findByName(principal.getName());
         model.addAttribute("equipmentsInLastBag", bagService.selectBag(id, user));
+        model.addAttribute("sel", false);
         return pathCreator.createPath(auth, "bag");
     }
 
@@ -90,7 +92,19 @@ public class BagController {
     public String deleteEquipmentsInLastBag(Principal principal, SecurityContextHolder auth) {
         User user = userService.findByName(principal.getName());
         bagService.deleteAllEquipmentsInBag(user);
-        return pathCreator.createPath(auth, "bag");
+        return "redirect:/bag";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteBag(@PathVariable Long id, Principal principal, SecurityContextHolder auth) {
+        User user = userService.findByName(principal.getName());
+        bagService.deleteBagById(user, id);
+        return "redirect:/bag";
+    }
+
+    @GetMapping("/back")
+    public String back() {
+        return "redirect:/bag";
     }
 
     @GetMapping("/form")
