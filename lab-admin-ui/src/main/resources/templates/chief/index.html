@@ -17,38 +17,43 @@
                     <button type="submit">Архив</button>
                 </form>
                 <div class="work_attrs">
-                    <dl class="dl-horizontal attrs" th:each="wor : ${work}">
-                        <div>
-                            <dt>№ заявки:</dt>
-                            <dd th:text="${wor.id}"></dd>
-                            <dt>Заказчик:</dt>
-                            <dd th:text="${wor.customer}"></dd>
-                            <dt>Объект:</dt>
-                            <dd th:text="${wor.objectName}"></dd>
+                    <div th:each="bag : ${bags}">
+                        <dl id="bags" class="dl-horizontal attrs" >
+                            <dt>Сумка:</dt>
+                            <dd th:text="${bag.id}"></dd>
+                            <dt>Work:</dt>
+                            <dd th:text="${bag.work.getObjectName()}"></dd>
+                            <dt>Дата создания:</dt>
+                            <dd th:text="${bag.birthTime}"></dd>
                             <dt>Срок:</dt>
-                            <dd>04.05.2021</dd>
-                            <dt>Команда:</dt>
-                            <dd class="d-flex justify-content-between add_user">
-                                <div></div>
-                                <div>
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                        <i aria-hidden="true" class="fa fa-user-plus"></i>
-                                    </a>
-                                    <div>
-                                        <ul aria-labelledby="logged-in-username"
-                                            class="dropdown-menu dropdown-menu-right drop_menu">
-                                            <li><a class="dropdown-item" th:each="wrk : ${work}" th:text="${wrk.users}"></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </dd>
-                            <dt>Заказчика:</dt>
-                            <dd th:text="${wor.clientName}"></dd>
-                            <dt>т. заказчика:</dt>
-                            <dd>8-999-999-99-99</dd>
-                        </div>
-                        <button type="submit">Закрыть</button>
-                    </dl>
+                            <dd th:text="${bag.lifeTime}"></dd>
+                            <dt>User:</dt>
+                            <dd th:text="${bag.user.getLastName()}"></dd>
+                            <button th:onclick="getTable(event, /*[[${bag.id}]]*/)" type="submit">Смотреть</button>
+                        </dl>
+                        <table th:id="${bag.id}" style="display: none" >
+                            <tr>
+                                <th th:text="'Сумка ' + ${bag.id} + ' пользователя ' + ${bag.user.getLastName()}"></th>
+                            </tr>
+                            <tr>
+                                <th>Название:</th>
+                                <th>Зав. №:</th>
+                                <th>Свидетельство:</th>
+                                <th>Дата поверки:</th>
+                            </tr>
+                            <tr style="background: rgba(219, 242, 255, 0.69);">
+                                <td class="add" colspan="7">
+                                    <button th:id="exit" onclick="getCards(event)" style="display: none" type="submit">Назад</button>
+                                </td>
+                            </tr>
+                            <tr th:each="equ : ${bag.equipments}">
+                                <td th:text="${equ.name}"></td>
+                                <td th:text="${equ.inventoryNumber}"></td>
+                                <td th:text="${equ.verificationNumber}"></td>
+                                <td th:text="${equ.verificationDateEnd}"></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,6 +61,24 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
+<script>
+    function getTable(e, id){
+        console.log(id);
+        $('.work_attrs').each(function() {
+            $('dl#bags', this).hide();
+            $('table#' + id, this).show();
+            $('button#exit', this).show();
+        })
+    }
+    function getCards(e){
+        $('.work_attrs').each(function() {
+            $('dl#bags', this).show();
+            $('table', this).hide();
+            $('button#exit', this).hide();
+        })
+    }
+
+</script>
 
 </body>
 </html>

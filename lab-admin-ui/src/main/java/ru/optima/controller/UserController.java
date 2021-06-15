@@ -81,11 +81,6 @@ public class UserController {
         return "redirect:/user";
     }
 
-    /**
-     * Создание/редактирование пользователя. Доступно только заведующему.
-     * @return Редирект на страницу со списком пользователей.
-     */
-    @Secured("ROLE_CHIEF")
     @PostMapping({"", "/"})
     public String editUser(@ModelAttribute UserRepr user) {
         System.out.println(user);
