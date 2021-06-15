@@ -8,8 +8,17 @@
     <div class="navbar-collapse collapse">
         <ul class="nav nav-pills nav-justified d-flex justify-content-between align-items-baseline w-100 tools_font">
                 <li class="nav-item" th:each="ctg, state : ${categories}">
-                        <a th:if="${equipments[0].getCategory().getId() == ctg.getId()}" class="nav-link active"  th:href="@{/equipment/{id}(id = ${ctg.id})}"><p th:text="${ctg.name}"></p></a>
-                        <a th:unless="${equipments[0].getCategory().getId() == ctg.getId()}"  class="nav-link"  th:href="@{/equipment/{id}(id = ${ctg.id})}"><p th:text="${ctg.name}"></p></a>
+
+<!--                    Здесь убрал две одинаковые ссылки, выдаваемые по условному оператору (большое дублирование)-->
+<!--                    Вместо этого оставил одну ссылку, а все условные операторы встроил внутрь неё-->
+
+<!--                    Условие на стиль теперь не обращается к списку оборудования для данной категории,-->
+<!--                    т.к. в случае, когда этот список пуст, вываливалась ошибка-->
+<!--                    Теперь текущая категория передаётся из контроллера при вызове шаблона-->
+                        <a th:class="${ctg.getId() == categoryId}? 'nav-link active' : 'nav-link'"
+                           th:href="@{/equipment/{id}?{activeOnly}(id = ${ctg.id}, activeOnly = ${activeOnly}? 'active-only=on' : '')}">
+                            <p th:text="${ctg.name}"></p>
+                        </a>
                 </li>
 <!--            удалять не стал вдруг пригодится               -->
 <!--            <li class="nav-item dropdown" style="flex-basis: 150px;">-->

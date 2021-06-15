@@ -13,8 +13,10 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                    <label class="custom-control-label" for="customSwitch1">Только доступное</label>
+                    <form th:action="@{/equipment/{id}(id = ${categoryId})}" method="get">
+                        <input type="checkbox" name="active-only" class="custom-control-input" id="activeOnlyCheckBox" th:checked="${activeOnly}" onchange="this.form.submit()">
+                        <label class="custom-control-label" for="activeOnlyCheckBox">Только доступное</label>
+                    </form>
                 </div>
                 <div class="d-flex flex-wrap justify-content-center">
                     <dl th:id="equ-cart" th:each="equ : ${equipments}" class="dl-horizontal attrs">
