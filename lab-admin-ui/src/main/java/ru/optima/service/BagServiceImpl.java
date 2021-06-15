@@ -100,6 +100,7 @@ public class BagServiceImpl implements BagService {
     public void deleteBagById(User user, Long bagId) {
         Bag bag = bagRepository.findById(bagId).orElse(new Bag());
         for(int i = bag.getEquipments().size() - 1; i >= 0; i--) {
+            bag.setLifeTime(new Timestamp(System.currentTimeMillis()));
             bag.getEquipments().get(i).setTaken(true);
         }
         bag.setStatus(false);
