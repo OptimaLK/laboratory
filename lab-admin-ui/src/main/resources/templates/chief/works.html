@@ -90,9 +90,12 @@
                                         class="fas fa-save" style="color: #4E26BB;"></i></a>
                             </form>
                         </div>
-                        <div>
-                            <a id="del" th:href="@{/work/{workId}/delete(workId=${wor.id})}" type="submit"><i
-                                    class="fas fa-trash-alt" style="color: #B00101;"></i></a>
+                        <div style="padding-right: 10px;">
+                            <form id="delForm" th:action="@{/work/{workId}(workId=${wor.id})}" th:method="delete">
+                                <a id="del" type="submit">
+                                    <i th:onclick="clicked(event, /*[[${wor.clientName}]]*/, /*[[${wor.objectName}]]*/, /*[[${wor.id}]]*/)" class="fas fa-trash-alt" style="color: #4E26BB;"></i>
+                                </a>
+                            </form>
                         </div>
                     </div>
                     <input style="display: none" th:id="hideStatus" th:name="status"
@@ -105,6 +108,14 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
+<script>
+    function clicked(e, client, object, id){
+        var text = 'Вы уверены, что хотите удалить заявку № ' + id + ' клиент ' + client + ' объект ' + object + ' ?';
+        if(confirm(text)) {
+            $('#delForm').submit();
+        }
+    }
+</script>
 <script>
     $(function () {
         $('.add_user').each(function () {
