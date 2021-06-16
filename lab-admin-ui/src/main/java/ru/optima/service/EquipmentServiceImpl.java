@@ -26,6 +26,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     public void save(EquipmentRepr equipmentRepr) {
         Equipment equipment = new Equipment();
         equipment.setId(equipmentRepr.getId());
+        equipment.setCategory(equipmentRepr.getCategory());
         equipment.setName(equipmentRepr.getName());
         equipment.setFactoryNumber(equipmentRepr.getFactoryNumber());
         equipment.setInventoryNumber(equipmentRepr.getInventoryNumber());
