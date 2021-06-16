@@ -57,7 +57,7 @@ public class Bag implements Serializable {
     @JoinColumn(name = "work_id")
     private Work work;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinTable(name = "bag_protocol",
             joinColumns = @JoinColumn(name = "bag_id"),
             inverseJoinColumns = @JoinColumn(name = "protocol_id"))
@@ -66,7 +66,7 @@ public class Bag implements Serializable {
     @Column(name = "status")
     private Boolean status;
 
-    public void setBag(User user) {
+    public void setBag(User user) { //TODO Проблема что сумка не должна вот так создаваться с нулевыми параметрами, Когда шеф смотрит все сумки он видит этот костыль и начинает ругаться
         this.name = "Сумка";
         this.birthTime = null;
         this.lifeTime = null;
