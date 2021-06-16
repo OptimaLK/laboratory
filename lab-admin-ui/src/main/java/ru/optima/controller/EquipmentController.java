@@ -79,6 +79,7 @@ public class EquipmentController {
         model.addAttribute("create", true);
         model.addAttribute("activePage", "Equipments"); // TODO ?
         model.addAttribute("equipment", new EquipmentRepr());
+        model.addAttribute("categories", categoryService.findAll());
         return pathCreator.createPath(auth, "equipment_form");
     }
 
