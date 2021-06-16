@@ -1,6 +1,5 @@
 package ru.optima.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.optima.persist.model.Protocol;
@@ -13,16 +12,18 @@ import ru.optima.repr.BagRepr;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class BagServiceImpl implements BagService{
+public class BagServiceImpl implements BagService {
 
     private BagRepository bagRepository;
     private ProtocolRepository protocolRepository;
+    private Bag bag;
 
     public BagServiceImpl(BagRepository bagRepository, ProtocolRepository protocolRepository) {
         this.bagRepository = bagRepository;
@@ -32,11 +33,18 @@ public class BagServiceImpl implements BagService{
     @Override
     public void addEquipmentToBag(Equipment equipment, User user) {
         equipment.setNameUserWhoTakenEquipment(user.getLastName());
-        List<Bag> bags = user.getBags();
-        if (bags.size() == 0){
-            bags.add(new Bag(user));
+        List <Bag> bags = user.getBags();
+        if(bags.size() != 0 && bag == null && bags.get(bags.size() - 1).getWork() == null)
+            bag = bags.get(bags.size() - 1);
+        else if(bag == null)
+            bag = new Bag();
+        if(bags.size() == 0 || bag.getUser() == null) {
+            bag.setBag(user);
+            bag.setUser(user);
+            bag.setStatus(false);
+            bags.add(bag);
         }
-        if (equipment.getTaken() == null || equipment.getTaken()) {
+        if(equipment.getTaken() == null || equipment.getTaken()) {
             equipment.setTaken(false);
             bags.get(bags.size() - 1).getEquipments().add(equipment);
             bagRepository.save(bags.get(bags.size() - 1));
@@ -48,11 +56,11 @@ public class BagServiceImpl implements BagService{
     @Override
     public void deleteEquipmentToBag(Equipment equipment, User user) {
         equipment.setNameUserWhoTakenEquipment("");
-        List<Bag> bags = user.getBags();
-        if (user.getBags().size() != 0) {
+        List <Bag> bags = user.getBags();
+        if(user.getBags().size() != 0) {
             Bag lastBag = bags.get(user.getBags().size() - 1);
-            for (int i = 0; i < lastBag.getEquipments().size(); i++) {
-                if (lastBag.getEquipments().get(i).equals(equipment)){
+            for(int i = 0; i < lastBag.getEquipments().size(); i++) {
+                if(lastBag.getEquipments().get(i).equals(equipment)) {
                     lastBag.getEquipments().remove(i);
                     equipment.setTaken(true);
                     bagRepository.save(lastBag);
@@ -64,31 +72,39 @@ public class BagServiceImpl implements BagService{
 
 
     @Override
-    public List<Equipment> findAllEquipments(User user) {
-        if (user.getBags().size() == 0)
-            return null;
+    public List <Equipment> findAllEquipments(User user) {
+        if(user.getBags().size() == 0) return null;
         Bag lastBag = user.getBags().get(user.getBags().size() - 1);
         return lastBag.getEquipments();
     }
 
     @Override
-    public List<Equipment> findAllEquipmentsFirstBag(User user) {
-        if (user.getBags().size() == 0)
-            return null;
+    public List <Equipment> findAllEquipmentsFirstBag(User user) {
+        if(user.getBags().size() == 0) return null;
         Bag firstBag = user.getBags().get(0);
         return firstBag.getEquipments();
     }
 
     @Override
     public void deleteAllEquipmentsInBag(User user) {
-        if (user.getBags().size() == 0)
-            return;
+        if(user.getBags().size() == 0) return;
         Bag lastBag = user.getBags().get(user.getBags().size() - 1);
-        for (int i = lastBag.getEquipments().size() - 1; i >= 0; i--) {
+        for(int i = lastBag.getEquipments().size() - 1; i >= 0; i--) {
             lastBag.getEquipments().get(i).setTaken(true);
             lastBag.getEquipments().remove(i);
         }
         bagRepository.save(lastBag);
+    }
+
+    @Override
+    public void deleteBagById(User user, Long bagId) {
+        Bag bag = bagRepository.findById(bagId).orElse(new Bag());
+        for(int i = bag.getEquipments().size() - 1; i >= 0; i--) {
+            bag.setLifeTime(new Timestamp(System.currentTimeMillis()));
+            bag.getEquipments().get(i).setTaken(true);
+        }
+        bag.setStatus(false);
+        bagRepository.save(bag);
     }
 
     @Override
@@ -97,39 +113,86 @@ public class BagServiceImpl implements BagService{
     }
 
     @Override
-    public void createNewBagAndSaveOldBag(BagRepr bag) {
+    public void createNewBagAndSaveOldBag(BagRepr bag, User user) {
+        List <Bag> bagList = bagRepository.findAll();
+        List<User> users = new ArrayList <>();
+        users.add(user);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new java.util.Date());
         calendar.add(Calendar.HOUR, bag.getCountHourLifeTime());
-        Bag bagUser = new Bag();
-        bagUser.setId(bag.getId());
-        bagUser.setName(bag.getName());
-        bagUser.setBirthTime(new Date(System.currentTimeMillis()));
-        bagUser.setLifeTime(new Timestamp(calendar.getTimeInMillis()));
-        bagUser.setEquipments(bag.getEquipments());
-        bagUser.setUser(bag.getUser());
-        bagUser.setWork(bag.getWork());
-        bagUser.setNumberProtocol(bag.getNumberProtocol());
-        for (int i = 0; i < bag.getCountProtocol(); i++) {
-            Protocol protocol = new Protocol();
-            bagUser.getNumberProtocol().add(protocol);
+        for(Bag value : bagList) {
+            if(value.getWork() == null) {
+                if(this.bag == null) {
+                    this.bag = new Bag();
+                    this.bag.setUsers(users);
+                    this.bag.setUser(user);
+                    if(bag.getId() != null)
+                        this.bag.setId(bag.getId());
+                    }
+                    if(value.getId().equals(bag.getId())) {
+                        this.bag.setId(value.getId());
+                        this.bag.setEquipments(value.getEquipments());
+                    }
+                }
+            break;
         }
-        bagRepository.save(bagUser);
+        if(this.bag == null) {
+            List <Bag> bags = user.getBags();
+            this.bag = bags.get(bags.size() - 1);
+        }
+        this.bag.setName(bag.getName());
+        this.bag.setBirthTime(new Timestamp(System.currentTimeMillis()));
+        this.bag.setLifeTime(new Timestamp(calendar.getTimeInMillis()));
+        if(this.bag.getUsers() == null) {
+            this.bag.setUsers(users);
+            this.bag.setUser(user);
+        }
+        this.bag.setWork(bag.getWork());
+        this.bag.setNumberProtocol(bag.getNumberProtocol());
+        for(int i = 0; i < bag.getCountProtocol(); i++) {
+            Protocol protocol = new Protocol();
+            this.bag.getNumberProtocol().add(protocol);
+        }
+        this.bag.setStatus(true);
+        bagRepository.save(this.bag);
+        this.bag = new Bag();
+    }
+
+    @Override
+    public void addBag(User user) {
+        List <Bag> bags = user.getBags();
+        if(bags.size() == 0 || bag.getUser() == null) {
+            bag.setBag(user);
+            bag.setUser(user);
+            bags.add(bag);
+        }
+            bagRepository.save(bags.get(bags.size() - 1));
     }
 
     @Override
     public BagRepr createBagReprAndAddUserAndEquipments(User user, List<Equipment> equipments) {
+        List<User> users = new ArrayList <>();
+        users.add(user);
         BagRepr bagRepr = new BagRepr();
+        bagRepr.setUsers(users);
         bagRepr.setUser(user);
         bagRepr.setEquipments(equipments);
         return bagRepr;
     }
 
+    @Override
+    public List <Equipment> selectBag(Long bagId, User user) {
+        if(user.getBags().size() == 0) return null;
+        Bag selBag = user.getBags().get(0);
+        for(Bag value : user.getBags()) {
+            if(value.getId().equals(bagId))
+                selBag = value;
+        }
+        return selBag.getEquipments();
+    }
 
     @Override
-    public List<BagRepr> findAll() {
-        return bagRepository.findAll().stream()
-                .map(BagRepr::new)
-                .collect(Collectors.toList());
+    public List <BagRepr> findAll() {
+        return bagRepository.findAll().stream().map(BagRepr :: new).collect(Collectors.toList());
     }
 }

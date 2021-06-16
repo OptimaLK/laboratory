@@ -49,7 +49,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "work_id"))
     private List<Work> works;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_bags",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "bag_id"))

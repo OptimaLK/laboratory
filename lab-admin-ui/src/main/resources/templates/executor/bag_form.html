@@ -13,8 +13,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <input th:type="hidden" th:field="${bag.id}">
-<!--                <input th:type="hidden" th:field="${bag.equipments}">-->
-                <input th:type="hidden" th:field="${bag.user}">
+                <input th:type="hidden" th:field="${bag.users}">
                 <input th:type="hidden" th:field="${bag.numberProtocol}">
 
 
@@ -36,16 +35,24 @@
                 <div class="form-group">
                     <label for="work">Заявка</label>
                     <select multiple class="form-control" id="work" th:field="${bag.work}" required>
+                        <tr>
+                            <th>Номер заявки</th>
+                            <th>Заказчик</th>
+                            <th>Наименование объекта</th>
+                        </tr>
                         <option th:each="wor : ${work}" th:value="${wor.id}">
-                            <td th:text="${wor.id}"></td>
-                            <td th:text="${wor.clientName}"></td>
-                            <td th:text="${wor.objectName}"></td>
+                            <tr>
+                                <td th:text="${wor.id}"></td>
+                                <td th:text="${wor.clientName}"></td>
+                                <td th:text="${wor.objectName}"></td>
+                            </tr>
                         </option>
                     </select>
                 </div>
                 <div class="card-footer bg-white">
                     <button type="submit" class="btn btn-primary">Регистрация сумки</button>
                 </div>
+            </div>
         </div>
     </form>
 </div>

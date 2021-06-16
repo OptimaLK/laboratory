@@ -85,4 +85,10 @@
         <tagDatabase tag="v-3.4"/>
     </changeSet>
 
+    <include file="v-3.5/db.changelog-20210602-114316960.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="35" author="maks_tarn">
+        <tagDatabase tag="v-3.5"/>
+    </changeSet>
+
 </databaseChangeLog>
