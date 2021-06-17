@@ -36,8 +36,10 @@ public class BagServiceImpl implements BagService {
         List <Bag> bags = user.getBags();
         if(bags.size() != 0 && bag == null && bags.get(bags.size() - 1).getWork() == null)
             bag = bags.get(bags.size() - 1);
-        else if(bag == null)
+        else if(bag == null || !user.getId().equals(bag.getUser().getId()) && bags.size() == 0)
             bag = new Bag();
+        else if(!user.getId().equals(bag.getUser().getId()))
+            bag = bags.get(bags.size() - 1);
         if(bags.size() == 0 || bag.getUser() == null) {
             bag.setBag(user);
             bag.setUser(user);

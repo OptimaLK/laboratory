@@ -17,6 +17,19 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <input th:type="hidden" th:field="*{id}">
+<!--                    <div class="form-group">-->
+<!--                        <label for="category">Категория</label>-->
+<!--                        <input th:field="*{category}" type="text" class="form-control" id="category" placeholder="Введите название и тип оборудования" required>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <label for="categories">Категория оборудования</label>
+                        <select class="form-control" id="categories" size="1" th:field="*{category.id}">
+                            <option th:each="category : ${categories}"
+                                    th:text="${category.name}"
+                                    th:value="${category.id}"
+                                    th:selected="${equipment.category.id} == ${category.id}"></option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="name">Название оборудование</label>
                         <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Введите название и тип оборудования" required>

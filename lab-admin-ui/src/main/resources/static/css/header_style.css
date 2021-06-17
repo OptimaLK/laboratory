@@ -60,6 +60,10 @@ a:hover {
     color: green;
 }
 
+.tools_font p {
+    margin: 0;
+}
+
 .font_header {
     list-style-type: none;
     font-weight: 200;
