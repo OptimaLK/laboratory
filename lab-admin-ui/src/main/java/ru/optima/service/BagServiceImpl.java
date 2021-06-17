@@ -59,11 +59,20 @@ public class BagServiceImpl implements BagService {
     public void deleteEquipmentToBag(Equipment equipment, User user) {
         equipment.setNameUserWhoTakenEquipment("");
         List <Bag> bags = user.getBags();
+        Bag lastBag = null;
+        for(Bag value : bags) {
+            for(Equipment equ : value.getEquipments()) {
+                if(equ.getId().equals(equipment.getId())) {
+                    lastBag = bagRepository.findById(value.getId()).orElse(new Bag());
+                    break;
+                }
+            }
+        }
         if(user.getBags().size() != 0) {
-            Bag lastBag = bags.get(user.getBags().size() - 1);
+            assert lastBag != null;
             for(int i = 0; i < lastBag.getEquipments().size(); i++) {
                 if(lastBag.getEquipments().get(i).equals(equipment)) {
-                    lastBag.getEquipments().remove(i);
+//                    lastBag.getEquipments().remove(i);
                     equipment.setTaken(true);
                     bagRepository.save(lastBag);
                     return;
