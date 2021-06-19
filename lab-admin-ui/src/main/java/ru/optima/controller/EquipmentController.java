@@ -71,6 +71,7 @@ public class EquipmentController {
         model.addAttribute("edit", true);
         model.addAttribute("activePage", "Equipment");
         model.addAttribute("equipment", equipmentService.findById(id).orElseThrow(NotFoundException::new));
+        model.addAttribute("categories", categoryService.findAll());
         return pathCreator.createPath(auth, "equipment_form");
     }
 
@@ -90,7 +91,7 @@ public class EquipmentController {
         if (bindingResult.hasErrors()) {
             return pathCreator.createPath(auth, "equipment_form");
         }
-
+        equipment.setCategory(categoryService.findById(equipment.getCategory().getId()));
         equipmentService.save(equipment);
         return "redirect:/equipment";
     }
