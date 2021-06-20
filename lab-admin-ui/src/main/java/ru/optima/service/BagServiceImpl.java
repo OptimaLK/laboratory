@@ -194,11 +194,6 @@ public class BagServiceImpl implements BagService {
     }
 
     @Override
-    public void deleteEquipmentFormBagById(Long bagId, Long equipmentId) {
-//        bagRepository.deleteEquipmentFormBagById(bagId, equipmentId);
-    }
-
-    @Override
     public List <BagRepr> findAll() {
         return bagRepository.findAll().stream().map(BagRepr :: new).collect(Collectors.toList());
     }
