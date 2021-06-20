@@ -59,4 +59,7 @@ public class Work implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
 
+    @Column(name = "responsible")
+    private String responsible;
+
 }

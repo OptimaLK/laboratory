@@ -113,6 +113,7 @@ public class WorkController {
             executorsList.addAll(work.getUsers());
             work.setUsers(executorsList);
         }
+        work.setResponsible(work.getUsers().get(0).getLastName());
         work.setWorkStatus(workStatusService.findByName("NEW"));
         workService.save(work);
         return "redirect:/work";
@@ -124,6 +125,7 @@ public class WorkController {
         List<User> executorsList = workRepr.getUsers();
         executorsList.add(userService.findById(userId));
         workRepr.setUsers(executorsList);
+        workRepr.setResponsible(userService.findById(userId).getLastName());
         workService.save(workRepr);
         response.sendRedirect(request.getHeader("referer"));
     }
@@ -149,8 +151,15 @@ public class WorkController {
         WorkRepr workRepr = workService.findById(workEdit.getId()).orElseThrow(NotFoundException::new);
         workRepr.setClientName(workEdit.getClientName());
         workRepr.setObjectName(workEdit.getObjectName());
+        workRepr.setDeadline(workEdit.getDeadline());
+        workRepr.setResponsible(workEdit.getResponsible());
         workRepr.setNumberContract(workEdit.getNumberContract());
         workRepr.setAdditionalInformation(workEdit.getAdditionalInformation());
+        List<User> executorsList = workRepr.getUsers();
+        if(!executorsList.contains(userService.findByName(workEdit.getResponsible()))) {
+            executorsList.add(userService.findByName(workEdit.getResponsible()));
+            workRepr.setUsers(executorsList);
+        }
         workService.save(workRepr);
         return "redirect:/work";
     }
