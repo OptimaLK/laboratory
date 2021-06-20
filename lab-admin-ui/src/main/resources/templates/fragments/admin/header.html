@@ -30,21 +30,32 @@
                 <a class="font_header" th:href="@{/admin/works}">Список работ</a></li>
             <li class="users_padding" th:classappend="${activePage == 'Users'} ? active">
                 <a class="font_header" th:href="@{/admin/users}">Пользователи</a></li>
-            <div class="d-flex">
-                <li class="nav-item dropdown">
-                    <a href="#" id="logged-in-username" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-tools fa-2x" style="color: #737475;"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="logged-in-username">
-                        <a href="#" class="dropdown-item">Profile</a>
-                        <form th:action="@{/logout}" method="POST">
-                            <input type="submit" id="link-logout" class="dropdown-item" value="Logout"/>
-                        </form>
-                    </div>
-                </li>
-                <li class="user_use">
-                    <span id="dd_user" sec:authentication="principal.username">Default User</span>
-                </li>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="align-self: center;">
+                    <li class="nav-item dropdown">
+                        <a href="#" id="logged-in-username" class="nav-link" data-toggle="dropdown">
+                            <i class="fa fa-tools fa-2x" style="color: #737475;"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="logged-in-username">
+                            <a href="#" class="dropdown-item">Profile</a>
+                        </div>
+                    </li>
+                </div>
+                <div>
+                    <li class="user_use">
+                        <span id="dd_user" sec:authentication="principal.username">Default User</span>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" id="logged" class="nav-link" data-toggle="dropdown" style="text-align: center;">
+                            <i class="fas fa-sign-out-alt" style="font-size: x-large;"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="logged-in-username">
+                            <form th:action="@{/logout}" method="POST">
+                                <input type="submit" id="logout" class="dropdown-item" value="Logout"/>
+                            </form>
+                        </div>
+                    </li>
+                </div>
             </div>
         </ul>
     </div>
