@@ -57,28 +57,18 @@ public class BagServiceImpl implements BagService {
 
     @Override
     public void deleteEquipmentToBag(Equipment equipment, User user) {
+        //TODO к размышлению: вроде так работает как задуманно, но можно переделать запросом к базе
         equipment.setNameUserWhoTakenEquipment("");
-        List <Bag> bags = user.getBags();
-        Bag lastBag = null;
-        for(Bag value : bags) {
-            for(Equipment equ : value.getEquipments()) {
-                if(equ.getId().equals(equipment.getId())) {
-                    lastBag = bagRepository.findById(value.getId()).orElse(new Bag());
-                    break;
-                }
+        equipment.setTaken(true);
+        Bag lastBag = bagRepository.findBagByEquipments(equipment);
+        List<Equipment> equipments = lastBag.getEquipments();
+        for (int i = 0; i < equipments.size(); i++) {
+            if (equipments.get(i).equals(equipment)){
+                equipments.remove(i);
+                return;
             }
         }
-        if(user.getBags().size() != 0) {
-            assert lastBag != null;
-            for(int i = 0; i < lastBag.getEquipments().size(); i++) {
-                if(lastBag.getEquipments().get(i).equals(equipment)) {
-//                    lastBag.getEquipments().remove(i);
-                    equipment.setTaken(true);
-                    bagRepository.save(lastBag);
-                    return;
-                }
-            }
-        }
+        bagRepository.save(lastBag);
     }
 
 
@@ -117,6 +107,7 @@ public class BagServiceImpl implements BagService {
         bag.setStatus(false);
         bagRepository.save(bag);
     }
+
 
     @Override
     public Bag createBagReprByBag(Bag bag) {
@@ -200,6 +191,11 @@ public class BagServiceImpl implements BagService {
                 selBag = value;
         }
         return selBag.getEquipments();
+    }
+
+    @Override
+    public void deleteEquipmentFormBagById(Long bagId, Long equipmentId) {
+//        bagRepository.deleteEquipmentFormBagById(bagId, equipmentId);
     }
 
     @Override
