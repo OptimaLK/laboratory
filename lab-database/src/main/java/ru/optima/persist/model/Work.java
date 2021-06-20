@@ -52,8 +52,8 @@ public class Work implements Serializable {
     private WorkStatus workStatus;
 
 
-    @OneToOne(mappedBy = "work")
-    private Bag bag;
+    @OneToMany(mappedBy = "work", cascade = CascadeType.ALL)
+    private List<Bag> bags;
 
     @Column(name = "deadline")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

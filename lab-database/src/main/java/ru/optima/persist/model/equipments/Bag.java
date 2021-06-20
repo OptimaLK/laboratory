@@ -53,7 +53,7 @@ public class Bag implements Serializable {
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinColumn(name = "work_id")
     private Work work;
 
