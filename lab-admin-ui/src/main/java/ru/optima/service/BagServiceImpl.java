@@ -52,6 +52,7 @@ public class BagServiceImpl implements BagService {
             bagRepository.save(bags.get(bags.size() - 1));
         } else {
             equipment.setTaken(true);
+            equipment.setNameUserWhoTakenEquipment("");
         }
     }
 
@@ -72,8 +73,8 @@ public class BagServiceImpl implements BagService {
             assert lastBag != null;
             for(int i = 0; i < lastBag.getEquipments().size(); i++) {
                 if(lastBag.getEquipments().get(i).equals(equipment)) {
-//                    lastBag.getEquipments().remove(i);
                     equipment.setTaken(true);
+                    equipment.setNameUserWhoTakenEquipment("");
                     bagRepository.save(lastBag);
                     return;
                 }
@@ -102,6 +103,7 @@ public class BagServiceImpl implements BagService {
         Bag lastBag = user.getBags().get(user.getBags().size() - 1);
         for(int i = lastBag.getEquipments().size() - 1; i >= 0; i--) {
             lastBag.getEquipments().get(i).setTaken(true);
+            lastBag.getEquipments().get(i).setNameUserWhoTakenEquipment("");
             lastBag.getEquipments().remove(i);
         }
         bagRepository.save(lastBag);
@@ -113,6 +115,7 @@ public class BagServiceImpl implements BagService {
         for(int i = bag.getEquipments().size() - 1; i >= 0; i--) {
             bag.setLifeTime(new Timestamp(System.currentTimeMillis()));
             bag.getEquipments().get(i).setTaken(true);
+            bag.getEquipments().get(i).setNameUserWhoTakenEquipment("");
         }
         bag.setStatus(false);
         bagRepository.save(bag);

@@ -17,6 +17,7 @@ import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -44,6 +45,7 @@ public class EquipmentController {
         // В качестве костыля сделал редирект с заданными жёстко параметрами.
         // Впоследствии, считаю, нужно свести к одной функции с параметрами, но можно и раскомментить обратно.
         // Тем более, что полный список оборудования (без разбивки по категориям), вроде как, нигде не используется.
+        model.addAttribute("count", equipmentService.countEquipment(principal.getName()));
         return equipmentsPageWithCategory(model, 7L, "", principal, auth);
     }
 
@@ -63,6 +65,7 @@ public class EquipmentController {
         model.addAttribute("activePage", "Equipments");
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("user", userService.findByName(principal.getName()));
+        model.addAttribute("count", equipmentService.countEquipment(principal.getName()));
         return pathCreator.createPath(auth, "equipments");
     }
 

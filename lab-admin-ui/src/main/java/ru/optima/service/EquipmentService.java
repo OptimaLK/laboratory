@@ -20,4 +20,6 @@ public interface EquipmentService {
 
     void delete(Long id);
 
+    int countEquipment(String name);
+
 }

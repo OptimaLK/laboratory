@@ -68,8 +68,8 @@ public class BagController {
     public void addEquipmentToBagById(@PathVariable Long equipmentId, Principal principal, HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         Equipment equipment = equipmentService.findByEId(equipmentId);
         User user = userService.findByName(principal.getName());
-
         bagService.addEquipmentToBag(equipment, user);
+        model.addAttribute("count", equipmentService.countEquipment(principal.getName()));
         response.sendRedirect(request.getHeader("referer"));
     }
 
@@ -85,6 +85,7 @@ public class BagController {
         Equipment equipment = equipmentService.findByEId(equipmentId);
         User user = userService.findByName(principal.getName());
         bagService.deleteEquipmentToBag(equipment, user);
+        model.addAttribute("count", equipmentService.countEquipment(principal.getName()));
         response.sendRedirect(request.getHeader("referer"));
     }
 

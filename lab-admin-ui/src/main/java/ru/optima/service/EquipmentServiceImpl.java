@@ -8,6 +8,7 @@ import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.persist.repo.EquipmentRepository;
 import ru.optima.warning.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,4 +68,16 @@ public class EquipmentServiceImpl implements EquipmentService {
         return equipmentRepository.findAllByCategoryIdAndTaken(categoryId, taken);
     }
 
+    @Override
+    public int countEquipment(String name) {
+        int i = 0;
+        for(EquipmentRepr equ : equipmentRepository.findAll().stream()
+                .map(EquipmentRepr::new)
+                .collect(Collectors.toList())) {
+            if(equ.getNameUserWhoTakenEquipment() != null && equ.getNameUserWhoTakenEquipment().equals(name)) {
+                i++;
+            }
+        }
+        return i;
+    }
 }
