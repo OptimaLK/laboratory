@@ -29,19 +29,15 @@ import java.util.List;
 @RequestMapping("/bag")
 public class BagController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private EquipmentService equipmentService;
-    @Autowired
-    private BagService bagService;
-    @Autowired
-    private PathCreator pathCreator;
-    @Autowired
-    private WorkService workService;
+
+    private final UserService userService;
+    private final EquipmentService equipmentService;
+    private final BagService bagService;
+    private final PathCreator pathCreator;
+    private final WorkService workService;
 
     @GetMapping({"","/"})
-    public String equipmentsPage(Model model, Principal principal, SecurityContextHolder auth) {
+    public String equipmentsPageInBag(Model model, Principal principal, SecurityContextHolder auth) {
         User user = userService.findByName(principal.getName());
         model.addAttribute("activePage", "Bag");
         model.addAttribute("equipmentsInLastBag", bagService.findAllEquipments(user));
@@ -96,7 +92,7 @@ public class BagController {
         return "redirect:/bag";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public String deleteBag(@PathVariable Long id, Principal principal, SecurityContextHolder auth) {
         User user = userService.findByName(principal.getName());
         bagService.deleteBagById(user, id);

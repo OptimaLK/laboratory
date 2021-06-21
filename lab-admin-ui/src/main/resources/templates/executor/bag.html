@@ -19,11 +19,11 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="attrs" style="background: none; margin: auto;" th:if="${sel}">
-                    <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">
-                        <button style="width: 100%; margin-bottom: 15px;" type="btn btn-icon btn-pill btn-danger">
-                            Выложить все оборудование
-                        </button>
-                    </form>
+<!--                    <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">-->
+<!--                        <button style="width: 100%; margin-bottom: 15px;" type="btn btn-icon btn-pill btn-danger">-->
+<!--                            Выложить все оборудование-->
+<!--                        </button>-->
+<!--                    </form>-->
                     <form class="form-group" th:action="@{'/bag/form'}">
                         <button style="width: 100%; margin: 0;" type="submit">Сформировать</button>
                     </form>
@@ -66,7 +66,7 @@
                             <dd th:text="${bagEq.verificationDateEnd}"></dd>
                         </div>
                         <div>
-                            <form class="form-group" method="POST" th:action="@{'/bag/delete/' + ${bag.id}}"
+                            <form class="form-group" method="POST" th:action="@{'/bag/' + ${bag.id}}"
                                   th:if="${bag.status}" th:method="delete">
                                 <button style="background-color: #ffbebe" type="submit">Удалить</button>
                             </form>
