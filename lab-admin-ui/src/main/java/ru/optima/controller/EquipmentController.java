@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.optima.beans.PackageEquipments;
 import ru.optima.persist.model.User;
 import ru.optima.persist.model.equipments.Category;
+import ru.optima.persist.model.equipments.Commentary;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.EquipmentRepr;
+import ru.optima.repr.WorkRepr;
 import ru.optima.service.*;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
@@ -34,17 +36,6 @@ public class EquipmentController {
 
     @GetMapping({"","/"})
     public String equipmentsPage(Model model, Principal principal, SecurityContextHolder auth) {
-//        List<Category> categoryList = categoryService.findAll();
-//        model.addAttribute("activePage", "Equipments");
-//        model.addAttribute("categories", categoryList);
-//        model.addAttribute("equipments", equipmentService.findAllByCategoryId(categoryList.get(0).getId()));
-//        model.addAttribute("user", userService.findByName(principal.getName()));
-//        return pathCreator.createPath(auth, "equipments");
-
-        // Две практически идентичные функции - дублирование, большая вероятность ошибок.
-        // В качестве костыля сделал редирект с заданными жёстко параметрами.
-        // Впоследствии, считаю, нужно свести к одной функции с параметрами, но можно и раскомментить обратно.
-        // Тем более, что полный список оборудования (без разбивки по категориям), вроде как, нигде не используется.
         model.addAttribute("count", equipmentService.countEquipment(principal.getName()));
         return equipmentsPageWithCategory(model, 7L, "", principal, auth);
     }
@@ -102,6 +93,25 @@ public class EquipmentController {
     @GetMapping("/{id}/delete")
     public String deleteEquipment(Model model, @PathVariable("id") Long id, SecurityContextHolder auth) {
         equipmentService.delete(id);
+        return "redirect:/equipment";
+    }
+
+    @PostMapping("/comment/{id}")
+    public String addCommentary(@PathVariable("id") Long id, @RequestParam(value = "comment") String comment) {
+        EquipmentRepr equipment = new EquipmentRepr(equipmentService.findByEId(id));
+        equipment.setCommentary(new Commentary());
+        equipment.getCommentary().setComment(comment);
+        equipmentService.save(equipment);
+        return "redirect:/equipment";
+    }
+
+    @PostMapping("/remove/{id}")
+    public String delCommentary(@PathVariable("id") Long id) {
+        EquipmentRepr equipment = new EquipmentRepr(equipmentService.findByEId(id));
+        Long com = equipment.getCommentary().getId();
+        equipment.setCommentary(null);
+        equipmentService.save(equipment);
+        equipmentService.deleteCommentary(com);
         return "redirect:/equipment";
     }
 }

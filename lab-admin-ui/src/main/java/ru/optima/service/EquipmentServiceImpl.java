@@ -3,6 +3,7 @@ package ru.optima.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.optima.persist.model.equipments.Commentary;
 import ru.optima.repr.EquipmentRepr;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.persist.repo.EquipmentRepository;
@@ -35,6 +36,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipment.setVerificationDateEnd(equipmentRepr.getVerificationDateEnd());
         equipment.setVerificationNumber(equipmentRepr.getVerificationNumber());
         equipment.setCategory(equipmentRepr.getCategory());
+        equipment.setCommentary(equipmentRepr.getCommentary());
         equipmentRepository.save(equipment);
     }
 
@@ -58,6 +60,11 @@ public class EquipmentServiceImpl implements EquipmentService {
     @Override
     public void delete(Long id) {
         equipmentRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteCommentary(Long id) {
+        equipmentRepository.deleteCommentary(id);
     }
 
     public List<Equipment> findAllByCategoryId(Long id){

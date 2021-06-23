@@ -2,6 +2,7 @@ package ru.optima.service;
 
 import org.springframework.stereotype.Service;
 import ru.optima.persist.model.User;
+import ru.optima.persist.model.equipments.Commentary;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.EquipmentRepr;
 
@@ -19,6 +20,8 @@ public interface EquipmentService {
     Equipment findByEId(Long id);
 
     void delete(Long id);
+
+    void deleteCommentary(Long id);
 
     int countEquipment(String name);
 

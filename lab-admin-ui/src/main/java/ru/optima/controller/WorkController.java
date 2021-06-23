@@ -113,7 +113,8 @@ public class WorkController {
             executorsList.addAll(work.getUsers());
             work.setUsers(executorsList);
         }
-        work.setResponsible(work.getUsers().get(0).getLastName());
+        if(work.getUsers().size() != 0)
+            work.setResponsible(work.getUsers().get(0).getLastName());
         work.setWorkStatus(workStatusService.findByName("NEW"));
         workService.save(work);
         return "redirect:/work";
@@ -152,14 +153,25 @@ public class WorkController {
         workRepr.setClientName(workEdit.getClientName());
         workRepr.setObjectName(workEdit.getObjectName());
         workRepr.setDeadline(workEdit.getDeadline());
-        workRepr.setResponsible(workEdit.getResponsible());
         workRepr.setNumberContract(workEdit.getNumberContract());
         workRepr.setAdditionalInformation(workEdit.getAdditionalInformation());
         List<User> executorsList = workRepr.getUsers();
-        if(!executorsList.contains(userService.findByName(workEdit.getResponsible()))) {
+        if(workRepr.getResponsible() == null || workRepr.getResponsible().equals(""))
+            workRepr.setResponsible(workEdit.getResponsible());
+        if(workRepr.getUsers().size() == 0)
             executorsList.add(userService.findByName(workEdit.getResponsible()));
-            workRepr.setUsers(executorsList);
+        else {
+            for(int i = 0; i < executorsList.size(); i++) {
+                if(executorsList.get(i).getId().equals(userService.findByName(workRepr.getResponsible()).getId()))
+                    executorsList.set(i, userService.findByName(workEdit.getResponsible()));
+                else {
+                    executorsList.add(userService.findByName(workEdit.getResponsible()));
+                    break;
+                }
+            }
         }
+        workRepr.setUsers(executorsList);
+        workRepr.setResponsible(workEdit.getResponsible());
         workService.save(workRepr);
         return "redirect:/work";
     }
