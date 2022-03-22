@@ -66,6 +66,7 @@
                     <div class="form-group">
                         <label for="roles">Роли</label>
                         <select multiple class="form-control" id="roles" th:field="*{roles}" required>
+                            <option value="">&nbsp;</option>
                             <option th:each="role : ${roles}"
                                     th:text="${role.name}"
                                     th:value="${role.id}"

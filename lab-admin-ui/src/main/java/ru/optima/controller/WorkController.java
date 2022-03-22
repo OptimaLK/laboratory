@@ -113,6 +113,8 @@ public class WorkController {
             executorsList.addAll(work.getUsers());
             work.setUsers(executorsList);
         }
+        if(work.getUsers().size() != 0)
+            work.setResponsible(work.getUsers().get(0).getLastName());
         work.setWorkStatus(workStatusService.findByName("NEW"));
         workService.save(work);
         return "redirect:/work";
@@ -124,6 +126,7 @@ public class WorkController {
         List<User> executorsList = workRepr.getUsers();
         executorsList.add(userService.findById(userId));
         workRepr.setUsers(executorsList);
+        workRepr.setResponsible(userService.findById(userId).getLastName());
         workService.save(workRepr);
         response.sendRedirect(request.getHeader("referer"));
     }
@@ -149,8 +152,26 @@ public class WorkController {
         WorkRepr workRepr = workService.findById(workEdit.getId()).orElseThrow(NotFoundException::new);
         workRepr.setClientName(workEdit.getClientName());
         workRepr.setObjectName(workEdit.getObjectName());
+        workRepr.setDeadline(workEdit.getDeadline());
         workRepr.setNumberContract(workEdit.getNumberContract());
         workRepr.setAdditionalInformation(workEdit.getAdditionalInformation());
+        List<User> executorsList = workRepr.getUsers();
+        if(workRepr.getResponsible() == null || workRepr.getResponsible().equals(""))
+            workRepr.setResponsible(workEdit.getResponsible());
+        if(workRepr.getUsers().size() == 0)
+            executorsList.add(userService.findByName(workEdit.getResponsible()));
+        else {
+            for(int i = 0; i < executorsList.size(); i++) {
+                if(executorsList.get(i).getId().equals(userService.findByName(workRepr.getResponsible()).getId()))
+                    executorsList.set(i, userService.findByName(workEdit.getResponsible()));
+                else {
+                    executorsList.add(userService.findByName(workEdit.getResponsible()));
+                    break;
+                }
+            }
+        }
+        workRepr.setUsers(executorsList);
+        workRepr.setResponsible(workEdit.getResponsible());
         workService.save(workRepr);
         return "redirect:/work";
     }

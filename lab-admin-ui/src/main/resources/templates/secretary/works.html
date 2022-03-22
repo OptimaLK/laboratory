@@ -16,12 +16,12 @@
             <tr>
                 <th>Номер заявки</th>
                 <th>Дата регистрации</th>
-                <th style="min-width: 350px;">Заказчик</th>
-                <th style="min-width: 350px;">Наименование объекта</th>
+                <th>Заказчик</th>
+                <th>Наименование объекта</th>
                 <th>Срок</th>
                 <th>Ответственный</th>
                 <th>Договор</th>
-                <th style="min-width: 250px;" colspan="2">Дополнительная информация</th>
+                <th colspan="2">Дополнительная информация</th>
             </tr>
             <tr style="background: rgba(219, 242, 255, 0.69);">
                 <td class="add" colspan="7">
@@ -38,8 +38,10 @@
                 <td class="add">
                     <div th:id="input">
                         <input type="text" class="hide" form="editForm" id="id" name="id" th:value="_">
+                        <input type="text" class="hide" form="editForm" id="responsible" name="responsible" value=" ">
                         <input type="text" class="hide" form="editForm" id="clientName" name="clientName" value=" ">
                         <input type="text" class="hide" form="editForm" id="objectName" name="objectName" value=" ">
+                        <input type="text" class="hide" form="editForm" id="deadline" name="deadline" value=" ">
                         <input type="text" class="hide" form="editForm" id="numberContract" name="numberContract" value=" ">
                         <input type="text" class="hide" form="editForm" id="additionalInformation" name="additionalInformation" value=" ">
                     </div>
@@ -50,20 +52,46 @@
             <tr th:each="wor : ${work}" th:id="work_head">
                 <td class="userU" th:text="${wor.id}"></td>
                 <td th:text="${wor.registrationDate}"></td>
-                <td style="min-width: 350px;"><textarea readonly th:text="${wor.clientName}"></textarea></td>
-                <td style="min-width: 350px;"><textarea readonly th:text="${wor.objectName}"></textarea></td>
-                <td th:form="editForm" th:name="deadline" th:text="${wor.deadline}"></td>
+                <td style="width: 20%"><textarea readonly th:text="${wor.clientName}"></textarea></td>
+                <td style="width: 20%"><textarea readonly th:text="${wor.objectName}"></textarea></td>
+                <td><textarea readonly th:text="${wor.deadline}"></textarea></td>
                 <td class="add_user">
                     <div>
-                        <p th:each="user : ${users}"
-                           th:if="${wor.users?.contains(user)}"
-                           th:text="${user.lastName}"
-                           th:value="${user.id}">
+                        <div id="user" th:if="${wor.responsible != null}">
+                            <input class="userU" readonly th:value="${wor.responsible}"></div>
+                    </div>
+                    <div th:id="selected" class="form-group hide">
+                        <select class="form-control" size="1" id="userSel">
+                            <option th:each="user : ${users}"
+                                    th:text="${user.lastName}"
+                                    th:value="${user.lastName}"
+                                    th:selected="${wor.users?.contains(user)}"></option>
+                        </select>
+                    </div>
+                    <div id="sel">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <i aria-hidden="true" class="fa fa-user-plus" style="color: #4E26BB;"></i>
+                        </a>
+                        <div>
+                            <ul aria-labelledby="logged-in-username"
+                                class="dropdown-menu dropdown-menu-right drop_menu">
+                                <li><a class="dropdown-item" style="display:block;" th:each="usr : ${users}"
+                                       th:href="@{/work/user/{workId}/{userId}(userId=${usr.id}, workId=${wor.id})}"
+                                       th:text="${usr.getLastName()}"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ico_ok-del" th:if="!${wor.getWorkStatus().getName() == 'COMPLETED'}"
+                         th:unless="${wor.getWorkStatus().getName() == 'NEW'}">
+                        <a th:href="@{/work/sendToArchive/{workId}(workId=${wor.id})}"><i class="fas fa-check-circle"
+                                                                                          style="color: #26BB50;"></i></a>
+                        <a th:href="@{/work/back/{workId}(workId=${wor.id})}"><i
+                                class="fas fa-times-circle" style="color: #B00101;"></i></a>
                     </div>
                 </td>
                 <td><textarea readonly th:text="${wor.numberContract}"></textarea></td>
-                <td style="min-width: 250px;"><textarea readonly th:text="${wor.additionalInformation}"></textarea></td>
-                <td style="max-width: 50px" th:id="status">
+                <td style="width: 15%"><textarea readonly th:text="${wor.additionalInformation}"></textarea></td>
+                <td th:id="status">
                     <div class="ico_ok-del">
                         <div style="padding-right: 10px;">
                             <a id="edit" type="button"><i class="fas fa-edit" style="color: #4E26BB;"></i></a>
@@ -75,7 +103,7 @@
                         <div style="padding-right: 10px;">
                             <form id="delForm" th:action="@{/work/{workId}(workId=${wor.id})}" th:method="delete">
                                 <a id="del" type="submit">
-                                    <i th:onclick="clicked(event, /*[[${wor.clientName}]]*/, /*[[${wor.objectName}]]*/, /*[[${wor.id}]]*/)" class="fas fa-trash-alt" style="color: #4E26BB;"></i>
+                                    <i th:onclick="clicked(event, /*[[${wor.clientName}]]*/, /*[[${wor.objectName}]]*/, /*[[${wor.id}]]*/)" class="fas fa-trash-alt" style="color: #bd2130;"></i>
                                 </a>
                             </form>
                         </div>
@@ -177,7 +205,11 @@
             $('td textarea', tbl).each(function () {
                 $(this).prop('readonly', false);
                 $(this).css('background', '#f8f9fa');
-            })
+            });
+            $('#selected', tbl).removeClass('hide');
+            $('#sel', tbl).addClass('hide');
+            $('#user', tbl).addClass('hide');
+            $('.ico_ok-del', tbl).addClass('hide');
         })
     });
     $(function () {
@@ -189,8 +221,12 @@
             let textIn = $('td textarea', tbl), textOut = $('table thead tr td div#input input'), i;
             for(i = 0; i < textIn.length; i++) {
                 $(textIn[i]).prop('readonly', true);
-                $(textOut[i + 1]).attr('value', $(textIn[i]).val());
+                $(textOut[i + 2]).attr('value', $(textIn[i]).val());
             }
+            $(textOut[1]).attr('value', $('select#userSel option:selected', tbl).val());
+            $('#selected', tbl).addClass('hide');
+            $('#sel', tbl).removeClass('hide');
+            $('#user', tbl).addClass('hide');
             $('#editForm').submit();
         })
     });

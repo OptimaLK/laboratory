@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
 <link rel="stylesheet" th:href="@{/css/equipments.css}">
+<link rel="stylesheet" th:href="@{/css/popup_window.css}">
 <head th:replace="fragments/chief/header :: head"></head>
 
 <body class="bg-light">
@@ -30,7 +31,7 @@
                                 <dt>Дата поверки:</dt>
                                 <dd id="verDate" th:text="${equ.verificationDateEnd}"></dd>
                             </div>
-                            <div class="ico_ok-del edit">
+                            <div class="ico_ok-del edit" th:if="${equ.commentary == null}">
                                 <div style="padding-right: 10px;">
                                     <a id="edit" th:href="@{/equipment/{eqId}/edit(eqId=${equ.id})}" type="submit"><i
                                             class="fas fa-edit" style="color: #4E26BB;"></i></a>
@@ -41,22 +42,49 @@
                                 </div>
                             </div>
                         </div>
-                        <div th:switch="${equ.isActiv}">
-                            <form class="form-group" th:case="${false}">
-                                <button id="get" type="submit">Взять</button>
+                        <div th:if="${equ.commentary == null}">
+                            <div th:switch="${equ.isActiv}">
+                                <form class="form-group" th:case="${false}">
+                                    <button id="get" style="width: 200px;" type="submit">Взять</button>
+                                </form>
+                                <form class="form-group" th:case="${true}">
+                                    <button style="display: none" type="submit"></button>
+                                </form>
+                                <label class="alertlabel" id="needVer">Требует поверки</label>
+                            </div>
+                            <form th:action="@{'/verification/app_verification/' + ${equ.id}}"
+                                  th:object="${equipments}">
+                                <button style="margin-top: 10px; width: 200px;" type="submit">На поверку</button>
                             </form>
-                            <form class="form-group" th:case="${true}">
-                                <button style="display: none" type="submit"></button>
-                            </form>
-                            <label class="alertlabel" id="needVer">Требует поверки</label>
                         </div>
-                        <form th:action="@{'/verification/app_verification/' + ${equ.id}}"
-                              th:object="${equipments}">
-                            <button style="margin-top: 10px;" type="submit">На поверку</button>
-                        </form>
+                        <div>
+                            <button class="popup-open" style="margin-top: 20px; width: 200px;"
+                                    th:if="${equ.commentary == null}" type="button">Заблокировать
+                            </button>
+                            <form th:action="@{'/equipment/remove/' + ${equ.id}}" th:method="post"
+                                  th:unless="${equ.commentary == null}">
+                                <button style="margin-top: 20px; width: 200px; background: #ffc4c4;" type="submit">Разблокировать</button>
+                            </form>
+                        </div>
+                        <div class="popup-fade">
+                            <div class="popup">
+                                <form style="display: flex; align-items: center; flex-direction: column;" th:action="@{'/equipment/comment/' + ${equ.id}}"
+                                      th:method="post">
+                                    <div>
+                                        <label style="font-size: large;" th:for="comment">Причина блокировки:</label>
+                                    </div>
+                                    <div>
+                                        <textarea id="comment" name="comment" style="width: 450px;"></textarea>
+                                    </div>
+                                    <div>
+                                        <button class="popup-close" type="submit">Сохранить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </dl>
-                    <form class="attrs" th:action="@{'/equipment/create/'}" style="height: 100%;">
-                        <button type="submit" style="top: 50%;">Создать</button>
+                    <form class="attrs" style="height: 100%;" th:action="@{'/equipment/create/'}">
+                        <button style="top: 50%;" type="submit">Создать</button>
                     </form>
                 </div>
             </div>
@@ -65,24 +93,48 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
-<script >
-      var date = new Date();
-      var dateForAlert = new Date();
-      dateForAlert.setDate(date.getDate() + 30);
-      $(function () {
-            $('.attrs').each(function() {
-                if(new Date($('dd#verDate', this).text()) <= dateForAlert) {
-                    if(new Date($('dd#verDate', this).text()) <= date){
-                        $(this).css('background-color', '#ffbebe');
-                        $('button#get', this).hide();
-                        $('label#needVer', this).show();
-                    } else {
-                        $(this).css('background-color', '#f3de82e8');
-                        $('dd#verDate', this).css('color', '#ff110a');
-                    }
+<script>
+    var date = new Date();
+    var dateForAlert = new Date();
+    dateForAlert.setDate(date.getDate() + 30);
+    $(function () {
+        $('.attrs').each(function () {
+            if (new Date($('dd#verDate', this).text()) <= dateForAlert) {
+                if (new Date($('dd#verDate', this).text()) <= date) {
+                    $(this).css('background-color', '#ffbebe');
+                    $('button#get', this).hide();
+                    $('label#needVer', this).show();
+                } else {
+                    $(this).css('background-color', '#f3de82e8');
+                    $('dd#verDate', this).css('color', '#ff110a');
                 }
-            })
-      });
+            }
+        })
+    });
+    $(document).ready(function ($) {
+        $('.popup-open').click(function () {
+            $('.popup-fade').fadeIn();
+            return false;
+        });
+
+        $('.popup-close').click(function () {
+            $(this).parents('.popup-fade').fadeOut();
+            // return false;
+        });
+
+        $(document).keydown(function (e) {
+            if (e.keyCode === 27) {
+                e.stopPropagation();
+                $('.popup-fade').fadeOut();
+            }
+        });
+
+        $('.popup-fade').click(function (e) {
+            if ($(e.target).closest('.popup').length === 0) {
+                $(this).fadeOut();
+            }
+        });
+    });
 </script>
 </body>
 </html>

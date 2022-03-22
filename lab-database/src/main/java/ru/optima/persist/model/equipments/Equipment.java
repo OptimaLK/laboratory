@@ -55,4 +55,8 @@ public class Equipment implements Serializable {
             joinColumns = @JoinColumn(name = "equipment_id"),
             inverseJoinColumns = @JoinColumn(name = "bag_id"))
     private List<Bag> bags;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name="comment_id")
+    private Commentary commentary;
 }
