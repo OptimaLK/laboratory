@@ -12,9 +12,7 @@ import ru.optima.repr.BagRepr;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -116,7 +114,7 @@ public class BagServiceImpl implements BagService {
 
     @Override
     public void createNewBagAndSaveOldBag(BagRepr bag, User user) {
-        List <Bag> bagList = bagRepository.findAll();
+        List<Bag> bagList = bagRepository.findAll();
         List<User> users = new ArrayList <>();
         users.add(user);
         Calendar calendar = Calendar.getInstance();

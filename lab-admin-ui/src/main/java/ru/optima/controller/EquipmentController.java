@@ -24,7 +24,6 @@ import java.util.List;
 @RequestMapping("/equipment")
 public class EquipmentController {
 
-
     private final PathCreator pathCreator;
     private final EquipmentServiceImpl equipmentService;
     private final CategoryServiceImpl categoryService;

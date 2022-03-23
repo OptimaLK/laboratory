@@ -21,14 +21,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/bag")
 public class BagController {
-
 
     private final UserService userService;
     private final EquipmentService equipmentService;
@@ -130,8 +132,17 @@ public class BagController {
 
     @PostMapping({"/registration"})
     public String editUser(@ModelAttribute BagRepr bagRepr, Principal principal, SecurityContextHolder auth) {
+//        Timer timer = new Timer();
         bagService.createNewBagAndSaveOldBag(bagRepr, userService.findByName(principal.getName()));
         bagService.addBag(userService.findByName(principal.getName()));
+//        TimerTask task = new TimerTask(){
+//            @Override
+//            public void run() {
+//                bagService.deleteBagById(userService.findByName(principal.getName()), id);
+//            }
+//        };
+//        timer.schedule(task, bagRepr.getCountHourLifeTime());
+
         return "redirect:/bag"; //TODO Добавить ссылку на историю сумок bag_history
     }
 }
