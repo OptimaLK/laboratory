@@ -16,7 +16,6 @@
                 <table id="users">
                     <thead>
                     <tr>
-                        <th>Номер</th>
                         <th>Имя</th>
                         <th>Фамилия</th>
                         <th>Телефон</th>
@@ -26,7 +25,6 @@
                     </thead>
                     <tbody>
                     <tr th:each="usr : ${users}" th:id="tabUs">
-                        <td th:text="${usr.id}"></td>
                         <td th:text="${usr.firstName}"></td>
                         <td th:id="lName" th:text="${usr.lastName}"></td>
                         <td th:text="${usr.phone}"></td>

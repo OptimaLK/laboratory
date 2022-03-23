@@ -50,23 +50,34 @@ public class BagServiceImpl implements BagService {
             bagRepository.save(bags.get(bags.size() - 1));
         } else {
             equipment.setTaken(true);
+            equipment.setNameUserWhoTakenEquipment("");
         }
     }
 
     @Override
     public void deleteEquipmentToBag(Equipment equipment, User user) {
-        //TODO к размышлению: вроде так работает как задуманно, но можно переделать запросом к базе
-        equipment.setNameUserWhoTakenEquipment("");
-        equipment.setTaken(true);
-        Bag lastBag = bagRepository.findBagByEquipments(equipment);
-        List<Equipment> equipments = lastBag.getEquipments();
-        for (int i = 0; i < equipments.size(); i++) {
-            if (equipments.get(i).equals(equipment)){
-                equipments.remove(i);
-                return;
+        List <Bag> bags = user.getBags();
+        Bag lastBag = null;
+        for(Bag value : bags) {
+            for(Equipment equ : value.getEquipments()) {
+                if(equ.getId().equals(equipment.getId())) {
+                    lastBag = bagRepository.findById(value.getId()).orElse(new Bag());
+                    break;
+                }
             }
         }
-        bagRepository.save(lastBag);
+        if(user.getBags().size() != 0) {
+            assert lastBag != null;
+            for(int i = 0; i < lastBag.getEquipments().size(); i++) {
+                if(lastBag.getEquipments().get(i).equals(equipment)) {
+                    lastBag.getEquipments().get(i).setTaken(true);
+                    lastBag.getEquipments().get(i).setNameUserWhoTakenEquipment("");
+                    lastBag.getEquipments().remove(i);
+                    bagRepository.save(lastBag);
+                    return;
+                }
+            }
+        }
     }
 
 
@@ -90,6 +101,7 @@ public class BagServiceImpl implements BagService {
         Bag lastBag = user.getBags().get(user.getBags().size() - 1);
         for(int i = lastBag.getEquipments().size() - 1; i >= 0; i--) {
             lastBag.getEquipments().get(i).setTaken(true);
+            lastBag.getEquipments().get(i).setNameUserWhoTakenEquipment("");
             lastBag.getEquipments().remove(i);
         }
         bagRepository.save(lastBag);
@@ -101,6 +113,7 @@ public class BagServiceImpl implements BagService {
         for(int i = bag.getEquipments().size() - 1; i >= 0; i--) {
             bag.setLifeTime(new Timestamp(System.currentTimeMillis()));
             bag.getEquipments().get(i).setTaken(true);
+            bag.getEquipments().get(i).setNameUserWhoTakenEquipment("");
         }
         bag.setStatus(false);
         bagRepository.save(bag);

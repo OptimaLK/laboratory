@@ -16,7 +16,6 @@
                 <table id="users">
                     <thead>
                     <tr>
-                        <th>Номер</th>
                         <th>Имя</th>
                         <th>Фамилия</th>
                         <th>Телефон</th>
@@ -36,13 +35,10 @@
                     </thead>
                     <tbody>
                     <tr th:each="usr : ${users}">
-                        <td th:text="${usr.id}"></td>
                         <td th:text="${usr.firstName}"></td>
                         <td th:text="${usr.lastName}"></td>
                         <td th:text="${usr.phone}"></td>
                         <td th:text="${usr.email}"></td>
-                        <!--                        Здесь немного поправил шаблон для того, чтобы несколько ролей не отображались-->
-                        <!--                        в одну строку, а для каждой была своя стока-->
                         <td>
                             <p th:each="role : ${roles}"
                                th:if="${usr.roles?.contains(role)}"

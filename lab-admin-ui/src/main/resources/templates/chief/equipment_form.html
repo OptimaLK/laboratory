@@ -29,6 +29,7 @@
                                     th:value="${category.id}"
                                     th:selected="${equipment.category.id} == ${category.id}"></option>
                         </select>
+                    </div>
                     <div class="form-group">
                         <label for="inventoruNumber">Инвентарный номер</label>
                         <input th:field="*{inventoryNumber}" type="text" class="form-control" id="inventoruNumber" placeholder="Введите инвентарный номер" required>

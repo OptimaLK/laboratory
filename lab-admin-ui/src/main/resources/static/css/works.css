@@ -11,15 +11,15 @@ table th {
     border: 1px solid #04B1C9;
     box-sizing: border-box;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 17px;
     line-height: 18px;
-
     color: #000000;
 }
 
 table td {
     padding: 5px;
     text-align: center;
+    font-size: 16px;
 }
 
 .add {
