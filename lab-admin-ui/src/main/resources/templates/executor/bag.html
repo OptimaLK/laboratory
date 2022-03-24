@@ -2,25 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
 
+<link rel="stylesheet" th:href="@{/css/bag.css}">
 <head th:replace="fragments/executor/header :: head"></head>
 
 <body class="bg-light">
 
 <div th:replace="fragments/executor/header :: header"></div>
 
+<div class="button_arc">
+    <button th:id="archive" th:if="${sel}" type="submit">Архив</button>
+    <button th:id="back" type="submit">Назад</button>
+    <button th:id="backBag" th:if="${sel} == false" onclick="location.href = '/bag/back'">Назад</button>
+</div>
 <div class="d-flex tools_container">
     <div class="content">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="attrs" style="background: none; margin: auto;">
-                    <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">
-                        <button style="width: 100%; margin-bottom: 15px;" type="btn btn-icon btn-pill btn-danger">
-                            Выложить все оборудование
-                        </button>
-                    </form>
-                    <form class="form-group" th:action="@{'/bag/form'}">
+                <div class="attrs" style="background: none; margin: auto;" th:if="${sel}">
+<!--                    <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">-->
+<!--                        <button style="width: 100%; margin-bottom: 15px;" type="btn btn-icon btn-pill btn-danger">-->
+<!--                            Выложить все оборудование-->
+<!--                        </button>-->
+<!--                    </form>-->
+                <form class="form-group" th:action="@{/bag/form/}">
                         <button style="width: 100%; margin: 0;" type="submit">Сформировать</button>
-                    </form>
+                </form>
                 </div>
                 <div class="d-flex flex-wrap justify-content-center">
                     <dl class="dl-horizontal attrs" th:each="equ : ${equipmentsInLastBag}">
@@ -32,10 +38,39 @@
                         <dd th:text="${equ.verificationNumber}"></dd>
                         <dt>Дата поверки:</dt>
                         <dd th:text="${equ.verificationDateEnd}"></dd>
-                        <div>
+                        <div th:if="${sel}">
                             <form class="form-group" method="POST" th:action="@{'/bag/get/' + ${equ.id}}">
                                 <button style="background-color: #ffbebe" type="submit">Выложить</button>
                             </form>
+                        </div>
+                    </dl>
+                </div>
+                <div class="d-flex flex-wrap justify-content-center bag_width">
+                    <dl class="dl-horizontal attrs" th:each="bag : ${bagAll}">
+                        <p style="text-align: center; font-size: large; font-weight: 500;">
+                            <a style="display: block;" th:href="@{'/bag/select/' + ${bag.id}}"
+                               th:text="${bag.name}"></a></p>
+                        <dt>Время использования:</dt>
+                        <dd th:text="${bag.lifeTime}"></dd>
+                        <dt>Заказчик:</dt>
+                        <dd th:text="${bag.work.clientName}"></dd>
+                        <div th:each="bagEq : ${bag.equipments}">
+                            <hr>
+                            <dt>Название:</dt>
+                            <dd th:text="${bagEq.name}"></dd>
+                            <dt>Зав. №:</dt>
+                            <dd th:text="${bagEq.factoryNumber}"></dd>
+                            <dt>Свидетельство:</dt>
+                            <dd th:text="${bagEq.verificationNumber}"></dd>
+                            <dt>Дата поверки:</dt>
+                            <dd th:text="${bagEq.verificationDateEnd}"></dd>
+                        </div>
+                        <div>
+                            <form class="form-group" method="POST" th:action="@{'/bag/' + ${bag.id}}"
+                                  th:if="${bag.status}" th:method="delete">
+                                <button style="background-color: #ffbebe" type="submit">Удалить</button>
+                            </form>
+                            <label style="display: none" th:id="status" th:text="${bag.status}"></label>
                         </div>
                     </dl>
                 </div>
@@ -45,6 +80,42 @@
 </div>
 
 <script th:replace="fragments/executor/footer :: scripts"></script>
-
+<script>
+    $(function () {
+        $('dl.attrs').each(function () {
+            if ($('label#status', this).text() === 'false') {
+                $(this).css('background', 'rgba(128, 128, 128, 0.27)');
+                $(this).addClass('hide');
+                $('a', this).removeAttr('href');
+                $('a', this).removeAttr('style');
+            }
+        });
+        $('button#back').addClass('hide');
+    });
+    $(function () {
+        $('button#archive').on('click', function () {
+            $('dl.attrs').each(function () {
+                if ($('label#status', this).text() === 'false')
+                    $(this).removeClass('hide');
+                else
+                    $(this).addClass('hide');
+            });
+            $('button#back').removeClass('hide');
+            $('button#archive').addClass('hide');
+            $('div.attrs').addClass('hide');
+        });
+        $('button#back').on('click', function () {
+            $('dl.attrs').each(function () {
+                if ($('label#status', this).text() === 'true' || $('label#status', this).text() === '')
+                    $(this).removeClass('hide');
+                else
+                    $(this).addClass('hide');
+            });
+            $('button#back').addClass('hide');
+            $('button#archive').removeClass('hide');
+            $('div.attrs').removeClass('hide');
+        });
+    });
+</script>
 </body>
 </html>

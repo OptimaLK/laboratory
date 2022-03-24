@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="fragments/chief/header :: head"></head>
+<head th:replace="fragments/secretary/header :: head"></head>
 
 <body class="bg-light">
 
-<div th:replace="fragments/chief/header :: header"></div>
+<div th:replace="fragments/secretary/header :: header"></div>
 
 <div class="d-flex">
     <div class="content p-4">
@@ -20,15 +20,6 @@
                     <div class="form-group">
                         <label for="name">Название оборудование</label>
                         <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Введите название и тип оборудования" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="categories">Категория оборудования</label>
-                        <select class="form-control" id="categories" size="1" th:field="*{category.id}">
-                            <option th:each="category : ${categories}"
-                                    th:text="${category.name}"
-                                    th:value="${category.id}"
-                                    th:selected="${equipment.category.id} == ${category.id}"></option>
-                        </select>
                     </div>
                     <div class="form-group">
                         <label for="inventoruNumber">Инвентарный номер</label>
@@ -59,7 +50,7 @@
     </div>
 </div>
 
-<script th:replace="fragments/chief/footer :: scripts"></script>
+<script th:replace="fragments/secretary/footer :: scripts"></script>
 
 </body>
 </html>

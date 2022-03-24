@@ -23,9 +23,15 @@ public interface BagService {
 
     void deleteAllEquipmentsInBag(User user);
 
+    void deleteBagById(User user, Long bagId);
+
     Bag createBagReprByBag(Bag bag);
 
-    void createNewBagAndSaveOldBag(BagRepr bagRepr);
+    void createNewBagAndSaveOldBag(BagRepr bagRepr, User user);
+
+    void addBag(User user);
 
     BagRepr createBagReprAndAddUserAndEquipments(User user, List<Equipment> equipments);
+
+    List<Equipment> selectBag(Long id, User user);
 }

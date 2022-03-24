@@ -29,6 +29,7 @@ public class WorkRepr implements Serializable {
     private Date deadline;
     private String additionalInformation;
     private WorkStatus workStatus;
+    private String responsible;
 
     public WorkRepr(Work work) {
         this.id = work.getId();
@@ -40,6 +41,7 @@ public class WorkRepr implements Serializable {
         this.deadline = work.getDeadline();
         this.additionalInformation = work.getAdditionalInformation();
         this.workStatus = work.getWorkStatus();
+        this.responsible = work.getResponsible();
     }
 }
 

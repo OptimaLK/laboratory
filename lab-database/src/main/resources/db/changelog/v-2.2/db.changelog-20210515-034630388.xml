@@ -20,12 +20,12 @@
             <column name="user_id" type="bigint"/>
         </addColumn>
     </changeSet>
-    <changeSet author="maks_tarn (generated)" id="1621050402012-4">
-        <addUniqueConstraint columnNames="bag_id" constraintName="UK_tdp6usotrlsr7xja32gsy95ga" tableName="users_bags"/>
-    </changeSet>
-    <changeSet author="maks_tarn (generated)" id="1621050402012-5">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="bag" constraintName="FK4jqudjjum1xna7cphv53d51dy" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
-    </changeSet>
+<!--    <changeSet author="maks_tarn (generated)" id="1621050402012-4">-->
+<!--        <addUniqueConstraint columnNames="bag_id" constraintName="UK_tdp6usotrlsr7xja32gsy95ga" tableName="users_bags"/>-->
+<!--    </changeSet>-->
+<!--    <changeSet author="maks_tarn (generated)" id="1621050402012-5">-->
+<!--        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="bag" constraintName="FK4jqudjjum1xna7cphv53d51dy" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>-->
+<!--    </changeSet>-->
     <changeSet author="maks_tarn (generated)" id="1621050402012-6">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_bags" constraintName="FKgubjody6o7t6kjx5m4ehqrdcj" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
     </changeSet>

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import ru.optima.persist.model.equipments.Category;
+import ru.optima.persist.model.equipments.Commentary;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.persist.model.User;
 
@@ -26,6 +27,7 @@ public class EquipmentRepr {
     private Boolean taken;
     private String nameUserWhoTakenEquipment;
     private Category category;
+    private Commentary commentary;
 
     public EquipmentRepr(Equipment equipment) {
         this.id = equipment.getId();
@@ -39,6 +41,7 @@ public class EquipmentRepr {
         this.taken = equipment.getTaken();
         this.nameUserWhoTakenEquipment = equipment.getNameUserWhoTakenEquipment();
         this.category = equipment.getCategory();
+        this.commentary = equipment.getCommentary();
     }
 }
 

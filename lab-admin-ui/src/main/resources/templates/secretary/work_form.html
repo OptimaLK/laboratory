@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="fragments/chief/header :: head"></head>
+<head th:replace="fragments/secretary/header :: head"></head>
 
 <body class="bg-light">
 
-<div th:replace="fragments/chief/header :: header"></div>
+<div th:replace="fragments/secretary/header :: header"></div>
 
 <div class="d-flex">
     <div class="content p-4">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label for="users">Ответственные пользователи</label>
-                        <select multiple class="form-control" id="users" size="1" th:field="*{users}" >
+                        <select class="form-control" id="users" size="1" th:field="*{users}">
                             <option value="">&nbsp;</option>
                             <option th:each="user : ${users}"
                                     th:text="${user.lastName}"
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<script th:replace="fragments/chief/footer :: scripts"></script>
+<script th:replace="fragments/secretary/footer :: scripts"></script>
 
 </body>
 </html>

@@ -19,14 +19,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BagRepr {
 
-    private long id;
+    private Long id;
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private Date birthTime;
+    private Timestamp birthTime;
 //    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Timestamp lifeTime;
     private int countHourLifeTime;
     private List<Equipment> equipments;
+    private List<User> users;
     private User user;
     private Work work;
     private List<Protocol> numberProtocol;
@@ -48,6 +49,7 @@ public class BagRepr {
         this.lifeTime = bag.getLifeTime();
         this.countHourLifeTime = 0;
         this.equipments = bag.getEquipments();
+        this.users = bag.getUsers();
         this.user = bag.getUser();
         this.work = bag.getWork();
         this.numberProtocol = bag.getNumberProtocol();

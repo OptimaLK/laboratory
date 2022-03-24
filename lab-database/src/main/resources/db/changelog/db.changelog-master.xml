@@ -85,4 +85,22 @@
         <tagDatabase tag="v-3.4"/>
     </changeSet>
 
+    <include file="v-3.5/db.changelog-20210602-114316960.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="35" author="maks_tarn">
+        <tagDatabase tag="v-3.5"/>
+    </changeSet>
+
+    <include file="v-3.6/db.changelog-20210620-114316970.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="36" author="maks_tarn">
+        <tagDatabase tag="v-3.6"/>
+    </changeSet>
+
+    <include file="v-3.7/db.changelog-20210621-114316971.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="37" author="maks_tarn">
+        <tagDatabase tag="v-3.7"/>
+    </changeSet>
+
 </databaseChangeLog>

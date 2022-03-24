@@ -3,11 +3,11 @@
 >
 
 <link rel="stylesheet" th:href="@{/css/works.css}">
-<head th:replace="fragments/chief/header :: head"></head>
+<head th:replace="fragments/secretary/header :: head"></head>
 
 <body class="bg-light">
 
-<div th:replace="fragments/chief/header :: header"></div>
+<div th:replace="fragments/secretary/header :: header"></div>
 
 <div>
     <div>
@@ -117,12 +117,22 @@
     </div>
 </div>
 
-<script th:replace="fragments/chief/footer :: scripts"></script>
+<script th:replace="fragments/secretary/footer :: scripts"></script>
 <script>
     function clicked(e, client, object, id){
         var text = 'Вы уверены, что хотите удалить заявку № ' + id + ' клиент ' + client + ' объект ' + object + ' ?';
         if(confirm(text)) {
-            $('#delForm').submit();
+            var answer;
+            while (true) {
+                answer = prompt("Введите номер заявки для подтверждения удаления : " + id);
+                if (answer === id) {
+                    $('#delForm').submit();
+                } else {
+                    if(!confirm('Введен неверный № заявки, нажмите Ок для повторения попытки, Отмена для отмены удаления')){
+                        break;
+                    }
+                }
+            }
         }
     }
 </script>

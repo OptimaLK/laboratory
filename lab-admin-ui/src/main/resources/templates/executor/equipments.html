@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/popup_window.css}">
 <link rel="stylesheet" th:href="@{/css/equipments.css}">
 <head th:replace="fragments/executor/header :: head"></head>
 <body class="bg-light">
@@ -13,8 +14,10 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="custom-control custom-switch">
-                    <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                    <label class="custom-control-label" for="customSwitch1">Только доступное</label>
+                    <form th:action="@{/equipment/{id}(id = ${categoryId})}" method="get">
+                        <input type="checkbox" name="active-only" class="custom-control-input" id="activeOnlyCheckBox" th:checked="${activeOnly}" onchange="this.form.submit()">
+                        <label class="custom-control-label" for="activeOnlyCheckBox">Только доступное</label>
+                    </form>
                 </div>
                 <div class="d-flex flex-wrap justify-content-center">
                     <dl th:id="equ-cart" th:each="equ : ${equipments}" class="dl-horizontal attrs">
@@ -26,25 +29,26 @@
                         <dd th:text="${equ.verificationNumber}"></dd>
                         <dt>Дата поверки:</dt>
                         <dd th:id="verDate" th:text="${equ.verificationDateEnd}"></dd>
-                        <div th:switch="${equ.getTaken}">
-                            <form th:case="${true}" class="form-group"  th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
+                        <div th:if="${equ.commentary == null}" th:switch="${equ.getTaken}">
+                            <form th:case="true" class="form-group"  th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
                                 <button type="submit" >Взять</button>
                             </form>
-
-                            <div th:case="${false}">
-                                <div th:switch="${user.lastName == equ.nameUserWhoTakenEquipment}">
-                                    <form th:case="${true}" class="form-group" th:action="@{'/bag/get/' + ${equ.id}}" method="POST">
-                                        <button style="background-color: #ffbebe" type="submit">Положить</button>
-                                    </form>
-                                    <form th:case="${false}" class="form-group">
-                                        <button style="background-color: #ffbebe" type="submit" th:text="${equ.nameUserWhoTakenEquipment}"></button>
-                                    </form>
-                                </div>
-                            </div>
-                            <form th:case="*" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
+                            <button th:case="false" style="background-color: #ffbebe" type="submit" th:text="${equ.nameUserWhoTakenEquipment}"></button>
+                            <form th:case="null" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
                                 <button type="submit" >Взять</button>
                             </form>
                             <label class="alertlabel" id="needVer">Требует поверки</label>
+                        </div>
+                        <div th:unless="${equ.commentary == null}">
+                            <label class="alertlabel" style="display: block;">Заблокировано</label>
+                            <button class="popup-open" type="button" style="margin-top: 15px;">Причина</button>
+                            <div class="popup-fade">
+                                <div class="popup">
+                                    <a class="popup-close" href="#">Закрыть</a>
+                                    <p style="text-align: center; font-weight: 500; font-size: large;"
+                                       th:text="${equ.commentary.comment}"></p>
+                                </div>
+                            </div>
                         </div>
                     </dl>
                 </div>
@@ -71,6 +75,30 @@
                     }
                 }
             })
+      });
+      $(document).ready(function ($) {
+          $('.popup-open').click(function () {
+              $('.popup-fade').fadeIn();
+              return false;
+          });
+
+          $('.popup-close').click(function () {
+              $(this).parents('.popup-fade').fadeOut();
+              return false;
+          });
+
+          $(document).keydown(function (e) {
+              if (e.keyCode === 27) {
+                  e.stopPropagation();
+                  $('.popup-fade').fadeOut();
+              }
+          });
+
+          $('.popup-fade').click(function (e) {
+              if ($(e.target).closest('.popup').length === 0) {
+                  $(this).fadeOut();
+              }
+          });
       });
 </script>
 </body>
