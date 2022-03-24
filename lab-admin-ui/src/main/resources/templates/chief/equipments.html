@@ -3,7 +3,8 @@
 >
 <link rel="stylesheet" th:href="@{/css/equipments.css}">
 <link rel="stylesheet" th:href="@{/css/popup_window.css}">
-<head th:replace="fragments/chief/header :: head"></head>
+
+  <head th:replace="fragments/chief/header :: head"></head>
 
 <body class="bg-light">
 
@@ -65,6 +66,7 @@
                                   th:unless="${equ.commentary == null}">
                                 <button style="margin-top: 20px; width: 200px; background: #ffc4c4;" type="submit">Разблокировать</button>
                             </form>
+                            <label class="alertlabel" id="needVer">Требует поверки</label>
                         </div>
                         <div class="popup-fade">
                             <div class="popup">
@@ -93,6 +95,7 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
+
 <script>
     var date = new Date();
     var dateForAlert = new Date();
@@ -135,6 +138,7 @@
             }
         });
     });
+
 </script>
 </body>
 </html>
