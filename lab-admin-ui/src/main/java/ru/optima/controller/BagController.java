@@ -32,6 +32,8 @@ import java.util.TimerTask;
 @RequestMapping("/bag")
 public class BagController {
 
+    private final Long MILLISECONDS_PER_HOUR = 3600000L;
+
     private final UserService userService;
     private final EquipmentService equipmentService;
     private final BagService bagService;
@@ -133,16 +135,17 @@ public class BagController {
 
     @PostMapping({"/registration"})
     public String editUser(@ModelAttribute BagRepr bagRepr, Principal principal, SecurityContextHolder auth) {
-//        Timer timer = new Timer();
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask(){
+            @Override
+            public void run() {
+                System.out.println(bagRepr.getId());
+                bagService.deleteBagById(userService.findByName(principal.getName()), bagRepr.getId());
+            }
+        };
+        timer.schedule(task, bagRepr.getCountHourLifeTime() * MILLISECONDS_PER_HOUR);
         bagService.createNewBagAndSaveOldBag(bagRepr, userService.findByName(principal.getName()));
         bagService.addBag(userService.findByName(principal.getName()));
-//        TimerTask task = new TimerTask(){
-//            @Override
-//            public void run() {
-//                bagService.deleteBagById(userService.findByName(principal.getName()), id);
-//            }
-//        };
-//        timer.schedule(task, bagRepr.getCountHourLifeTime());
 
         return "redirect:/bag"; //TODO Добавить ссылку на историю сумок bag_history
     }

@@ -9,7 +9,7 @@
 <div th:replace="fragments/executor/header :: header"></div>
 
 <div class="d-flex">
-    <form method="post" th:action="@{/bag/registration}">
+    <form method="post" th:action="@{/bag/registration/}">
         <div class="card mb-4">
             <div class="card-body">
                 <input th:type="hidden" th:field="${bag.id}">

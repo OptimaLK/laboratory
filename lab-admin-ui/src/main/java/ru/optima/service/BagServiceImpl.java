@@ -187,6 +187,7 @@ public class BagServiceImpl implements BagService {
         List<User> users = new ArrayList <>();
         users.add(user);
         BagRepr bagRepr = new BagRepr();
+        bagRepr.setId(user.getBags().get(user.getBags().size() - 1).getId());
         bagRepr.setUsers(users);
         bagRepr.setUser(user);
         bagRepr.setEquipments(equipments);
