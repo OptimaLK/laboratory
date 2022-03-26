@@ -23,7 +23,6 @@ import java.io.IOException;
 public class PackageEquipmentsController {
 
     private final PackageEquipments packageEquipments;
-//    private final EquipmentServiceImpl equipmentService;
     private final PathCreator creator;
 
     @GetMapping({"/", ""})
