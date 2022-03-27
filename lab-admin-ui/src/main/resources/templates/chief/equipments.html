@@ -30,7 +30,7 @@
                                 <dt>Свидетельство:</dt>
                                 <dd th:text="${equ.verificationNumber}"></dd>
                                 <dt>Дата поверки:</dt>
-                                <dd id="verDate" th:text="${equ.verificationDateEnd}"></dd>
+                                <dd id="verDate" th:text="${#dates.format(equ.verificationDateEnd, 'dd.MM.yyyy')}"></dd>
                             </div>
                             <div class="ico_ok-del edit" th:if="${equ.commentary == null}">
                                 <div style="padding-right: 10px;">

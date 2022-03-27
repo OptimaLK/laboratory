@@ -22,7 +22,7 @@
                 <dt>Заказчик:</dt>
                 <dd th:text="${wor.clientName}"></dd>
                 <dt>Дата регистрации:</dt>
-                <dd th:text="${wor.registrationDate}"></dd>
+                <dd th:text="${#dates.format(wor.registrationDate, 'dd.MM.yyyy')}"></dd>
                 <dt>Договор:</dt>
                 <dd th:text="${wor.numberContract}"></dd>
                 <dt>Доп. инфо:</dt>
@@ -30,7 +30,7 @@
                 <dt>Объект:</dt>
                 <dd th:text="${wor.objectName}"></dd>
                 <dt>Срок:</dt>
-                <dd th:text="${wor.deadline}"></dd>
+                <dd th:text="${#dates.format(wor.deadline, 'dd.MM.yyyy')}"></dd>
                 <dt>Команда:</dt>
                 <dd class="d-flex justify-content-between add_user" style="width: 185px;">
                     <div>

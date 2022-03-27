@@ -21,13 +21,13 @@
                         <dl id="bags" class="dl-horizontal attrs" >
                             <dt>Сумка:</dt>
                             <dd th:text="${bag.id}"></dd>
-                            <dt>Work:</dt>
+                            <dt>Название объекта:</dt>
                             <dd th:text="${bag.work.getObjectName()}"></dd>
                             <dt>Дата создания:</dt>
-                            <dd th:text="${bag.birthTime}"></dd>
-                            <dt>Срок:</dt>
-                            <dd th:text="${bag.lifeTime}"></dd>
-                            <dt>User:</dt>
+                            <dd th:text="${#dates.format(bag.birthTime, 'dd.MM.yyyy HH:mm')}"></dd>
+                            <dt>Срок пользования:</dt>
+                            <dd th:text="${#dates.format(bag.lifeTime, 'dd.MM.yyyy HH:mm')}"></dd>
+                            <dt>Исполнитель:</dt>
                             <dd th:text="${bag.user.getLastName()}"></dd>
                             <button th:onclick="getTable(event, /*[[${bag.id}]]*/)" type="submit">Смотреть</button>
                         </dl>

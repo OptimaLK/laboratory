@@ -28,7 +28,7 @@
                         <dt>Свидетельство:</dt>
                         <dd th:text="${equ.verificationNumber}"></dd>
                         <dt>Дата поверки:</dt>
-                        <dd th:id="verDate" th:text="${equ.verificationDateEnd}"></dd>
+                        <dd th:id="verDate" th:text="${#dates.format(equ.verificationDateEnd, 'dd.MM.yyyy')}"></dd>
                         <div th:if="${equ.commentary == null}" th:switch="${equ.getTaken}">
                             <form th:case="true" class="form-group"  th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
                                 <button type="submit" >Взять</button>

@@ -51,7 +51,7 @@
                             <a style="display: block;" th:href="@{'/bag/select/' + ${bag.id}}"
                                th:text="${bag.name}"></a></p>
                         <dt>Время использования:</dt>
-                        <dd th:text="${bag.lifeTime}"></dd>
+                        <dd th:text="${#dates.format(bag.lifeTime, 'dd.MM.yyyy')}"></dd>
                         <dt>Заказчик:</dt>
                         <dd th:text="${bag.work.clientName}"></dd>
                         <div th:each="bagEq : ${bag.equipments}">
@@ -63,7 +63,7 @@
                             <dt>Свидетельство:</dt>
                             <dd th:text="${bagEq.verificationNumber}"></dd>
                             <dt>Дата поверки:</dt>
-                            <dd th:text="${bagEq.verificationDateEnd}"></dd>
+                            <dd th:text="${#dates.format(bagEq.verificationDateEnd, 'dd.MM.yyyy')}"></dd>
                         </div>
                         <div>
                             <form class="form-group" method="POST" th:action="@{'/bag/' + ${bag.id}}"

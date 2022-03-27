@@ -24,7 +24,7 @@ public class Work implements Serializable {
     @Column(name = "id")
     private Long id;
     
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "registration_date", nullable = false)
     private Date registrationDate;
 
