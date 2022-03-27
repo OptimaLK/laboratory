@@ -58,6 +58,10 @@
                                 <button style="margin-top: 10px; width: 200px;" type="submit">На поверку</button>
                             </form>
                         </div>
+                        <div th:unless="${equ.commentary == null}">
+                            <dt>Причина блокирвоки:</dt>
+                            <dd th:text="${equ.commentary.comment}"></dd>
+                        </div>
                         <div>
                             <button class="popup-open" style="margin-top: 20px; width: 200px;"
                                     th:if="${equ.commentary == null}" type="button">Заблокировать
