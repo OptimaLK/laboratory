@@ -54,7 +54,7 @@
                 <td th:text="${#dates.format(wor.registrationDate, 'dd.MM.yyyy')}"></td>
                 <td style="width: 20%"><textarea readonly th:text="${wor.clientName}"></textarea></td>
                 <td style="width: 20%"><textarea readonly th:text="${wor.objectName}"></textarea></td>
-                <td><textarea readonly th:text="${#dates.format(wor.deadline, 'dd.MM.yyyy')}"></textarea></td>
+                <td><textarea readonly th:text="${(wor.deadline)}"></textarea></td>
                 <td class="add_user">
                     <div>
                         <div id="user" th:if="${wor.responsible != null}">
