@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import ru.optima.persist.model.equipments.Equipment;
-import ru.optima.repr.EquipmentRepr;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;

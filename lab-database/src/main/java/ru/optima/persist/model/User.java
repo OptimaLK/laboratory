@@ -2,9 +2,7 @@ package ru.optima.persist.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import ru.optima.persist.model.equipments.Bag;
-import ru.optima.persist.model.equipments.Equipment;
 
 import javax.persistence.*;
 import java.util.Collection;

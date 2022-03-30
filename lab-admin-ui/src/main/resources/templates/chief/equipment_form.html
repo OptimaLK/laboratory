@@ -50,6 +50,14 @@
                         <label for="verificationDateEnd">Дата окончания поверки</label>
                         <input th:field="*{verificationDateEnd}" type="date" class="form-control" id="verificationDateEnd" placeholder="Введите дату окончания поверки">
                     </div>
+                    <div class="form-group">
+                        <label for="mistake">Погрешность прибора</label>
+                        <input th:field="*{mistake}" type="text" class="form-control" id="mistake" placeholder="Введите погрешность поверки">
+                    </div>
+                    <div class="form-group">
+                        <label for="span">Диапазон измерения</label>
+                        <input th:field="*{span}" type="text" class="form-control" id="span" placeholder="Введите диапазон измерения">
+                    </div>
                 </div>
                 <div class="card-footer bg-white">
                     <button type="submit" class="btn btn-primary">Сохранить</button>

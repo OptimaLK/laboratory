@@ -46,6 +46,12 @@ public class Equipment implements Serializable {
     @Column(name = "name_user_who_taken_equipment")
     private String nameUserWhoTakenEquipment;
 
+    @Column(name = "mistake")
+    private String mistake;
+
+    @Column(name = "span")
+    private String span;
+
     @ManyToOne
     @JoinColumn(name="category_id", nullable=false)
     private Category category;

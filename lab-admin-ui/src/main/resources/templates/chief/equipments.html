@@ -20,7 +20,7 @@
                     <label class="custom-control-label" for="customSwitch1">Только доступное</label>
                 </div>
                 <div class="d-flex flex-wrap justify-content-center">
-                    <dl class="dl-horizontal attrs card_flex" th:each="equ : ${equipments}" th:method="isActiv">
+                    <dl th:id="equ-chief" class="dl-horizontal attrs card_flex" th:each="equ : ${equipments}" th:method="isActiv">
                         <div class="d-flex justify-content-center">
                             <div>
                                 <dt>Название:</dt>
@@ -63,29 +63,31 @@
                             <dd th:text="${equ.commentary.comment}"></dd>
                         </div>
                         <div>
-                            <button class="popup-open" style="margin-top: 20px; width: 200px;"
-                                    th:if="${equ.commentary == null}" type="button">Заблокировать
-                            </button>
-                            <form th:action="@{'/equipment/remove/' + ${equ.id}}" th:method="post"
+                            <form th:action="@{'/equipment/removeComment/' + ${equ.id}}" th:method="post"
                                   th:unless="${equ.commentary == null}">
                                 <button style="margin-top: 20px; width: 200px; background: #ffc4c4;" type="submit">Разблокировать</button>
                             </form>
                             <label class="alertlabel" id="needVer">Требует поверки</label>
                         </div>
-                        <div class="popup-fade">
-                            <div class="popup">
-                                <form style="display: flex; align-items: center; flex-direction: column;" th:action="@{'/equipment/comment/' + ${equ.id}}"
-                                      th:method="post">
+                        <div>
+                            <button class="popup-open" style="margin-top: 20px; width: 200px;"
+                                    th:if="${equ.commentary == null}" type="button"
+                                    th:value="${equ.id}">Заблокировать
+                            </button>
+                            <div class="popup-fade">
+                                <div class="popup">
+                                    <form style="display: flex; align-items: center; flex-direction: column;" th:action="@{'/equipment/comment/'+ ${equ.id}}" th:method="post">
                                     <div>
-                                        <label style="font-size: large;" th:for="comment">Причина блокировки:</label>
-                                    </div>
-                                    <div>
-                                        <textarea id="comment" name="comment" style="width: 450px;"></textarea>
-                                    </div>
-                                    <div>
-                                        <button class="popup-close" type="submit">Сохранить</button>
-                                    </div>
-                                </form>
+                                            <label style="font-size: large;" th:for="comment">Причина блокировки:</label>
+                                        </div>
+                                        <div>
+                                            <textarea id="comment" name="comment" style="width: 450px;"></textarea>
+                                        </div>
+                                        <div>
+                                            <button class="popup-close" type="submit" name="id">Сохранить</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </dl>
@@ -142,7 +144,6 @@
             }
         });
     });
-
 </script>
 </body>
 </html>

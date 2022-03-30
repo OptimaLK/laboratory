@@ -1,26 +1,18 @@
 package ru.optima.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.optima.beans.PackageEquipments;
-import ru.optima.persist.model.User;
-import ru.optima.persist.model.equipments.Category;
 import ru.optima.persist.model.equipments.Commentary;
-import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.EquipmentRepr;
-import ru.optima.repr.WorkRepr;
 import ru.optima.service.*;
 import ru.optima.util.PathCreator;
 import ru.optima.warning.NotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -98,13 +90,14 @@ public class EquipmentController {
     @PostMapping("/comment/{id}")
     public String addCommentary(@PathVariable("id") Long id, @RequestParam(value = "comment") String comment) {
         EquipmentRepr equipment = new EquipmentRepr(equipmentService.findByEId(id));
-        equipment.setCommentary(new Commentary());
-        equipment.getCommentary().setComment(comment);
+        Commentary commentary = new Commentary();
+        commentary.setComment(comment);
+        equipment.setCommentary(commentary);
         equipmentService.save(equipment);
         return "redirect:/equipment";
     }
 
-    @PostMapping("/remove/{id}")
+    @PostMapping("/removeComment/{id}")
     public String delCommentary(@PathVariable("id") Long id) {
         EquipmentRepr equipment = new EquipmentRepr(equipmentService.findByEId(id));
         Long com = equipment.getCommentary().getId();
