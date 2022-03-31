@@ -66,12 +66,15 @@
                     <div class="form-group">
                         <label for="roles">Роли</label>
                         <select multiple class="form-control" id="roles" th:field="*{roles}" required>
-                            <option value="">&nbsp;</option>
-                            <option th:each="role : ${roles}"
-                                    th:text="${role.name}"
-                                    th:value="${role.id}"
-                                    th:selected="${user.roles?.contains(role)}">
+                            <option th:text="ROLE_EXECUTOR"
+                                    th:value="3">
                             </option>
+<!--                            <option value="">&nbsp;</option>-->
+<!--                            <option th:each="role : ${roles}"-->
+<!--                                    th:text="${role.name}"-->
+<!--                                    th:value="${role.id}"-->
+<!--                                    th:selected="${user.roles?.contains(role)}">-->
+<!--                            </option>-->
                         </select>
                     </div>
                 </div>
