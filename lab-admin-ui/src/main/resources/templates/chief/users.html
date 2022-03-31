@@ -39,7 +39,7 @@
                         <td th:id="lName" th:text="${usr.lastName}"></td>
                         <td th:text="${usr.phone}"></td>
                         <td th:text="${usr.email}"></td>
-                        <td>
+                        <td th:id="roles">
                             <p th:each="role : ${roles}"
                                th:if="${usr.roles?.contains(role)}"
                                th:text="${role.name}"
@@ -82,7 +82,7 @@
     }
     $(document).ready(function () {
         $('#users tr#tabUs').each(function () {
-            if ($('#dd_user').text() !== $('td#lName', this).text()) {
+            if ($('td#roles', this).text().includes('ROLE_SECRETARY') || $('td#roles', this).text().includes('ROLE_DIRECTOR')) {
                 $('td#edEdit', this).hide();
                 $('td#emp', this).show();
             }
