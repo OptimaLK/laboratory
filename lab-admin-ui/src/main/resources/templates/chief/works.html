@@ -187,7 +187,6 @@
     $(document).on("input", "textarea", function () {
         $(this).outerHeight(38).outerHeight(this.scrollHeight);
     });
-<!--    где-то тут   -->
     $(function () {
         $('tr#work_head').on('click', 'td a#edit', function () {
             const idx = $(this).closest('tr').index();
@@ -205,6 +204,7 @@
             $('.ico_ok-del', tbl).addClass('hide');
         })
     });
+     <!--    где-то тут   -->
     $(function () {
         $('tr#work_head').on('click', 'td a#save', function () {
             const idx = $(this).closest('tr').index();
@@ -214,7 +214,11 @@
             let textIn = $('td textarea', tbl), textOut = $('table thead tr td div#input input'), i;
             for(i = 0; i < textIn.length; i++) {
                 $(textIn[i]).prop('readonly', true);
-                $(textOut[i + 2]).attr('value', $(textIn[i]).val());
+                if (i == 2) {
+                    $(textOut[i + 2]).attr('value', $(textIn[i]).val().split(".").reverse().join("-"));
+                } else {
+                    $(textOut[i + 2]).attr('value', $(textIn[i]).val());
+                }
             }
             $(textOut[1]).attr('value', $('select#userSel option:selected', tbl).val());
             $('#selected', tbl).addClass('hide');
