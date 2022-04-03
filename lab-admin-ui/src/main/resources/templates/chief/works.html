@@ -54,7 +54,9 @@
                 <td th:text="${#dates.format(wor.registrationDate, 'dd.MM.yyyy')}"></td>
                 <td style="width: 20%"><textarea readonly th:text="${wor.clientName}"></textarea></td>
                 <td style="width: 20%"><textarea readonly th:text="${wor.objectName}"></textarea></td>
-                <td><textarea readonly th:text="${(wor.deadline)}"></textarea></td>
+<!--                <td><textarea readonly th:text="${(wor.deadline)}"></textarea></td>-->
+                <td><textarea readonly th:text="${#dates.format(wor.deadline, 'dd.MM.yyyy')}"></textarea></td>
+
                 <td class="add_user">
                     <div>
                         <div id="user" th:if="${wor.responsible != null}">
@@ -202,6 +204,7 @@
             $('.ico_ok-del', tbl).addClass('hide');
         })
     });
+     <!--    где-то тут   -->
     $(function () {
         $('tr#work_head').on('click', 'td a#save', function () {
             const idx = $(this).closest('tr').index();
@@ -211,7 +214,11 @@
             let textIn = $('td textarea', tbl), textOut = $('table thead tr td div#input input'), i;
             for(i = 0; i < textIn.length; i++) {
                 $(textIn[i]).prop('readonly', true);
-                $(textOut[i + 2]).attr('value', $(textIn[i]).val());
+                if (i == 2) {
+                    $(textOut[i + 2]).attr('value', $(textIn[i]).val().split(".").reverse().join("-"));
+                } else {
+                    $(textOut[i + 2]).attr('value', $(textIn[i]).val());
+                }
             }
             $(textOut[1]).attr('value', $('select#userSel option:selected', tbl).val());
             $('#selected', tbl).addClass('hide');
