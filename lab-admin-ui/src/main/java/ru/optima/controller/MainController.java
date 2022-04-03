@@ -13,6 +13,7 @@ import ru.optima.service.EquipmentService;
 import ru.optima.service.UserService;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class MainController {
             }
         }
         model.addAttribute("bags", bagList);
+        model.addAttribute("timeNow", new Timestamp(System.currentTimeMillis()));
         return "chief/index";
     }
 

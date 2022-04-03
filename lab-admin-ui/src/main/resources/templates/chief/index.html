@@ -13,12 +13,9 @@
     <div class="content">
         <div class="card mb-4">
             <div class="card-body">
-                <form class="form-group btn_arch" th:action="@{/work/create}">
-                    <button type="submit">Архив</button>
-                </form>
                 <div class="work_attrs">
-                    <div th:each="bag : ${bags}">
-                        <dl id="bags" class="dl-horizontal attrs" >
+                    <div th:each="bag : ${bags}" >
+                        <dl id="bags" th:if="${bag.getLifeTime() > timeNow}" class="dl-horizontal attrs" >
                             <dt>Сумка:</dt>
                             <dd th:text="${bag.id}"></dd>
                             <dt>Название объекта:</dt>
