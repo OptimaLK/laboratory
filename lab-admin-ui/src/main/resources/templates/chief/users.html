@@ -34,21 +34,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="usr : ${users}">
+                    <tr th:each="usr : ${users}" th:id="tabUs">
                         <td th:text="${usr.firstName}"></td>
-                        <td th:text="${usr.lastName}"></td>
+                        <td th:id="lName" th:text="${usr.lastName}"></td>
                         <td th:text="${usr.phone}"></td>
                         <td th:text="${usr.email}"></td>
-                        <td>
-                            <p th:each="role : ${roles}"
-                               th:if="${usr.roles?.contains(role)}"
-                               th:text="${role.name}"
-                               th:value="${role.id}">
-                            </p>
+                        <td th:id="roles">
+                            <div th:each="role : ${roles}"
+                                 th:switch="${role.name}"
+                                 th:if="${usr.roles?.contains(role)}"
+                                 th:value="${role.id}">
+                                <p th:case="ROLE_EXECUTOR">Исполнитель</p>
+                                <p th:case="ROLE_DIRECTOR">Директор</p>
+                                <p th:case="ROLE_SECRETARY">Секретарь</p>
+                                <p th:case="ROLE_CHIEF">Заведующий</p>
+                            </div>
                         </td>
-                        <td>
+                        <td th:id="edEdit">
                             <div class="ico_ok-del">
-                                <div>
+                                <div >
                                     <a class="btn btn-icon btn-pill btn-primary"
                                        data-toggle="tooltip" th:href="@{/user/{id}/edit(id=${usr.id})}" title="Edit">
                                         <strong class="fa fa-fw fa-edit"></strong>
@@ -63,6 +67,7 @@
                                 </form>
                             </div>
                         </td>
+                        <td style="display: none" th:id="emp">&nbsp;</td>
                     </tr>
                     </tbody>
                 </table>
@@ -79,6 +84,14 @@
             e.preventDefault();
         }
     }
+    $(document).ready(function () {
+        $('#users tr#tabUs').each(function () {
+            if ($('td#roles', this).text().includes('Директор')) {
+                $('td#edEdit', this).hide();
+                $('td#emp', this).show();
+            }
+        })
+    });
 </script>
 </body>
 </html>

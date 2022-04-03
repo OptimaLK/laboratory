@@ -66,11 +66,11 @@
                     <div class="form-group">
                         <label for="roles">Роли</label>
                         <select multiple class="form-control" id="roles" th:field="*{roles}" required>
-                            <option value="">&nbsp;</option>
-                            <option th:each="role : ${roles}"
-                                    th:text="${role.name}"
-                                    th:value="${role.id}"
-                                    th:selected="${user.roles?.contains(role)}">
+                            <option th:text="Исполнитель"
+                                    th:value="3">
+                            </option>
+                            <option th:text="Секретарь"
+                                    th:value="4">
                             </option>
                         </select>
                     </div>
