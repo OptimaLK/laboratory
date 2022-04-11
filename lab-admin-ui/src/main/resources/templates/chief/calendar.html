@@ -1,14 +1,78 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<link rel="stylesheet" th:href="@{/css/works.css}">
+<link rel="stylesheet" th:href="@{/css/calendar.css}">
 <head th:replace="fragments/chief/header :: head"></head>
-
-<body class="bg-light">
-
 <div th:replace="fragments/chief/header :: header"></div>
+<title>Календарь</title>
 
+<body>
+    <div class="main-calendar">
+        <header class="header">
+            <div class="flex-header">
+                <div class="text-calendar"> Календарь </div>
+                <div class="nav-month">
+                    <div class="month-and-year" th:text="${monthAndYear}"></div>
+                    <div class="month-arrow"> &lt; </div>
+                    <div class="month-arrow"> &gt; </div>
+                    <button class="today-btn"> Сегодня </button>
+                </div>
+            </div>
+        </header>
+        <div class="flex">
+            <aside class="sidebar">
+                <div class="users-calendar">Исполнители</div>
+                <div class="users-checkbox">
+                    <form>
+                        <div th:each="usr : ${users}"
+                             th:object="${usr}"
+                             th:if="${{usr.roles}} == 3">
+                                <input th:class="*{lastName}" th:id="*{lastName}" checked="checked" type="checkbox">
+                                <label th:for="*{lastName}" th:text="*{lastName}"></label>
+                        </div>
+                    </form>
+                </div>
+            </aside>
+            <main class="main">
+                <div class="flex-row" role="row">
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Пн</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Вт</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Ср</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Чт</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Пт</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Сб</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Вс</span>
+                    </div>
+                </div>
+                <div class="flex-row-data" role="presentation" th:each="wom : ${weekOfMonth}">
+                    <div class="row-week" >
+                        <div class="flex-row-data-day" >
+                            <div class="day" role="columnheader" th:each="seven : ${sevenDay}">
+                                <div class="column-main" aria-hidden="true"
+                                     th:if="${seven - firstDayOfMonth + 1 + (wom - 1) * 7 >= 1}
+                                     and ${seven - firstDayOfMonth + 1 + (wom - 1) * 7 <= lastDayOfMonth}"
+                                     th:text="${seven - firstDayOfMonth + 1 + (wom - 1) * 7}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+            </main>
+        </div>
+    </div>
 </body>
 </html>
