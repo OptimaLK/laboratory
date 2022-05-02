@@ -12,10 +12,17 @@
             <div class="flex-header">
                 <div class="text-calendar"> Календарь </div>
                 <div class="nav-month">
-                    <div class="month-and-year" th:text="${monthAndYear}"></div>
-                    <div class="month-arrow"> &lt; </div>
-                    <div class="month-arrow"> &gt; </div>
-                    <button class="today-btn"> Сегодня </button>
+                    <form th:action="@{/calendar/minus}" th:method="GET">
+                        <button class="month-arrow" th:type="submit"> &lt; </button>
+                    </form>
+                    <div class="month-and-year" th:text="${dairy.monthAndYear()}"></div>
+
+                    <form th:action="@{/calendar/plus}" th:method="GET">
+                        <button class="month-arrow" th:type="submit"> &gt; </button>
+                    </form>
+                    <form th:action="@{/calendar/today}" th:method="GET">
+                        <button class="today-btn" th:type="submit"> Сегодня </button>
+                    </form>
                 </div>
             </div>
         </header>
@@ -57,19 +64,18 @@
                         <span aria-hidden="true">Вс</span>
                     </div>
                 </div>
-                <div class="flex-row-data" role="presentation" th:each="wom : ${weekOfMonth}">
+                <div class="flex-row-data" role="presentation" th:each="wom : ${dairy.countWeekOfMonth()}">
                     <div class="row-week" >
-                        <div class="flex-row-data-day" >
-                            <div class="day" role="columnheader" th:each="seven : ${sevenDay}">
+                        <div class="flex-row-data-day">
+                            <div class="day" role="columnheader" th:each="seven : ${dairy.sevenDay()}">
                                 <div class="column-main" aria-hidden="true"
-                                     th:if="${seven - firstDayOfMonth + 1 + (wom - 1) * 7 >= 1}
-                                     and ${seven - firstDayOfMonth + 1 + (wom - 1) * 7 <= lastDayOfMonth}"
-                                     th:text="${seven - firstDayOfMonth + 1 + (wom - 1) * 7}">
+                                     th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
+                                     and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}"
+                                     th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}">
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </main>
         </div>

@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.optima.beans.Dairy;
 import ru.optima.persist.repo.RoleRepository;
@@ -19,18 +20,43 @@ public class CalendarController {
     private final PathCreator pathCreator;
     private final UserService userService;
     private final RoleRepository roleRepository;
+    private Dairy dairy = new Dairy();
 
     @GetMapping({"", "/"})
     public String mainCalendar(Model model, SecurityContextHolder auth) {
-        Dairy dairy = new Dairy();
         model.addAttribute("activePage", "Calendar");
-        model.addAttribute("sevenDay", dairy.addsevenDay());
-        model.addAttribute("firstDayOfMonth", dairy.firstDayOfMonth());
-        model.addAttribute("lastDayOfMonth", dairy.lastDayOfMonth());
-        model.addAttribute("monthAndYear", dairy.monthAndYear());
-        model.addAttribute("weekOfMonth", dairy.countWeekOfMonth());
+        model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
         return pathCreator.createPath(auth, "calendar");
     }
+
+    @GetMapping("/minus")
+    public String minusMonth(Model model, SecurityContextHolder auth){
+        dairy.minusMonth();
+        model.addAttribute("activePage", "Calendar");
+        model.addAttribute("dairy", dairy);
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("roles", roleRepository.findAll());
+        return pathCreator.createPath(auth, "calendar");
+    }
+    @GetMapping("/plus")
+    public String plusMonth(Model model, SecurityContextHolder auth){
+        dairy.plusMonth();
+        model.addAttribute("activePage", "Calendar");
+        model.addAttribute("dairy", dairy);
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("roles", roleRepository.findAll());
+        return pathCreator.createPath(auth, "calendar");
+    }
+    @GetMapping("/today")
+    public String todayMonth(Model model, SecurityContextHolder auth){
+        dairy.today();
+        model.addAttribute("activePage", "Calendar");
+        model.addAttribute("dairy", dairy);
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("roles", roleRepository.findAll());
+        return pathCreator.createPath(auth, "calendar");
+    }
+
 }
