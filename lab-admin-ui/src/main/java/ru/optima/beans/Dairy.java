@@ -39,30 +39,29 @@ public class Dairy {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         switch (calendar.get(Calendar.DAY_OF_WEEK)){
             case Calendar.MONDAY:
-                count = 7;
+                count = 1;
                 break;
             case Calendar.TUESDAY:
-                count = 6;
+                count = 2;
                 break;
             case Calendar.WEDNESDAY:
-                count = 5;
+                count = 3;
                 break;
             case Calendar.THURSDAY:
                 count = 4;
                 break;
             case Calendar.FRIDAY:
-                count = 3;
+                count = 5;
                 break;
             case Calendar.SATURDAY:
-                count = 2;
+                count = 6;
                 break;
             case Calendar.SUNDAY:
-                count = 1;
+                count = 7;
                 break;
         }
-        DayOfWeek dayOfWeek = date.minusDays(count).getDayOfWeek();
         calendar = cal;
-        return dayOfWeek.getValue();
+        return count;
     }
 
     public int lastDayOfMonth() {
