@@ -72,12 +72,16 @@
                                      th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
                                      and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
                                     <label th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}"></label>
-                                    <div class="column-work" th:each="work : ${works}">
-                                        <div th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 == #dates.day(work.registrationDate)}
-                                                      and ${dairy.currentMonth() + 1 == #dates.month(work.registrationDate)}
-                                                      and ${dairy.currentYear() == #dates.year(work.registrationDate)}">
-                                            <label  th:text="${work.getObjectName()}">
-                                            </label>
+                                    <div th:each="bag : ${bags}">
+                                        <div class="column-work"
+                                                th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= #dates.day(bag.birthTime)}
+                                                      and ${dairy.currentMonth() + 1 >= #dates.month(bag.birthTime)}
+                                                      and ${dairy.currentYear() >= #dates.year(bag.birthTime)}
+                                                      and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= #dates.day(bag.lifeTime)}
+                                                      and ${dairy.currentMonth() + 1 <= #dates.month(bag.lifeTime)}
+                                                      and ${dairy.currentYear() <= #dates.year(bag.lifeTime)}"
+                                             th:id="${'bag' + bag.id}">
+                                            <label  th:text="${bag.getUser().lastName}"></label>
                                         </div>
                                     </div>
                                 </div>
