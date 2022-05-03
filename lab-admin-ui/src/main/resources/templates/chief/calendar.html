@@ -80,7 +80,7 @@
                                                       and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= #dates.day(bag.lifeTime)}
                                                       and ${dairy.currentMonth() + 1 <= #dates.month(bag.lifeTime)}
                                                       and ${dairy.currentYear() <= #dates.year(bag.lifeTime)}"
-                                             th:id="${'bag_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}">
+                                             th:id="${'bag_' + bag.id + '_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}">
                                             <label  th:text="${'сумка ' + bag.getUser().lastName}"></label>
                                         </div>
                                     </div>
@@ -111,7 +111,7 @@
                 let idElement = element.getAttribute('id');
                 console.log(idElement);
                 let arr = idElement.split('_');
-                if (checkedEx.includes(arr[2])) {
+                if (checkedEx.includes(arr[3])) {
                     document.getElementById(idElement).style.display = 'block';
                 }
                 else {
