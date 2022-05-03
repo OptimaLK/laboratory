@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.optima.beans.Dairy;
 import ru.optima.persist.repo.RoleRepository;
 import ru.optima.service.UserService;
+import ru.optima.service.WorkServiceImpl;
 import ru.optima.util.PathCreator;
 
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class CalendarController {
     private final PathCreator pathCreator;
     private final UserService userService;
     private final RoleRepository roleRepository;
+    private final WorkServiceImpl workService;
     private Dairy dairy = new Dairy();
 
     @GetMapping({"", "/"})
@@ -28,6 +30,7 @@ public class CalendarController {
         model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("works", workService.findAll());
         return pathCreator.createPath(auth, "calendar");
     }
 
@@ -38,6 +41,7 @@ public class CalendarController {
         model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("works", workService.findAll());
         return pathCreator.createPath(auth, "calendar");
     }
     @GetMapping("/plus")
@@ -47,6 +51,7 @@ public class CalendarController {
         model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("works", workService.findAll());
         return pathCreator.createPath(auth, "calendar");
     }
     @GetMapping("/today")
@@ -56,6 +61,7 @@ public class CalendarController {
         model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("works", workService.findAll());
         return pathCreator.createPath(auth, "calendar");
     }
 

@@ -70,8 +70,16 @@
                             <div class="day" role="columnheader" th:each="seven : ${dairy.sevenDay()}">
                                 <div class="column-main" aria-hidden="true"
                                      th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
-                                     and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}"
-                                     th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}">
+                                     and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
+                                    <label th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}"></label>
+                                    <div class="column-work" th:each="work : ${works}">
+                                        <div th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 == #dates.day(work.registrationDate)}
+                                                      and ${dairy.currentMonth() + 1 == #dates.month(work.registrationDate)}
+                                                      and ${dairy.currentYear() == #dates.year(work.registrationDate)}">
+                                            <label  th:text="${work.getObjectName()}">
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
