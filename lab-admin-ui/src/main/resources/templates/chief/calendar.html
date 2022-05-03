@@ -81,7 +81,7 @@
                                                       and ${dairy.currentMonth() + 1 <= #dates.month(bag.lifeTime)}
                                                       and ${dairy.currentYear() <= #dates.year(bag.lifeTime)}"
                                              th:id="${'bag' + bag.id}">
-                                            <label  th:text="${bag.getUser().lastName}"></label>
+                                            <label  th:text="${'сумка ' + bag.getUser().lastName}"></label>
                                         </div>
                                     </div>
                                 </div>
