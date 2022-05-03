@@ -34,7 +34,7 @@
                         <div th:each="usr : ${users}"
                              th:object="${usr}"
                              th:if="${{usr.roles}} == 3">
-                                <input th:class="*{lastName}" th:id="*{lastName}" checked="checked" type="checkbox">
+                                <input th:class="*{lastName}" th:id="*{lastName}" checked="checked" type="checkbox" th:onclick="check()">
                                 <label th:for="*{lastName}" th:text="*{lastName}"></label>
                         </div>
                     </form>
@@ -72,15 +72,15 @@
                                      th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
                                      and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
                                     <label th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}"></label>
-                                    <div th:each="bag : ${bags}">
-                                        <div class="column-work"
+                                    <div th:each="bag, itr : ${bags}">
+                                        <div class="column-bag"
                                                 th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= #dates.day(bag.birthTime)}
                                                       and ${dairy.currentMonth() + 1 >= #dates.month(bag.birthTime)}
                                                       and ${dairy.currentYear() >= #dates.year(bag.birthTime)}
                                                       and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= #dates.day(bag.lifeTime)}
                                                       and ${dairy.currentMonth() + 1 <= #dates.month(bag.lifeTime)}
                                                       and ${dairy.currentYear() <= #dates.year(bag.lifeTime)}"
-                                             th:id="${'bag' + bag.id}">
+                                             th:id="${'bag_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}">
                                             <label  th:text="${'сумка ' + bag.getUser().lastName}"></label>
                                         </div>
                                     </div>
@@ -92,5 +92,36 @@
             </main>
         </div>
     </div>
+    <script>
+
+        function getCheckedEx () {
+            let executors = document.querySelector('.users-checkbox').querySelectorAll('input');
+            let checkedExecutors = [];
+            executors.forEach(element => {
+                if (element.checked){
+                    checkedExecutors.push(element.getAttribute('id'));
+                };
+            });
+            return checkedExecutors;
+        }
+
+        function getUnVisibleColumnBag (checkedEx) {
+            let bags = document.querySelectorAll('.column-bag');
+            bags.forEach(element => {
+                let idElement = element.getAttribute('id');
+                console.log(idElement);
+                let arr = idElement.split('_');
+                if (checkedEx.includes(arr[2])) {
+                    document.getElementById(idElement).style.display = 'block';
+                }
+                else {
+                    document.getElementById(idElement).style.display = 'none';
+                }
+            });
+        }
+        function check () {
+            getUnVisibleColumnBag(getCheckedEx());
+        }
+    </script>
 </body>
 </html>
