@@ -70,7 +70,8 @@ public class Dairy {
 
     public List<Integer> countWeekOfMonth(){
         List<Integer> arrayList = new ArrayList<>();
-        System.out.println("WEEK_OF_MONTH: " + calendar.get(Calendar.WEEK_OF_MONTH));
+        Calendar cal = calendar;
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         if (calendar.get(Calendar.WEEK_OF_MONTH) == 0){
             for (int i = 1; i < calendar.getActualMaximum(Calendar.WEEK_OF_MONTH) + 2; i++) {
                 arrayList.add(i);
@@ -80,6 +81,7 @@ public class Dairy {
                 arrayList.add(i);
             }
         }
+        calendar = cal;
         return arrayList;
     }
 
