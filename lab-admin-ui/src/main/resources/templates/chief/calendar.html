@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/calendar.css}">
+<head th:replace="fragments/chief/header :: head"></head>
+<div th:replace="fragments/chief/header :: header"></div>
+<title>Календарь</title>
+
+<body>
+    <div class="main-calendar">
+        <header class="header">
+            <div class="flex-header">
+                <div class="text-calendar"> Календарь </div>
+                <div class="nav-month">
+                    <div class="month-and-year" th:text="${dairy.monthAndYear()}"></div>
+                    <form th:action="@{/calendar/minus}" th:method="GET">
+                        <button class="month-arrow" th:type="submit"> &lt; </button>
+                    </form>
+                    <form th:action="@{/calendar/plus}" th:method="GET">
+                        <button class="month-arrow" th:type="submit"> &gt; </button>
+                    </form>
+                    <form th:action="@{/calendar/today}" th:method="GET">
+                        <button class="today-btn" th:type="submit"> Сегодня </button>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <div class="flex">
+            <aside class="sidebar">
+                <div class="users-calendar">Исполнители</div>
+                <div class="users-checkbox">
+                    <form>
+                        <div th:each="usr : ${users}"
+                             th:object="${usr}"
+                             th:if="${{usr.roles}} == 3">
+                                <input th:class="*{lastName}" th:id="*{lastName}" checked="checked" type="checkbox" th:onclick="check()">
+                                <label th:for="*{lastName}" th:text="*{lastName}"></label>
+                        </div>
+                    </form>
+                </div>
+            </aside>
+            <main class="main">
+                <div class="flex-row" role="row">
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Пн</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Вт</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Ср</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Чт</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Пт</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Сб</span>
+                    </div>
+                    <div class="row-week-name" role="columnheader">
+                        <span aria-hidden="true">Вс</span>
+                    </div>
+                </div>
+                <div class="flex-row-data" role="presentation" th:each="wom : ${dairy.countWeekOfMonth()}">
+                    <div class="row-week" >
+                        <div class="flex-row-data-day">
+                            <div class="day" role="columnheader" th:each="seven : ${dairy.sevenDay()}">
+                                <div class="column-main" aria-hidden="true"
+                                     th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
+                                     and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
+                                    <label th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}"></label>
+                                    <div th:each="bag, itr : ${bags}">
+                                        <div class="column-bag"
+                                                th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= #dates.day(bag.birthTime)}
+                                                      and ${dairy.currentMonth() + 1 >= #dates.month(bag.birthTime)}
+                                                      and ${dairy.currentYear() >= #dates.year(bag.birthTime)}
+                                                      and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= #dates.day(bag.lifeTime)}
+                                                      and ${dairy.currentMonth() + 1 <= #dates.month(bag.lifeTime)}
+                                                      and ${dairy.currentYear() <= #dates.year(bag.lifeTime)}"
+                                             th:id="${'bag_' + bag.id + '_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}">
+                                            <label  th:text="${bag.getUser().lastName}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+
+        function getCheckedEx () {
+            let executors = document.querySelector('.users-checkbox').querySelectorAll('input');
+            let checkedExecutors = [];
+            executors.forEach(element => {
+                if (element.checked){
+                    checkedExecutors.push(element.getAttribute('id'));
+                };
+            });
+            return checkedExecutors;
+        }
+
+        function getUnVisibleColumnBag (checkedEx) {
+            let bags = document.querySelectorAll('.column-bag');
+            bags.forEach(element => {
+                let idElement = element.getAttribute('id');
+                console.log(idElement);
+                let arr = idElement.split('_');
+                if (checkedEx.includes(arr[3])) {
+                    document.getElementById(idElement).style.display = 'block';
+                }
+                else {
+                    document.getElementById(idElement).style.display = 'none';
+                }
+            });
+        }
+        function check () {
+            getUnVisibleColumnBag(getCheckedEx());
+        }
+    </script>
+</body>
+</html>

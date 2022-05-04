@@ -39,7 +39,7 @@ public class UserController {
     public String usersPage(Model model, SecurityContextHolder auth) {
         model.addAttribute("activePage", "Users");
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("roles", roleRepository.findAll());  // TODO Заменить репозиторий на сервис.
         return pathCreator.createPath(auth, "users");
     }
 
