@@ -68,29 +68,29 @@
                                 <button style="margin-top: 20px; width: 200px; background: #ffc4c4;" type="submit">Разблокировать</button>
                             </form>
                             <label class="alertlabel" id="needVer">Требует поверки</label>
-                        </div>
-                        <div>
+
                             <button class="popup-open" style="margin-top: 20px; width: 200px;"
                                     th:if="${equ.commentary == null}" type="button"
-                                    th:value="${equ.id}">Заблокировать
+                                    th:value="${equ.id}"
+                                    th:onmouseover="addId(/*[[${equ.id}]]*/)">Заблокировать
                             </button>
-                            <div class="popup-fade">
-                                <div class="popup">
-                                    <form style="display: flex; align-items: center; flex-direction: column;" th:action="@{'/equipment/comment/'+ ${equ.id}}" th:method="post">
-                                    <div>
-                                            <label style="font-size: large;" th:for="comment">Причина блокировки:</label>
-                                        </div>
-                                        <div>
-                                            <textarea id="comment" name="comment" style="width: 450px;"></textarea>
-                                        </div>
-                                        <div>
-                                            <button class="popup-close" type="submit" name="id">Сохранить</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
                         </div>
                     </dl>
+                    <div class="popup-fade">
+                        <div class="popup">
+                            <form th:id="blockform" style="display: flex; align-items: center; flex-direction: column;" th:action="@{'equipment/comment/'}" th:method="post">
+                                <div>
+                                    <label style="font-size: large;" th:for="comment">Причина блокировки:</label>
+                                </div>
+                                <div>
+                                    <textarea id="comment" name="comment" style="width: 450px;"></textarea>
+                                </div>
+                                <div>
+                                    <button class="popup-close" type="submit" name="id">Сохранить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <form class="attrs" style="height: 100%;" th:action="@{'/equipment/create/'}">
                         <button style="top: 50%;" type="submit">Создать</button>
                     </form>
@@ -101,6 +101,12 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
+
+<script>
+    function addId(id){
+        $('#blockform').attr('action', '/equipment/comment/' + id );
+    }
+</script>
 
 <script>
     var date = new Date();
