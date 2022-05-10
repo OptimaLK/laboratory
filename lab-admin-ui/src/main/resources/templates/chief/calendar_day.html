@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/css/calendar.css}">
+<head th:replace="fragments/chief/header :: head"></head>
+<div th:replace="fragments/chief/header :: header"></div>
+<title>Календарь</title>
+
+<body>
+    <div class="main-calendar">
+        <header class="header">
+            <div class="flex-header">
+                <div class="text-calendar"> Календарь </div>
+                <div class="nav-month">
+                    <div class="month-and-year" th:text="${dairy.DayMonthAndYear()}"></div>
+                    <form th:action="@{/calendar/minusDay}" th:method="GET">
+                        <button class="month-arrow" th:type="submit"> &lt; </button>
+                    </form>
+                    <form th:action="@{/calendar/plusDay}" th:method="GET">
+                        <button class="month-arrow" th:type="submit"> &gt; </button>
+                    </form>
+                    <form th:action="@{/calendar/todayDay}" th:method="GET">
+                        <button class="today-btn" th:type="submit"> Сегодня </button>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <div class="flex">
+            <aside class="users-side">
+                <div class="users-calendar">Исполнители</div>
+                <div class="users-sidebar">
+                    <form>
+                        <div th:each="usr : ${users}"
+                             th:object="${usr}"
+                             th:if="${{usr.roles}} == 3">
+                                <input th:class="*{lastName}" th:id="*{lastName}" checked="checked" type="checkbox" th:onclick="check()">
+                                <label th:for="*{lastName}" th:text="*{lastName}"></label>
+                        </div>
+                    </form>
+                </div>
+            </aside>
+            <main class="main">
+                <div class="flex-row-data" role="presentation" th:each="per : ${dairy.getListHour()}">
+                    <div class="flex">
+                        <div class="row-hour" th:text="${per}">
+
+                        </div>
+                        <div class="row-line" th:text="'-'">
+
+                        </div>
+                        <div th:each="bag : ${bags}">
+                            <span class="row-equipments"
+                                 th:if="${bag.getBirthTime().getDate() == bag.getLifeTime().getDate()}"
+                                 th:text="${bag.getBirthTime().getHours() - 7} <= ${per}
+                                 and ${bag.getLifeTime().getHours() - 7} >= ${per} ? ' ' + ${bag.user.lastName} : ''">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+
+        function getCheckedEx () {
+            let executors = document.querySelector('.users-checkbox').querySelectorAll('input');
+            let checkedExecutors = [];
+            executors.forEach(element => {
+                if (element.checked){
+                    checkedExecutors.push(element.getAttribute('id'));
+                };
+            });
+            return checkedExecutors;
+        }
+
+        function getUnVisibleColumnBag (checkedEx) {
+            let bags = document.querySelectorAll('.column-bag');
+            bags.forEach(element => {
+                let idElement = element.getAttribute('id');
+                console.log(idElement);
+                let arr = idElement.split('_');
+                if (checkedEx.includes(arr[3])) {
+                    document.getElementById(idElement).style.display = 'block';
+                }
+                else {
+                    document.getElementById(idElement).style.display = 'none';
+                }
+            });
+        }
+        function check () {
+            getUnVisibleColumnBag(getCheckedEx());
+        }
+    </script>
+</body>
+</html>

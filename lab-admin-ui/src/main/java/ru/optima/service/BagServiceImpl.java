@@ -2,6 +2,7 @@ package ru.optima.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.optima.beans.Dairy;
 import ru.optima.persist.model.Protocol;
 import ru.optima.persist.model.User;
 import ru.optima.persist.model.equipments.Bag;
@@ -125,6 +126,24 @@ public class BagServiceImpl implements BagService {
         return bag;
     }
 
+    public List<Bag> findAllEquipmentsInBag(Dairy dairy) {
+        List<Bag> bagsDay = new ArrayList<>();
+        List<Bag> bags = bagRepository.findAll();
+        Calendar cal = Calendar.getInstance();
+        for (Bag bagAll : bags){
+            if (bagAll.getBirthTime() != null){
+                cal.set(Calendar.DAY_OF_MONTH, bagAll.getBirthTime().getDate());
+                cal.set(Calendar.MONTH, bagAll.getBirthTime().getMonth());
+                cal.set(Calendar.YEAR, bagAll.getBirthTime().getYear() + 1900);
+                if (cal.get(Calendar.DAY_OF_MONTH) == dairy.todayDay()) {
+                    bagsDay.add(bagAll);
+                }
+            }
+
+        }
+        return bagsDay;
+    }
+
     @Override
     public void createNewBagAndSaveOldBag(BagRepr bag, User user) {
         List<Bag> bagList = bagRepository.findAll();
@@ -209,4 +228,6 @@ public class BagServiceImpl implements BagService {
     public List <BagRepr> findAll() {
         return bagRepository.findAll().stream().map(BagRepr :: new).collect(Collectors.toList());
     }
+
+
 }

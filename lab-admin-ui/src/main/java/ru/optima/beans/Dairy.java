@@ -21,6 +21,7 @@ public class Dairy {
     private int month = date.getMonthValue();
     private int today = date.getDayOfMonth();
     private ArrayList<Integer> listDay;
+    private ArrayList<Integer> listHour;
 
     private Calendar calendar = Calendar.getInstance();
     String[] monthNames = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
@@ -96,6 +97,14 @@ public class Dairy {
     public String todayMonth() {
         return monthNames[calendar.get(Calendar.MONTH)];
     }
+    public int todayDay() {
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public void setData(int year, int month, int day) {
+       calendar.set(year, month, day );
+    }
+
 
     public int todayYear() {
         return calendar.get(Calendar.YEAR);
@@ -129,5 +138,24 @@ public class Dairy {
         return monthNames[currentMonth()] + " " + currentYear();
     }
 
+    public String DayMonthAndYear() {
+        return todayDay() + " " + monthNames[currentMonth()] + " " + currentYear();
+    }
 
+    public void minusDay() {
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+    }
+    public void plusDay() {
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+    }
+
+    public void listHour() {
+        listHour = new ArrayList<>();
+        for (int i = 1; i <= 24; i++) {
+            listHour.add(i);
+        }
+    }
+    public ArrayList<Integer> getListHour(){
+        return listHour;
+    }
 }

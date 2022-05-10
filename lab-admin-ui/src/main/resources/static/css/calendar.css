@@ -12,7 +12,7 @@ body {
 .main-calendar {
     margin: 0 auto;
     width: 100%;
-    height: calc(100% - 96px);
+    height: calc(100% - 112px);
 }
 
 .flex {
@@ -89,11 +89,10 @@ body {
 
 /* sidebar */
 
-.sidebar {
+.users-side {
     width: 15%;
-    height: calc(100% - 200px);
     margin: 0 auto;
-    min-height: 150px;
+    min-height: 25px;
 
     display: flex;
     flex-direction: column;
@@ -105,9 +104,9 @@ body {
     margin: 10px;
     flex: 0;
 }
-.users-checkbox {
+.users-sidebar {
     margin: 10px;
-    flex: 1;
+    flex: 0;
 }
 
 /* main */
@@ -174,7 +173,7 @@ body {
 
 .flex-row-data-day {
     position: relative;
-    min-height: 40px;
+    min-height: 10px;
 
     border-bottom: 1px solid #04B1C9;
 
@@ -188,6 +187,28 @@ body {
     border-right: 1px solid #04B1C9;
 
     display: block;
+}
+
+.day-of-month{
+    padding: 0px 10px;
+}
+
+.row-hour {
+    width: 2%;
+}
+
+.row-line{
+    width: 1%;
+}
+
+.row-equipments{
+    width: 97%;
+    background-color: #d0f4ee;
+}
+
+.hourColor {
+    height: 3.5%;
+    background-color: #d0f4ee;
 }
 
 

@@ -26,9 +26,9 @@
             </div>
         </header>
         <div class="flex">
-            <aside class="sidebar">
+            <aside class="users-side">
                 <div class="users-calendar">Исполнители</div>
-                <div class="users-checkbox">
+                <div class="users-sidebar">
                     <form>
                         <div th:each="usr : ${users}"
                              th:object="${usr}"
@@ -66,25 +66,35 @@
                 <div class="flex-row-data" role="presentation" th:each="wom : ${dairy.countWeekOfMonth()}">
                     <div class="row-week" >
                         <div class="flex-row-data-day">
-                            <div class="day" role="columnheader" th:each="seven : ${dairy.sevenDay()}">
-                                <div class="column-main" aria-hidden="true"
-                                     th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
+                            <div class="day" th:each="seven : ${dairy.sevenDay()}">
+                                <form th:object="${dairy}" method="post"
+                                      th:action="@{'/calendar/day/' +
+                                      ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7} + '/' +
+                                      ${dairy.currentMonth()} + '/' +
+                                      ${dairy.currentYear()}}"
+                                      th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
                                      and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
-                                    <label th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}"></label>
-                                    <div th:each="bag, itr : ${bags}">
-                                        <div class="column-bag"
-                                                th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= #dates.day(bag.birthTime)}
+                                    <button type="submit">
+                                        <div  class="column-main" aria-hidden="true"
+                                             th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
+                                     and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
+                                            <label class="day-of-month" th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}"></label>
+                                            <div th:each="bag, itr : ${bags}">
+                                                <div class="column-bag"
+                                                     th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= #dates.day(bag.birthTime)}
                                                       and ${dairy.currentMonth() + 1 >= #dates.month(bag.birthTime)}
                                                       and ${dairy.currentYear() >= #dates.year(bag.birthTime)}
                                                       and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= #dates.day(bag.lifeTime)}
                                                       and ${dairy.currentMonth() + 1 <= #dates.month(bag.lifeTime)}
                                                       and ${dairy.currentYear() <= #dates.year(bag.lifeTime)}"
-                                             th:id="${'bag_' + bag.id + '_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}">
-                                            <label  th:text="${bag.getUser().lastName}"></label>
+                                                     th:id="${'bag_' + bag.id + '_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}">
+                                                    <div th:text="${bag.getUser().lastName}"></div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    </button>
+                                </form>
+                               </div>
                         </div>
                     </div>
                 </div>
