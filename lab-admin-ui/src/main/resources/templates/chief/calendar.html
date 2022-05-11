@@ -118,7 +118,6 @@
             let bags = document.querySelectorAll('.column-bag');
             bags.forEach(element => {
                 let idElement = element.getAttribute('id');
-                console.log(idElement);
                 let arr = idElement.split('_');
                 if (checkedEx.includes(arr[3])) {
                     document.getElementById(idElement).style.display = 'block';
