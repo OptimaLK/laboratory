@@ -48,8 +48,9 @@
                         <div class="row-line" th:text="'-'">
 
                         </div>
-                        <div th:each="bag : ${bags}">
+                        <div th:each="bag, itr : ${bags}">
                             <span class="row-equipments"
+                                 th:id="${'bag_' + bag.id + '_' + itr.index + '_' + bag.getUser().lastName}"
                                  th:if="${bag.getBirthTime().getDate() == bag.getLifeTime().getDate()}"
                                  th:text="${bag.getBirthTime().getHours() - 7} <= ${per}
                                  and ${bag.getLifeTime().getHours() - 7} >= ${per} ? ' ' + ${bag.user.lastName} : ''">
@@ -63,7 +64,7 @@
     <script>
 
         function getCheckedEx () {
-            let executors = document.querySelector('.users-checkbox').querySelectorAll('input');
+            let executors = document.querySelector('.users-sidebar').querySelectorAll('input');
             let checkedExecutors = [];
             executors.forEach(element => {
                 if (element.checked){
@@ -74,10 +75,9 @@
         }
 
         function getUnVisibleColumnBag (checkedEx) {
-            let bags = document.querySelectorAll('.column-bag');
+            let bags = document.querySelectorAll('.row-equipments');
             bags.forEach(element => {
                 let idElement = element.getAttribute('id');
-                console.log(idElement);
                 let arr = idElement.split('_');
                 if (checkedEx.includes(arr[3])) {
                     document.getElementById(idElement).style.display = 'block';
