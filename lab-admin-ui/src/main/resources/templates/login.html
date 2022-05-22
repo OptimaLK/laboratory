@@ -7,10 +7,13 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.2/css/all.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootadmin.min.css}">
+    <link rel="stylesheet" th:href="@{/css/authorization.css}">
+    <link rel="stylesheet" th:href="@{/css/elements.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/icons/.}">
 
-    <title>Login | BootAdmin</title>
+    <title>Авторизация</title>
 </head>
-<body class="bg-light">
+<body class="bg">
 
 <div class="container h-100">
     <div class="row h-100 justify-content-center align-items-center">
@@ -19,35 +22,32 @@
             <div class="card">
                 <div class="card-body">
                     <form th:action="@{/authenticateTheUser}" method="post">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        <div class="input-group mb-3 ">
+                            <div class="input-group-prepend ">
+                                <span class="input-group-text login"><i class="fa fa-user login-icon"></i></span>
                             </div>
                             <label class="visually-hidden" for="inp-username" hidden>Фамилия</label>
-                            <input type="text" id="inp-username" class="form-control" name="username" placeholder="Фамилия">
+                            <input type="text" id="inp-username" class="form-control bg-input" name="username" placeholder="Фамилия">
                         </div>
 
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-key"></i></span>
+                            <div class="input-group-prepend ">
+                                <span class="login input-group-text"><i class="fa fa-key login-icon"></i></span>
                             </div>
                             <label for="inp-password" hidden>Пароль</label>
-                            <input type="password" id="inp-password" class="form-control" name="password" placeholder="Пароль">
+                            <input type="password" id="inp-password" class="form-control bg-input" name="password" placeholder="Пароль">
                         </div>
 
-                        <div class="form-check mb-3">
-                            <label class="form-check-label">
-                                <input type="checkbox" name="remember" class="form-check-input">
-                                Remember Me
+                        <div class="checkbox">
+                            <input class="checkbox-input" id="icon" type="checkbox" name="remember" >
+                            <label class="checkbox-label" for="icon" >
+                                Запомнить меня
                             </label>
                         </div>
 
                         <div class="row">
                             <div class="col pr-2">
                                 <button type="submit" id="btn-login" class="btn btn-block btn-primary">Вход</button>
-                            </div>
-                            <div class="col pl-2">
-                                <a class="btn btn-block btn-link" href="#">Запомнить пароль</a>
                             </div>
                         </div>
                     </form>

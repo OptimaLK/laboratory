@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.bg {
+    background-color: #E8E9EE;
+}
+
+.bg {
+    background-color: #E8E9EE;
+}
+
+.login {
+    background-color: #0CBFCE;
+}
+
+.login-icon {
+    color: #EAEBF0;
+}
+
+.bg-input {
+    background-color: #E7FFFF;
+}
