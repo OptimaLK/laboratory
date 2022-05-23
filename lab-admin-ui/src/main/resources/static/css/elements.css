@@ -10,56 +10,57 @@
     position: absolute;
 }
 
-.check-box {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-}
-
 .checkbox-label {
-    padding-left: 25px;
+    padding-left: 52px;
+    padding-bottom: 10px;
     font-size: 20px;
-    /*color: #cccccc;*/
+    color: #000000;
+    cursor: pointer;
     /*background-image: url('../icons/checkbox_off.svg');*/
 }
 
 .checkbox-label:before {
     content: "";
     display: block;
-    width: 32px;
-    height: 24px;
+    width: 88px;
+    height: 51px;
 
-    border: 1px solid #cccccc;
-    background: #932929 url(../icons/checkbox_rec_off.svg) no-repeat;
-    background-size: 24px 24px;
+    background: url(../icons/checkbox_rec_off.svg) no-repeat;
+    background-size: 55px 46px;
 
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -7px;
+    left: -9px;
     z-index: 1;
 }
 
-.checkbox-label:after {
-    content: "";
-    display: block;
-    width: 20px;
-    height: 20px;
+/*.checkbox-label:after {*/
+/*    content: "";*/
+/*    display: block;*/
+/*    width: 88px;*/
+/*    height: 51px;*/
 
-    background: #02030a url(../icons/checkbox_rec_off.svg) no-repeat;
-    background-size: 24px 32px;
-    opacity: 0;
+/*    background: url(../icons/checkbox_rec_on.svg) no-repeat;*/
+/*    background-size: 55px 46px;*/
+/*    opacity: 0;*/
 
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-}
+/*    position: absolute;*/
+/*    top: -7px;*/
+/*    left: -9px;*/
+/*    z-index: 2;*/
+/*}*/
 
 .checkbox-input:checked + .checkbox-label:before {
-    background-color: #7ccd0c;
-    background-image: url(../icons/checkbox_rec_off.svg);
+    background-image: url(../icons/checkbox_rec_on.svg);
 }
 
-.checkbox-input:checked + .checkbox-label:after {
-    opacity: 1;
+.checkbox-input:focus + .checkbox-label:before {
+    background-image: url(../icons/checkbox_rec_focus_off.svg);
 }
+.checkbox-input:checked:focus + .checkbox-label:before {
+    background-image: url(../icons/checkbox_rec_focus_on.svg);
+}
+
+/*.checkbox-input:checked + .checkbox-label:after {*/
+/*    opacity: 1;*/
+/*}*/
