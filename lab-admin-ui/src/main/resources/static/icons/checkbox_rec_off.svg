@@ -3,7 +3,8 @@
 <rect x="23" y="23" width="93" height="62" rx="7" fill="#EAEBF0"/>
 <rect x="23.5" y="23.5" width="92" height="61" rx="6.5" stroke="black" stroke-opacity="0.15"/>
 </g>
-<path d="M27.5 38C27.5 36.067 29.067 34.5 31 34.5H63C64.933 34.5 66.5 36.067 66.5 38V70C66.5 71.933 64.933 73.5 63 73.5H31C29.067 73.5 27.5 71.933 27.5 70V38Z" fill="white" stroke="#BEBEC0"/>
+    <path d="M27.5 38C27.5 36.067 29.067 34.5 31 34.5H63C64.933 34.5 66.5 36.067 66.5 38V70C66.5 71.933 64.933 73.5 63 73.5H31C29.067 73.5 27.5 71.933 27.5 70V38Z" fill="white" stroke="#BEBEC0">\
+    </path>
 <path d="M78 41C78.4 41.4 95.5 58.5 104 67" stroke="#929BAB" stroke-width="4" stroke-linecap="round"/>
 <path d="M104 41L78.0626 66.9374L78 67" stroke="#929BAB" stroke-width="4" stroke-linecap="round"/>
 <defs>
