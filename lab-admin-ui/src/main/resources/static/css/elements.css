@@ -50,25 +50,31 @@
 /* button */
 
 .butt {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    text-transform: uppercase;
     color: #E7FFFF;
     font-weight: normal;
-    justify-content: center;
 
-    left: 50%;
     width: 172px;
     height: 38px;
-    text-align: center;
 
     border: 1px solid #01BDCD;
     border-radius: 34px;
 
-    background-color: #0CBFCE;
+    background: linear-gradient(90deg,#7ADCDC,#01BDCD);
 
-    transition: background 0.2s linear;
+    transition: 0.8s;
+}
+
+.butt-center {
+    position: relative;
+    padding: 0;
+    margin-left: -86px;
+    left: 50%;
 }
 
 .butt:hover {
-    background-color: #007680;
+    background: linear-gradient(90deg,#62B9B9,#007680);
+    box-shadow: 0 0 13px #7ADCDC;
 }
 
