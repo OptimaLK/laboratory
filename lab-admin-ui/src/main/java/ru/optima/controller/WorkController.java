@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.optima.persist.model.User;
 import ru.optima.persist.model.equipments.Equipment;
 import ru.optima.repr.WorkRepr;
+import ru.optima.service.EquipmentService;
 import ru.optima.service.UserServiceImpl;
 import ru.optima.service.WorkServiceImpl;
 import ru.optima.service.WorkStatusService;
@@ -31,10 +32,12 @@ public class WorkController {
     private final WorkServiceImpl workService;
     private final UserServiceImpl userService;
     private final WorkStatusService workStatusService;
+    private final EquipmentService equipmentService;
     private final PathCreator pathCreator;
 
     @GetMapping({"", "/"})
     public String workPage(Model model, SecurityContextHolder auth, Principal principal) {
+        model.addAttribute("count", equipmentService.countEquipment(principal.getName()));
         model.addAttribute("activePage", "Works");
         model.addAttribute("users", userService.findAllUserWhoHasRole("ROLE_EXECUTOR"));
         model.addAttribute("workEdit", new WorkRepr());

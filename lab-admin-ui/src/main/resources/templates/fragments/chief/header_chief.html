@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:color="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:fragment="head">
     <meta charset="utf-8">
@@ -13,12 +13,12 @@
     <link rel="stylesheet" th:href="@{/css/header_style.css}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 
+
 </head>
 
 <body class="bg-light">
 
 <nav th:fragment="header" class="header">
-
     <div class="container">
         <div class="header-inner">
             <div th:classappend="${activePage == 'main_chief'} ? active">
@@ -33,12 +33,6 @@
                    th:classappend="${activePage == 'Users'} ? active">Пользователи</a>
             </div>
             <div class="header-logo">
-                <div class="container-header-executor" >
-                    <div class="header-logo">
-                        <a class="bag-nav" th:href="@{/bag} "></a>
-                        <span class="bag-count" th:text="${count}"></span>
-                    </div>
-                </div>
                 <a class="calendar-nav" th:href="@{/calendar}"></a>
                 <div class="user-name" id="user-name" sec:authentication="principal.username">Фамилия пользователя</div>
                 <a class="container-logout">
@@ -49,8 +43,27 @@
             </div>
         </div>
     </div>
-
 </nav>
-<span aria-hidden="true">&times;</span>
+
+
+
+<!--<script>-->
+<!--    const menu = document.querySelector('.navigation');-->
+<!--    const anchors = menu.getElementsByTagName('a');-->
+
+<!--    for (let i = 0; i < anchors.length; i += 1) {-->
+<!--        anchors[i].addEventListener('click', function () {-->
+<!--            clickHandler(anchors[i])-->
+<!--        }, false);-->
+<!--    }-->
+
+<!--    function clickHandler(anchor) {-->
+<!--        const hasClass = anchor.getAttribute('class');-->
+<!--        if (hasClass !== 'active') {-->
+<!--            anchor.setAttribute('class', 'active');-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+
 </body>
 </html>

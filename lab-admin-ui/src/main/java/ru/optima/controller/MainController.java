@@ -31,6 +31,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String indexPage(Model model, SecurityContextHolder auth) {
+
         model.addAttribute("activePage", "None");
         return  pathCreator.createPath(auth);
     }
@@ -38,7 +39,7 @@ public class MainController {
     @Secured("ROLE_CHIEF")
     @RequestMapping("/chief")
     public String indexChiefPage(Model model) {
-        model.addAttribute("activePage", "None");
+        model.addAttribute("activePage", "main_chief");
         List <BagRepr> bagList = new ArrayList <>();
         for(BagRepr value : bagService.findAll()) {
             if(value.getWork() != null) {
@@ -60,6 +61,7 @@ public class MainController {
     @Secured("ROLE_EXECUTOR")
     @RequestMapping("/executor")
     public String indexExecutorPage(Model model, Principal principal) {
+        model.addAttribute("count", equipmentService.countEquipment(principal.getName()));
         model.addAttribute("activePage", "None");
         return "executor/index";
     }

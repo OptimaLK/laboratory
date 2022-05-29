@@ -32,8 +32,6 @@
     top: -7px;
     left: -9px;
     z-index: 1;
-
-
 }
 
 .checkbox-input:checked + .checkbox-label:before {

@@ -4,32 +4,18 @@
 
 <body class="bg-light">
 
-<nav th:fragment="tools" class="navbar navbar-expand navbar-light" style="padding: 0">
-    <div class="navbar-collapse collapse">
-        <ul class="nav nav-pills nav-justified d-flex justify-content-between align-items-baseline w-100 tools_font">
+<nav th:fragment="tools" class="navbar-expand " style="padding: 0">
+    <div class=" ">
+        <ul class="nav nav-justified tools_font">
                 <li class="nav-item" th:each="ctg, state : ${categories}">
-<!--                    Здесь убрал две одинаковые ссылки, выдаваемые по условному оператору (большое дублирование)-->
-<!--                    Вместо этого оставил одну ссылку, а все условные операторы встроил внутрь неё-->
-
 <!--                    Условие на стиль теперь не обращается к списку оборудования для данной категории,-->
 <!--                    т.к. в случае, когда этот список пуст, вываливалась ошибка-->
 <!--                    Теперь текущая категория передаётся из контроллера при вызове шаблона-->
                         <a th:class="${ctg.getId() == categoryId}? 'nav-link active' : 'nav-link'"
-                           th:href="@{/equipment/{id}?{activeOnly}(id = ${ctg.id}, activeOnly = ${activeOnly}? 'active-only=on' : '')}">
+                           th:href="@{/equipment/{id} ? {activeOnly}(id = ${ctg.id}, activeOnly = ${activeOnly}? 'active-only=on' : '')}">
                             <p th:text="${ctg.name}"></p>
                         </a>
                 </li>
-<!--            удалять не стал вдруг пригодится               -->
-<!--            <li class="nav-item dropdown" style="flex-basis: 150px;">-->
-<!--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                    Иное-->
-<!--                </a>-->
-<!--                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
-<!--                    <a class="dropdown-item" href="#"> ? </a>-->
-<!--                    <a class="dropdown-item" href="#"> ? </a>-->
-<!--                    <a class="dropdown-item" href="#"> ? </a>-->
-<!--                </div>-->
-<!--            </li>-->
         </ul>
     </div>
 </nav>
