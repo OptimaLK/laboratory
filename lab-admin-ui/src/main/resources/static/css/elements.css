@@ -72,7 +72,99 @@
 }
 
 .butt:hover {
-    background: linear-gradient(90deg,#62B9B9,#007680);
+    background: linear-gradient(90deg,#62B9B9, #007680);
     box-shadow: 0 0 13px #7ADCDC;
 }
+
+/* checkbox */
+
+.container-checkbox {
+    position: relative;
+    display: block;
+    padding-left: 24px;
+}
+
+.label-checkbox {
+    position: relative;
+}
+
+.equipments-checkbox {
+    position: absolute;
+    width: 50px;
+    height: 26px;
+    margin: 0;
+    background: rgba(101, 102, 102, 0.47);
+    box-shadow: inset 0 2px 15px rgba(188, 192, 193, 0.2),
+                inset 0 2px 2px rgba(188, 192, 193, 0.2),
+                inset 0 -1px 1px rgba(188, 192, 193, 0.2);
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+.input-checkbox:checked ~ .equipments-checkbox {
+    background: #7adcdc;
+    box-shadow: inset 0 2px 15px rgba(0, 118, 128, 0.2),
+    inset 0 2px 2px rgba(0, 118, 128, 0.2),
+    inset 0 -1px 1px rgba(0, 118, 128, 0.2);
+}
+
+.input-checkbox {
+    appearance: none;
+}
+
+.indicator {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 25px;
+    height: 25px;
+    background: linear-gradient(180deg, #b6b8b8, #323131);
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(43, 45, 45, 0.3),
+                inset 0 1px 1px rgba(20, 21, 21, 0.2);
+    transition: 0.5s;
+    transform: scale(0.9);
+}
+
+.input-checkbox:checked ~ .indicator {
+    left: 25px;
+    background: linear-gradient(180deg,#62B9B9, #007680);
+}
+
+.indicator:before {
+    content: "";
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: 4px;
+    height: 4px;
+    background: #98a098;
+    border-radius: 50%;
+    box-shadow: 0 1px 1px #98a098;
+    transition: 0.5s;
+}
+
+.input-checkbox:checked ~ .indicator::before {
+    background: #00e328;
+    box-shadow: 0 0 2px #00e328,
+    0 0 5px #00e328,
+    0 0 10px #00e328,
+    0 0 15px #00e328,
+    0 0 20px #00e328,
+    0 0 25px #00e328,
+    0 0 30px #00e328;
+}
+
+.text-checkbox {
+    position: absolute;
+    left: 60px;
+    top: 2px;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
 

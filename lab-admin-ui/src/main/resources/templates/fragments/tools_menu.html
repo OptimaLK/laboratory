@@ -4,19 +4,21 @@
 
 <body class="bg-light">
 
-<nav th:fragment="tools" class="navbar-expand " style="padding: 0">
-    <div class=" ">
-        <ul class="nav nav-justified tools_font">
+<nav th:fragment="tools" class="navbar-expand" style="padding: 0">
+    <div class="fon">
+        <div class="container-big">
+            <ul class="nav nav-justified tools_font">
                 <li class="nav-item" th:each="ctg, state : ${categories}">
-<!--                    Условие на стиль теперь не обращается к списку оборудования для данной категории,-->
-<!--                    т.к. в случае, когда этот список пуст, вываливалась ошибка-->
-<!--                    Теперь текущая категория передаётся из контроллера при вызове шаблона-->
-                        <a th:class="${ctg.getId() == categoryId}? 'nav-link active' : 'nav-link'"
-                           th:href="@{/equipment/{id} ? {activeOnly}(id = ${ctg.id}, activeOnly = ${activeOnly}? 'active-only=on' : '')}">
-                            <p th:text="${ctg.name}"></p>
-                        </a>
+                    <!--                    Условие на стиль теперь не обращается к списку оборудования для данной категории,-->
+                    <!--                    т.к. в случае, когда этот список пуст, вываливалась ошибка-->
+                    <!--                    Теперь текущая категория передаётся из контроллера при вызове шаблона-->
+                    <a th:class="${ctg.getId() == categoryId}? 'nav-link active' : 'nav-link'"
+                       th:href="@{/equipment/{id} ? {activeOnly}(id = ${ctg.id}, activeOnly = ${activeOnly}? 'active-only=on' : '')}">
+                        <p th:text="${ctg.name}"></p>
+                    </a>
                 </li>
-        </ul>
+            </ul>
+        </div>
     </div>
 </nav>
 

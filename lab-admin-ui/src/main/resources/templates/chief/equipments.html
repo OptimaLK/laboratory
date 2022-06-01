@@ -3,6 +3,7 @@
 >
 <link rel="stylesheet" th:href="@{/css/equipments.css}">
 <link rel="stylesheet" th:href="@{/css/popup_window.css}">
+<link rel="stylesheet" th:href="@{/css/elements.css}">
 
   <head th:replace="fragments/chief/header_chief :: head"></head>
 
@@ -14,10 +15,14 @@
     <div class="content">
         <div th:replace="fragments/tools_menu :: tools"></div>
         <div class="card mb-4">
-            <div class="card-body">
-                <div class="custom-control custom-switch">
-                    <input class="custom-control-input" id="customSwitch1" type="checkbox">
-                    <label class="custom-control-label" for="customSwitch1">Только доступное</label>
+            <div class="container-menu">
+                <div class="container-big">
+                    <label class="label-checkbox" for="customSwitch1">
+                        <input class="input-checkbox" id="customSwitch1" type="checkbox">
+                        <span class="equipments-checkbox"></span>
+                        <i class="indicator"></i>
+                        <span class="text-checkbox"> Доступное оборудование</span>
+                    </label>
                 </div>
                 <div class="d-flex flex-wrap justify-content-center">
                     <dl th:id="equ-chief" class="dl-horizontal attrs card_flex" th:each="equ : ${equipments}" th:method="isActiv">

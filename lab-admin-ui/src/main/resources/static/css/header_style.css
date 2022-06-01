@@ -1,3 +1,10 @@
+.container-big {
+    width: 100%;
+    max-width: 1540px;
+    padding-left: 0;
+    margin: 0 auto;
+}
+
 .tools_font a {
     font-weight: 200;
     font-size: 18px;
@@ -20,6 +27,11 @@
     background-color: #0CBFCE;
     font-weight: 600;
     font-size: 22px;
+    border-bottom: 0;
+    box-shadow: 25px 25px 75px rgba(72, 94, 113, 0.25),
+    40px 40px 70px rgba(72, 94, 113, 0.25),
+    inset -5px -5px 10px rgba(72, 94, 113, 0.2),
+    inset 5px 5px 10px rgba(72, 94, 113, 0.2);
 }
 
 .tools_font a:hover {
@@ -246,6 +258,11 @@ a.header-font:hover {
     text-decoration: none;
     transform: scale(1.15);
     color: #050810;
+}
+
+.fon {
+    width: 100%;
+    background: #78DBDB;
 }
 
 /* logo */
