@@ -15,90 +15,97 @@
     <div class="content">
         <div th:replace="fragments/tools_menu :: tools"></div>
         <div class="card mb-4">
-            <div class="container-menu">
-                <div class="container-big">
-                    <label class="label-checkbox" for="customSwitch1">
-                        <input class="input-checkbox" id="customSwitch1" type="checkbox">
-                        <span class="equipments-checkbox"></span>
-                        <i class="indicator"></i>
-                        <span class="text-checkbox"> Доступное оборудование</span>
-                    </label>
+            <div class="container-menu backcolor">
+                <div class="container-menu-equipments">
+                    <div class="container-big">
+                        <label class="label-checkbox" for="customSwitch1">
+                            <input class="input-checkbox" id="customSwitch1" type="checkbox">
+                            <span class="equipments-checkbox"></span>
+                            <i class="indicator"></i>
+                            <span class="text-checkbox"> Доступное оборудование</span>
+                        </label>
+                    </div>
+                    <div class="container-btn">
+                        <form class="attrs" th:action="@{'/equipment/create/'}">
+                            <button class="edit-equipment-btn" type="submit"></button>
+                        </form>
+                    </div>
                 </div>
-                <div class="d-flex flex-wrap justify-content-center">
-                    <dl th:id="equ-chief" class="dl-horizontal attrs card_flex" th:each="equ : ${equipments}" th:method="isActiv">
-                        <div class="d-flex justify-content-center">
-                            <div>
-                                <dt>Название:</dt>
-                                <dd th:text="${equ.name}"></dd>
-                                <dt>Зав. №:</dt>
-                                <dd th:text="${equ.factoryNumber}"></dd>
-                                <dt>Свидетельство:</dt>
-                                <dd th:text="${equ.verificationNumber}"></dd>
-                                <dt>Дата поверки:</dt>
-                                <dd id="verDate" th:text="${#dates.format(equ.verificationDateEnd, 'dd.MM.yyyy')}"></dd>
-                            </div>
-                            <div class="ico_ok-del edit" th:if="${equ.commentary == null}">
-                                <div style="padding-right: 10px;">
+                <div class="container-big">
+                    <div class="container-equipments">
+                        <dl th:id="equ-chief" class="equipment" th:each="equ : ${equipments}" th:method="isActiv">
+                            <div class="flex-around" th:if="${equ.commentary == null}">
+                                <div>
                                     <a id="edit" th:href="@{/equipment/{eqId}/edit(eqId=${equ.id})}" type="submit"><i
-                                            class="fas fa-edit" style="color: #4E26BB;"></i></a>
+                                            class="fas fa-edit edit-icon" ></i></a>
                                 </div>
                                 <div>
                                     <a id="del" th:href="@{/equipment/{eqId}/delete(eqId=${equ.id})}" type="submit"><i
-                                            class="fas fa-trash-alt" style="color: #B00101;"></i></a>
+                                            class="fas fa-trash-alt delete-icon"></i></a>
                                 </div>
                             </div>
-                        </div>
-                        <div th:if="${equ.commentary == null}">
-                            <div th:switch="${equ.isActiv}">
-                                <form class="form-group" th:case="${false}">
-                                    <button id="get" style="width: 200px;" type="submit">Взять</button>
+                            <div class="d-flex justify-content-center">
+                                <div>
+                                    <div class="bigName">
+                                        <dd  th:text="${equ.name}"></dd>
+                                    </div><hr>
+                                    <dt>Зав. №: </dt>
+                                    <dd th:text="${equ.factoryNumber}"></dd>
+                                    <dt>Свидетельство: </dt>
+                                    <dd th:text="${equ.verificationNumber}"></dd>
+                                    <dt>Дата поверки: </dt>
+                                    <dd id="verDate" th:text="${#dates.format(equ.verificationDateEnd, 'dd.MM.yyyy')}"></dd>
+                                    <hr>
+                                </div>
+                            </div>
+
+                            <div class="display-flex" th:if="${equ.commentary == null}">
+                                <form th:action="@{'/verification/app_verification/' + ${equ.id}}"
+                                      th:object="${equipments}">
+                                    <button type="submit"> На поверку </button>
                                 </form>
+                                <button class="popup-open"
+                                        th:if="${equ.commentary == null}" type="button"
+                                        th:value="${equ.id}"
+                                        th:onmouseover="addId(/*[[${equ.id}]]*/)">Заблокировать
+                                </button>
+                            </div>
+                            <div th:switch="${equ.isActiv}">
                                 <form class="form-group" th:case="${true}">
-                                    <button style="display: none" type="submit"></button>
+                                    <button type="submit"></button>
                                 </form>
                                 <label class="alertlabel" id="needVer">Требует поверки</label>
                             </div>
-                            <form th:action="@{'/verification/app_verification/' + ${equ.id}}"
-                                  th:object="${equipments}">
-                                <button style="margin-top: 10px; width: 200px;" type="submit">На поверку</button>
-                            </form>
-                        </div>
-                        <div th:unless="${equ.commentary == null}">
-                            <dt>Причина блокирвоки:</dt>
-                            <dd th:text="${equ.commentary.comment}"></dd>
-                        </div>
-                        <div>
-                            <form th:action="@{'/equipment/removeComment/' + ${equ.id}}" th:method="post"
-                                  th:unless="${equ.commentary == null}">
-                                <button style="margin-top: 20px; width: 200px; background: #ffc4c4;" type="submit">Разблокировать</button>
-                            </form>
-                            <label class="alertlabel" id="needVer">Требует поверки</label>
+                            <div th:unless="${equ.commentary == null}">
+                                <dt>Причина блокирвоки:</dt>
+                                <dd th:text="${equ.commentary.comment}"></dd>
+                            </div>
+                            <div class="unlock-form">
+                                <form th:action="@{'/equipment/removeComment/' + ${equ.id}}" th:method="post"
+                                      th:unless="${equ.commentary == null}">
+                                    <button class="unlock-btn" type="submit">Разблокировать</button>
+                                </form>
+                                <label class="alertlabel" id="needVer">Требует поверки</label>
 
-                            <button class="popup-open" style="margin-top: 20px; width: 200px;"
-                                    th:if="${equ.commentary == null}" type="button"
-                                    th:value="${equ.id}"
-                                    th:onmouseover="addId(/*[[${equ.id}]]*/)">Заблокировать
-                            </button>
+                            </div>
+                        </dl>
+                        <div class="popup-fade" >
+                            <div class="popup">
+                                <form class="popup-form" th:id="blockform" th:action="@{'equipment/comment/'}" th:method="post">
+                                    <div>
+                                        <label style="font-size: large;" th:for="comment">Причина блокировки:</label>
+                                    </div>
+                                    <div>
+                                        <textarea class="popup-text" id="comment" name="comment" ></textarea>
+                                    </div>
+                                    <div>
+                                        <button class="popup-btn" type="submit" name="id">Сохранить</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </dl>
-                    <div class="popup-fade">
-                        <div class="popup">
-                            <form th:id="blockform" style="display: flex; align-items: center; flex-direction: column;" th:action="@{'equipment/comment/'}" th:method="post">
-                                <div>
-                                    <label style="font-size: large;" th:for="comment">Причина блокировки:</label>
-                                </div>
-                                <div>
-                                    <textarea id="comment" name="comment" style="width: 450px;"></textarea>
-                                </div>
-                                <div>
-                                    <button class="popup-close" type="submit" name="id">Сохранить</button>
-                                </div>
-                            </form>
-                        </div>
+
                     </div>
-                    <form class="attrs" style="height: 100%;" th:action="@{'/equipment/create/'}">
-                        <button style="top: 50%;" type="submit">Создать</button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -114,23 +121,23 @@
 </script>
 
 <script>
-    var date = new Date();
-    var dateForAlert = new Date();
-    dateForAlert.setDate(date.getDate() + 30);
-    $(function () {
-        $('.attrs').each(function () {
-            if (new Date($('dd#verDate', this).text()) <= dateForAlert) {
-                if (new Date($('dd#verDate', this).text()) <= date) {
-                    $(this).css('background-color', '#ffbebe');
-                    $('button#get', this).hide();
-                    $('label#needVer', this).show();
-                } else {
-                    $(this).css('background-color', '#f3de82e8');
-                    $('dd#verDate', this).css('color', '#ff110a');
-                }
-            }
-        })
-    });
+    // var date = new Date();
+    // var dateForAlert = new Date();
+    // dateForAlert.setDate(date.getDate() + 30);
+    // $(function () {
+    //     $('.attrs').each(function () {
+    //         if (new Date($('dd#verDate', this).text()) <= dateForAlert) {
+    //             if (new Date($('dd#verDate', this).text()) <= date) {
+    //                 $(this).css('background-color', '#ffbebe');
+    //                 $('button#get', this).hide();
+    //                 $('label#needVer', this).show();
+    //             } else {
+    //                 $(this).css('background-color', 'rgba(210,199,202,0.91)');
+    //                 $('dd#verDate', this).css('color', '#ff110a');
+    //             }
+    //         }
+    //     })
+    // });
     $(document).ready(function ($) {
         $('.popup-open').click(function () {
             $('.popup-fade').fadeIn();

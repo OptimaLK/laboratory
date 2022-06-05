@@ -15,14 +15,12 @@
             <div class="card-body">
                 <div class="work_attrs">
                     <div th:each="bag : ${bags}" >
-                        <dl id="bags" th:if="${bag.getLifeTime() > timeNow}" class="dl-horizontal attrs" >
-                            <dt>Сумка:</dt>
-                            <dd th:text="${bag.id}"></dd>
+                        <dl id="bags" th:if="${bag.getLifeTime() > timeNow}" class="attrs" >
                             <dt>Название объекта:</dt>
                             <dd th:text="${bag.work.getObjectName()}"></dd>
-                            <dt>Дата создания:</dt>
+                            <dt>Выезд:</dt>
                             <dd th:text="${#dates.format(bag.birthTime, 'dd.MM.yyyy HH:mm')}"></dd>
-                            <dt>Срок пользования:</dt>
+                            <dt>Возвращения:</dt>
                             <dd th:text="${#dates.format(bag.lifeTime, 'dd.MM.yyyy HH:mm')}"></dd>
                             <dt>Исполнитель:</dt>
                             <dd th:text="${bag.user.getLastName()}"></dd>

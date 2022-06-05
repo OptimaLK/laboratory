@@ -54,65 +54,9 @@
     justify-content: space-evenly;
 }
 
-.edit {
-    display: flex;
-    justify-content: space-around;
-    margin-right: 15px;
-}
 
-.attrs {
-    width: 400px;
-    margin: 25px 20px 0 0;
-    padding: 12px 0 14px;
-    overflow: hidden;
-    background: rgba(219, 242, 255, 0.48);
-    border-radius: 25px;
-}
 
-.attrs dt {
-    margin: 0;
-    width: 125px;
-    float: left;
-    clear: both;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 20px;
-    text-align: right;
-    color: #000000;
-}
 
-.attrs dd {
-    margin: 0 5px 0 125px;
-    text-align: start;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    color: #000000;
-    padding: 0 0 15px 15px;
-    width: 200px;
-}
-
-.attrs button {
-    border: 0;
-    outline: none;
-    padding: 0;
-    width: 135px;
-    height: 35px;
-    background: #A2DDD2;
-    border-radius: 15px;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 29px;
-    text-align: center;
-    color: #000000;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0);
-}
-
-.attrs button:hover {
-    background-color: #fbb1b1;
-}
 
 .btn_arch button {
     border: 0;

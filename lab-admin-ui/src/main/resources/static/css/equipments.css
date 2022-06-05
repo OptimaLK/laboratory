@@ -1,3 +1,15 @@
+body {
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
 .alertlabel {
     border: 0;
     outline: none;
@@ -22,8 +34,156 @@
 }
 
 .container-big {
+    width: 95%;
+    max-width: 1540px;
+    padding-left: 0;
+    margin: 0 auto;
+}
+
+.container-btn {
+    position: relative;
+    top: -10px;
+    width: 4%;
+    max-width: 1540px;
+    padding-right: 0;
+    margin: 0 auto;
+}
+
+.container-menu-equipments {
+    display: flex;
+    justify-content: space-around;
     width: 100%;
     max-width: 1540px;
     padding-left: 0;
     margin: 0 auto;
 }
+
+.backcolor {
+    background-color: #ecf0f1;
+}
+
+/* Equipment */
+
+.container-equipments {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.equipment {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    width: 297px;
+    margin: 10px 10px 0 0;
+    padding: 4px 0 14px;
+    overflow: hidden;
+    background: rgba(120, 219, 219, 0.25);
+    border-radius: 10px;
+
+    box-shadow: 0px 0px 5px rgba(72, 94, 113, 0.45);
+}
+
+.equipment hr {
+    margin: 6px 0;
+    max-width: 280px;
+    background-color: rgba(10, 52, 106, 0.25);
+}
+
+.equipment dt {
+    margin-bottom: 5px;
+    min-width: 40px;
+    max-width: 130px;
+    float: left;
+    clear: both;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: left;
+    color: #000001;
+    padding-right: 3px;
+}
+
+
+.equipment dd {
+    margin-bottom: 5px;
+    text-align: start;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #000000;
+    padding: 0 0 0 0;
+    min-width: 280px;
+    max-width: 290px;
+}
+
+.equipment button {
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding: 0;
+    width: 140px;
+    height: 30px;
+
+    background: linear-gradient(90deg, #74d0d0, #00aebb);
+
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 29px;
+    text-align: center;
+    color: #000001;
+
+    position: relative;
+}
+
+.equipment button:hover {
+    background: linear-gradient(90deg, #386c6c, #006068);
+    box-shadow: 0 0 13px #7ADCDC;
+    color: #f4f5f5;
+}
+
+.bigName dd {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.edit-icon {
+    color: #359314;
+    transform: scale(1.2);
+}
+
+.edit-icon:hover {
+    color: #296613;
+    transform: scale(1.5);
+}
+
+.delete-icon {
+    color: #ce1d2c;
+    transform: scale(1.2);
+}
+
+.delete-icon:hover {
+    color: #84121d;
+    transform: scale(1.5);
+}
+
+.display-flex {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+
+.flex-around {
+    display: flex;
+    justify-content: space-around;
+}
+
+.unlock-btn {
+    background: linear-gradient(90deg, #d074a4, #bb0076);
+}
+
+
+

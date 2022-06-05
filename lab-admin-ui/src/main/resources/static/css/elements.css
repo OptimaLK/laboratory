@@ -59,7 +59,7 @@
     border: 1px solid #01BDCD;
     border-radius: 34px;
 
-    background: linear-gradient(90deg,#7ADCDC,#01BDCD);
+    background: linear-gradient(90deg, #74d0d0, #00aebb);
 
     transition: 0.8s;
 }
@@ -72,8 +72,13 @@
 }
 
 .butt:hover {
-    background: linear-gradient(90deg,#62B9B9, #007680);
+    background: linear-gradient(90deg, #386c6c, #006068);
     box-shadow: 0 0 13px #7ADCDC;
+}
+
+.width-butt {
+    /*width: 200px;*/
+    /*height: 40px;*/
 }
 
 /* checkbox */
@@ -120,7 +125,7 @@
     left: 0px;
     width: 25px;
     height: 25px;
-    background: linear-gradient(180deg, #b6b8b8, #323131);
+    background: linear-gradient(180deg, #b6b8b8, #6d6a6a);
     cursor: pointer;
     border-radius: 50%;
     box-shadow: 0 2px 5px rgba(43, 45, 45, 0.3),
@@ -142,7 +147,7 @@
     transform: translate(-50%, 50%);
     width: 4px;
     height: 4px;
-    background: #98a098;
+    background: #545457;
     border-radius: 50%;
     box-shadow: 0 1px 1px #98a098;
     transition: 0.5s;
@@ -166,5 +171,27 @@
     white-space: nowrap;
     font-size: 14px;
 }
+
+.unlock-btn {
+    background: linear-gradient(90deg, #82d074, #598e4f);
+}
+
+.edit-equipment-btn {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 14%;
+    background: linear-gradient(90deg,#62B9B9, #007680);
+
+}
+
+.edit-equipment-btn:before {
+    content: "+";
+    position: relative;
+    font-size: 1.8rem;
+    top: -15%;
+}
+
+
 
 

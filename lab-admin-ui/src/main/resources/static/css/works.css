@@ -98,8 +98,8 @@ table td {
 
 .work_attrs {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: center;
     height: 100%;
 }
 
@@ -216,4 +216,68 @@ table td {
 
 .add_user li {
     padding: 3px;
+}
+
+
+.attrs {
+    text-align: center;
+    width: 400px;
+    margin: 25px 20px 0 0;
+    padding: 12px 12px;
+    overflow: hidden;
+    background: rgba(120, 219, 219, 0.25);
+    border-radius: 25px;
+
+    box-shadow: 0px 0px 5px rgba(72, 94, 113, 0.45);
+}
+
+.attrs dt {
+    margin-bottom: 5px;
+    min-width: 80px;
+    max-width: 130px;
+    float: left;
+    clear: both;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: left;
+    color: #000001;
+    padding-right: 3px;
+}
+
+.attrs dd {
+    margin-bottom: 5px;
+    text-align: start;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
+    padding: 0 0 0 0;
+    min-width: 280px;
+    max-width: 290px;
+}
+
+.attrs button {
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding: 0;
+    width: 140px;
+    height: 30px;
+
+    background: linear-gradient(90deg, #74d0d0, #00aebb);
+
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 29px;
+    text-align: center;
+    color: #000001;
+
+    position: relative;
+}
+
+.attrs button:hover {
+    background: linear-gradient(90deg, #386c6c, #006068);
+    box-shadow: 0 0 13px #7ADCDC;
+    color: #f4f5f5;
 }
