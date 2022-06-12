@@ -3,6 +3,7 @@
 >
 
 <link rel="stylesheet" th:href="@{/css/works.css}">
+<link rel="stylesheet" th:href="@{/css/popup_window.css}">
 <head th:replace="fragments/chief/header_chief :: head"></head>
 
 <body class="bg-light">
@@ -13,42 +14,33 @@
     <div class="content">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="work_attrs">
-                    <div th:each="bag : ${bags}" >
-                        <dl id="bags" th:if="${bag.getLifeTime() > timeNow}" class="attrs" >
+                <div th:each="bag : ${bags}">
+                    <a class="work_attrs popup-link" th:href="'#popup__container' + ${bag.getId()}">
+                        <dl id="bags" th:if="${bag.getLifeTime() > timeNow}" class="attrs">
                             <dt>Название объекта:</dt>
                             <dd th:text="${bag.work.getObjectName()}"></dd>
                             <dt>Выезд:</dt>
-                            <dd th:text="${#dates.format(bag.birthTime, 'dd.MM.yyyy HH:mm')}"></dd>
-                            <dt>Возвращения:</dt>
-                            <dd th:text="${#dates.format(bag.lifeTime, 'dd.MM.yyyy HH:mm')}"></dd>
+                            <dd th:text="'с: ' + ${#dates.format(bag.birthTime, 'dd.MM.yyyy HH:mm')} +
+                             ' по: ' + ${#dates.format(bag.lifeTime, 'dd.MM.yyyy HH:mm')}"></dd>
+                            <hr>
                             <dt>Исполнитель:</dt>
                             <dd th:text="${bag.user.getLastName()}"></dd>
-                            <button th:onclick="getTable(event, /*[[${bag.id}]]*/)" type="submit">Смотреть</button>
                         </dl>
-                        <table th:id="${bag.id}" style="display: none" >
-                            <tr>
-                                <th th:text="'Сумка ' + ${bag.id} + ' пользователя ' + ${bag.user.getLastName()}"></th>
-                            </tr>
-                            <tr>
-                                <th>Название:</th>
-                                <th>Зав. №:</th>
-                                <th>Свидетельство:</th>
-                                <th>Дата поверки:</th>
-                            </tr>
-                            <tr style="background: rgba(219, 242, 255, 0.69);">
-                                <td class="add" colspan="7">
-                                    <button th:id="exit" onclick="getCards(event)" style="display: none" type="submit">Назад</button>
-                                </td>
-                            </tr>
-                            <tr th:each="equ : ${bag.equipments}">
-                                <td th:text="${equ.name}"></td>
-                                <td th:text="${equ.inventoryNumber}"></td>
-                                <td th:text="${equ.verificationNumber}"></td>
-                                <td th:text="${equ.verificationDateEnd}"></td>
-                            </tr>
-                        </table>
-                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:each="bag : ${bags}">
+    <div class="popup__container" th:id="popup__container + ${bag.getId()}">
+        <a href="#" class="popup__area"></a>
+        <div class="popup__body">
+            <div class="popup__content">
+                <a href="#" class="popup__close">X</a>
+                    <div class="popup__title" th:if="${bag.getLifeTime() > timeNow}"
+                         th:text="'Пользователь: ' + ${bag.user.getLastName()}"></div>
+                    <div class="popup__text" th:if="${bag.getLifeTime() > timeNow}"
+                         th:each="equ : ${bag.getEquipments()}" th:text="${equ.name}"></div>
                 </div>
             </div>
         </div>
@@ -56,24 +48,24 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
-<script>
-    function getTable(e, id){
-        console.log(id);
-        $('.work_attrs').each(function() {
-            $('dl#bags', this).hide();
-            $('table#' + id, this).show();
-            $('button#exit', this).show();
-        })
-    }
-    function getCards(e){
-        $('.work_attrs').each(function() {
-            $('dl#bags', this).show();
-            $('table', this).hide();
-            $('button#exit', this).hide();
-        })
-    }
+<!--<script>-->
+<!--    function getTable(e, id){-->
+<!--        console.log(id);-->
+<!--        $('.work_attrs').each(function() {-->
+<!--            $('dl#bags', this).hide();-->
+<!--            $('table#' + id, this).show();-->
+<!--            $('button#exit', this).show();-->
+<!--        })-->
+<!--    }-->
+<!--    function getCards(e){-->
+<!--        $('.work_attrs').each(function() {-->
+<!--            $('dl#bags', this).show();-->
+<!--            $('table', this).hide();-->
+<!--            $('button#exit', this).hide();-->
+<!--        })-->
+<!--    }-->
 
-</script>
+<!--</script>-->
 
 </body>
 </html>

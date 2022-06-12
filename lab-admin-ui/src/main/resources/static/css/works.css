@@ -103,10 +103,31 @@ table td {
     height: 100%;
 }
 
+.work_attrs dt {
+    margin-bottom: 5px;
+    min-width: 40px;
+    max-width: 130px;
+    float: left;
+    clear: both;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: left;
+    color: #000001;
+    padding-right: 3px;
+}
+
 .work_attrs dd {
-    margin: 0 18px 0 10px;
-    padding-left: 0;
-    text-indent: 15px;
+    margin-bottom: 5px;
+    text-align: start;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #000000;
+    padding: 0 0 0 0;
+    min-width: 420px;
+    max-width: 500px;
+    text-decoration: none;
 }
 
 #work_head textarea {
@@ -133,27 +154,11 @@ table td {
 }
 
 .work_head dt {
-    margin: 0;
-    width: 150px;
-    float: left;
-    clear: both;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 20px;
-    text-align: right;
-    color: #000000;
-    padding-left: 15px;
+
 }
 
 .work_head dd {
-    width: 224px;
-    margin: 0 18px 0 125px;
-    text-align: start;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    color: #000000;
-    padding: 0 0 15px 15px;
+
 }
 
 .work_head button {
@@ -233,13 +238,13 @@ table td {
 
 .attrs dt {
     margin-bottom: 5px;
-    min-width: 80px;
+    min-width: 40px;
     max-width: 130px;
     float: left;
     clear: both;
     font-weight: 300;
     font-size: 14px;
-    line-height: 16px;
+    line-height: 18px;
     text-align: left;
     color: #000001;
     padding-right: 3px;
@@ -249,12 +254,16 @@ table td {
     margin-bottom: 5px;
     text-align: start;
     font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
+    font-size: 16px;
+    line-height: 18px;
     color: #000000;
     padding: 0 0 0 0;
     min-width: 280px;
-    max-width: 290px;
+    max-width: 400px;
+}
+
+.attrs hr {
+    margin: 5px;
 }
 
 .attrs button {
