@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.optima.beans.Dairy;
 import ru.optima.persist.model.equipments.Commentary;
 import ru.optima.repr.EquipmentRepr;
 import ru.optima.service.*;
@@ -23,6 +24,7 @@ public class EquipmentController {
     private final EquipmentServiceImpl equipmentService;
     private final CategoryServiceImpl categoryService;
     private final UserService userService;
+    private Dairy dairy = new Dairy();
 
 
     @GetMapping({"","/"})
@@ -44,6 +46,8 @@ public class EquipmentController {
         }
         model.addAttribute("activeOnly", activeOnly.equals("on") ? true : false);
         model.addAttribute("categoryId", categoryId);
+        model.addAttribute("today", dairy.todayCalendar());
+        model.addAttribute("todayPlusMonth", dairy.todayPlusMonthCalendar());
         model.addAttribute("activePage", "Equipments");
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("user", userService.findByName(principal.getName()));

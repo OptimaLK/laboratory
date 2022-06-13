@@ -194,5 +194,15 @@ body {
     background: linear-gradient(90deg, #d074a4, #bb0076);
 }
 
+.lock-equ {
+    background: linear-gradient(90deg, #f1b2c2, #ff96b2);
+}
+
+.danger-equ {
+    background: linear-gradient(90deg, #f1d7b5, #e8b97d);
+}
+
+
+
 
 

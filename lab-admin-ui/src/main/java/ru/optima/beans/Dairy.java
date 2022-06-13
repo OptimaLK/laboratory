@@ -1,14 +1,12 @@
 package ru.optima.beans;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -88,6 +86,14 @@ public class Dairy {
 
     public void today() {
         calendar = Calendar.getInstance();
+    }
+
+    public Long todayCalendar() {
+        return new Date().getTime();
+    }
+
+    public Long todayPlusMonthCalendar() {
+        return new Date().getTime() + 2800000000l;
     }
 
     public int todayDayOfWeek() {

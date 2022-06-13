@@ -33,7 +33,10 @@
                 </div>
                 <div class="container-big">
                     <div class="container-equipments">
-                        <dl th:id="equ-chief" class="equipment" th:each="equ : ${equipments}" th:method="isActiv">
+                        <dl th:each="equ : ${equipments}" th:method="isActiv"
+                            class="equipment"
+                            th:classappend="${equ.verificationDateEnd.getTime() < today} ? 'lock-equ' : (${equ.verificationDateEnd.getTime() < todayPlusMonth} ? 'danger-equ') "
+                            th:id="equ-chief">
                             <div class="flex-around" th:if="${equ.commentary == null}">
                                 <div>
                                     <a id="edit" th:href="@{/equipment/{eqId}/edit(eqId=${equ.id})}" type="submit"><i
