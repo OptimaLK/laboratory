@@ -4,14 +4,14 @@ table {
 }
 
 table th {
-    height: 57px;
+    height: 46px;
     padding: 5px;
     text-align: center;
-    background: #99E7FF;
+    background: #b4eaf1;
     border: 1px solid #04B1C9;
     box-sizing: border-box;
     font-weight: 500;
-    font-size: 17px;
+    font-size: 15px;
     line-height: 18px;
     color: #000000;
 }
@@ -76,7 +76,7 @@ table td {
     display: none;
 }
 
-.ico_ok-del {
+.container_icon {
     display: flex;
     justify-content: space-around;
 }
@@ -94,6 +94,21 @@ table td {
     line-height: 29px;
     text-align: center;
     color: #035de4;
+}
+
+.container {
+    /*display: flex;*/
+    justify-content: space-around;
+    width: 100%;
+    max-width: 1540px;
+    padding-left: 0;
+    margin: 0 auto;
+
+}
+
+.backcolor {
+    background-color: #ecf0f1;
+    padding-bottom: 50px;
 }
 
 .work_attrs {
@@ -149,7 +164,7 @@ table td {
     margin: 0 20px 25px 0;
     padding: 12px 0 14px;
     overflow: hidden;
-    background: rgb(255 0 0 / 15%);
+    /*background: rgb(255 0 0 / 15%);*/
     border-radius: 25px;
 }
 
@@ -289,4 +304,30 @@ table td {
     background: linear-gradient(90deg, #386c6c, #006068);
     box-shadow: 0 0 13px #7ADCDC;
     color: #f4f5f5;
+}
+
+/*   TD    */
+
+.data-reg {
+    width: 6%;
+}
+
+.user-id {
+    width: 3%;
+}
+
+.deadline {
+    width: 6%;
+}
+
+.contract-number {
+    width: 6%;
+}
+
+.add-information {
+    width: 25%;
+}
+
+.td-icon {
+    width: 4%;
 }

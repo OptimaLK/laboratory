@@ -16,7 +16,8 @@
             <div class="card-body">
                 <div class="custom-control custom-switch">
                     <form th:action="@{/equipment/{id}(id = ${categoryId})}" method="get">
-                        <input type="checkbox" name="active-only" class="custom-control-input" id="activeOnlyCheckBox" th:checked="${activeOnly}" onchange="this.form.submit()">
+                        <input type="checkbox" name="active-only" class="custom-control-input" id="activeOnlyCheckBox"
+                               th:checked="${activeOnly}" onchange="this.form.submit()">
                         <label class="custom-control-label" for="activeOnlyCheckBox">Только доступное</label>
                     </form>
                 </div>
