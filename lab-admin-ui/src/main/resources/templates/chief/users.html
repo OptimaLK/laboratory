@@ -3,6 +3,8 @@
 >
 
 <link rel="stylesheet" th:href="@{/css/works.css}">
+<link rel="stylesheet" th:href="@{/css/users.css}">
+<link rel="stylesheet" th:href="@{/css/elements.css}">
 <head th:replace="fragments/chief/header_chief :: head"></head>
 
 <body class="bg-light">
@@ -10,36 +12,32 @@
 <div th:replace="fragments/chief/header_chief :: header"></div>
 
 <div>
-    <div>
-        <div>
-            <div>
-                <table id="users">
-                    <thead>
-                    <tr>
-                        <th>Имя</th>
-                        <th>Фамилия</th>
-                        <th>Телефон</th>
-                        <th>Почта</th>
-                        <th>Права</th>
-                        <th class="actions">Изменения</th>
-                    </tr>
-                    <tr style="background: rgba(219, 242, 255, 0.69);">
-                        <td class="add" colspan="7">
-                            <form class="form-group" th:action="@{/user/create}">
-                                <button type="submit">
-                                    <i aria-hidden="true" class="fa fa-user-plus" style="padding-right: 10px;"></i>Добавить
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="usr : ${users}" th:id="tabUs">
-                        <td th:text="${usr.firstName}"></td>
-                        <td th:id="lName" th:text="${usr.lastName}"></td>
-                        <td th:text="${usr.phone}"></td>
-                        <td th:text="${usr.email}"></td>
-                        <td th:id="roles">
+    <div class="backcolor">
+        <div class="container">
+            <div class="tb-add">
+                <form th:action="@{/user/create}">
+                    <button class="edit-btn" type="submit"></button>
+                </form>
+            </div>
+            <table id="users" class="container">
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Телефон</th>
+                    <th>Почта</th>
+                    <th>Права</th>
+                    <th class="actions">Изменения</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usr : ${users}" th:id="tabUs"
+                    th:classappend="(${usr.id} % 2) == 0 ? dark : light">
+                    <td th:text="${usr.firstName}"></td>
+                    <td th:id="lName" th:text="${usr.lastName}"></td>
+                    <td th:text="${usr.phone}"></td>
+                    <td th:text="${usr.email}"></td>
+                    <td th:id="roles">
+                        <div class="container-icon">
                             <div th:each="role : ${roles}"
                                  th:switch="${role.name}"
                                  th:if="${usr.roles?.contains(role)}"
@@ -49,29 +47,29 @@
                                 <p th:case="ROLE_SECRETARY">Секретарь</p>
                                 <p th:case="ROLE_CHIEF">Заведующий</p>
                             </div>
-                        </td>
-                        <td th:id="edEdit">
-                            <div class="ico_ok-del">
-                                <div >
-                                    <a class="btn btn-icon btn-pill btn-primary"
-                                       data-toggle="tooltip" th:href="@{/user/{id}/edit(id=${usr.id})}" title="Edit">
-                                        <strong class="fa fa-fw fa-edit"></strong>
-                                    </a>
-                                </div>
-                                <form class="d-inline" th:action="@{user/{id}/delete(id=${usr.id})}" th:method="delete">
-                                    <button th:onclick="clicked(event, /*[[${usr.lastName}]]*/)"
-                                            class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip"
-                                            title="Delete">
-                                        <em class="fa fa-fw fa-trash"></em>
-                                    </button>
-                                </form>
+                        </div>
+                    </td>
+                    <td th:id="edEdit">
+                        <div class="container-flex">
+                            <div>
+                                <a class="btn btn-icon btn-pill btn-primary"
+                                   data-toggle="tooltip" th:href="@{/user/{id}/edit(id=${usr.id})}" title="Редактировать">
+                                    <strong class="fa fa-fw fa-edit"></strong>
+                                </a>
                             </div>
-                        </td>
-                        <td style="display: none" th:id="emp">&nbsp;</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                            <form class="d-inline" th:action="@{user/{id}/delete(id=${usr.id})}" th:method="delete">
+                                <button th:onclick="clicked(event, /*[[${usr.lastName}]]*/)"
+                                        class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip"
+                                        title="Удалить">
+                                    <em class="fa fa-fw fa-trash"></em>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                    <td style="display: none" th:id="emp">&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -92,6 +90,7 @@
             }
         })
     });
+    // TODO НУжно убрать этот скрипт и переписать, можно зайти через ф12 на странице поставить диспелй flex и все удаляй директора
 </script>
 </body>
 </html>

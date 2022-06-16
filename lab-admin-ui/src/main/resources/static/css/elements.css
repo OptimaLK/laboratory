@@ -177,22 +177,26 @@
     background: linear-gradient(90deg, #82d074, #598e4f);
 }
 
-.edit-equipment-btn {
-    position: absolute;
+.edit-btn {
+    position: relative;
     width: 40px;
     height: 40px;
     border-radius: 14%;
-    background: linear-gradient(90deg,#62B9B9, #007680);
+    background: linear-gradient(90deg, #67c6c6, #35c7c7);
 
 }
 
-.edit-equipment-btn:before {
+.edit-btn:before {
     content: "+";
     position: relative;
     font-size: 1.8rem;
     top: -15%;
 }
 
+.edit-btn:hover {
+    background: linear-gradient(90deg, #55a1a1, #27a3a3);
+
+}
 /*     TEXT       */
 
 .label-text {

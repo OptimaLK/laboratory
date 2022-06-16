@@ -49,6 +49,15 @@ body {
     margin: 0 auto;
 }
 
+.container-btn:hover {
+    position: relative;
+    top: -10px;
+    width: 4%;
+    max-width: 1540px;
+    padding-right: 0;
+    margin: 0 auto;
+}
+
 .container-menu-equipments {
     display: flex;
     justify-content: space-around;
@@ -151,6 +160,8 @@ body {
     box-shadow: 0 0 13px #7ADCDC;
     color: #f4f5f5;
 }
+
+
 
 .bigName dd {
     font-size: 16px;
