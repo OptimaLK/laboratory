@@ -2,7 +2,10 @@ package ru.optima.beans;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
+import ru.optima.persist.model.equipments.Bag;
+import ru.optima.repr.BagRepr;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +23,8 @@ public class Dairy {
     private int today = date.getDayOfMonth();
     private ArrayList<Integer> listDay;
     private ArrayList<Integer> listHour;
+    private Bag bag;
+    private Timestamp dateCalendar = new Timestamp(System.currentTimeMillis());
 
     private Calendar calendar = Calendar.getInstance();
     String[] monthNames = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
@@ -163,5 +168,24 @@ public class Dairy {
     }
     public ArrayList<Integer> getListHour(){
         return listHour;
+    }
+
+    public boolean bagThatDay(int day, int month, int year, Timestamp birthTime, Timestamp lifeTime) {
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        ts.setDate(day);
+        ts.setMonth(month);
+        ts.setYear(year - 1900);
+        birthTime.setHours(0);
+        birthTime.setMinutes(0);
+        birthTime.setSeconds(0);
+        lifeTime.setHours(23);
+        lifeTime.setMinutes(59);
+        lifeTime.setSeconds(59);
+        Long thisTime = ts.getTime();
+        Long birthTimeBag = birthTime.getTime();
+        Long lifeTimeBag = lifeTime.getTime();
+        if (thisTime >= birthTimeBag && thisTime <= lifeTimeBag)
+            return true;
+        else return false;
     }
 }

@@ -48,24 +48,24 @@
 </div>
 
 <script th:replace="fragments/chief/footer :: scripts"></script>
-<!--<script>-->
-<!--    function getTable(e, id){-->
-<!--        console.log(id);-->
-<!--        $('.work_attrs').each(function() {-->
-<!--            $('dl#bags', this).hide();-->
-<!--            $('table#' + id, this).show();-->
-<!--            $('button#exit', this).show();-->
-<!--        })-->
-<!--    }-->
-<!--    function getCards(e){-->
-<!--        $('.work_attrs').each(function() {-->
-<!--            $('dl#bags', this).show();-->
-<!--            $('table', this).hide();-->
-<!--            $('button#exit', this).hide();-->
-<!--        })-->
-<!--    }-->
+<script>
+    function getTable(e, id){
+        console.log(id);
+        $('.work_attrs').each(function() {
+            $('dl#bags', this).hide();
+            $('table#' + id, this).show();
+            $('button#exit', this).show();
+        })
+    }
+    function getCards(e){
+        $('.work_attrs').each(function() {
+            $('dl#bags', this).show();
+            $('table', this).hide();
+            $('button#exit', this).hide();
+        })
+    }
 
-<!--</script>-->
+</script>
 
 </body>
 </html>

@@ -224,9 +224,16 @@ public class BagServiceImpl implements BagService {
         return selBag.getEquipments();
     }
 
+
     @Override
     public List <BagRepr> findAll() {
-        return bagRepository.findAll().stream().map(BagRepr :: new).collect(Collectors.toList());
+        List<BagRepr> bagReprList = bagRepository.findAll().stream().map(BagRepr :: new).collect(Collectors.toList());
+        for (int i = bagReprList.size() - 1; i > -1; i--) {
+            if(bagReprList.get(i).getBirthTime() == null){
+                bagReprList.remove(i);
+            }
+        }
+        return bagReprList;
     }
 
 

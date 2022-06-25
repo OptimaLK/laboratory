@@ -34,4 +34,5 @@ public interface BagService {
     BagRepr createBagReprAndAddUserAndEquipments(User user, List<Equipment> equipments);
 
     List<Equipment> selectBag(Long id, User user);
+
 }

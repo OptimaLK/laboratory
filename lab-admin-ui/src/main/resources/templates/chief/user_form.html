@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<link rel="stylesheet" th:href="@{/css/elements.css}">
+<link rel="stylesheet" th:href="@{/css/users.css}">
 
 <head th:replace="fragments/chief/header_chief :: head"></head>
 
@@ -8,10 +10,10 @@
 
 <div th:replace="fragments/chief/header_chief :: header"></div>
 
-<div class="d-flex">
+<div class="d-flex backcolor">
 <!--    <div th:replace="fragments/chief/sidebar :: sidebar"></div>-->
 
-    <div class="content p-4">
+    <div class="content p-4 backcolor container-menu-users-add">
         <h2 class="mb-4" th:if="${edit}">Редактирование пользователя</h2>
         <h2 class="mb-4" th:if="${create}">Создание пользователя</h2>
 
@@ -76,7 +78,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="butt butt-center">Сохранить</button>
                 </div>
             </div>
         </form>
