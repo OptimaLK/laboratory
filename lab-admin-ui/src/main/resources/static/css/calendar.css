@@ -64,6 +64,8 @@ body {
     align-items: center;
 }
 
+/*  ELEMENT */
+
 .today-btn {
     border: 0;
     border-radius: 15px;
@@ -89,15 +91,155 @@ body {
     color: #f4f5f5;
 }
 
-.month-arrow {
-    margin: 1rem;
-    font-size: 20px;
+.prev-month {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(90deg, #74d0d0, #00aebb);
+    border-radius: 10%;
+    border: 0;
 }
+
+.prev-month:hover {
+    background: linear-gradient(90deg, #386c6c, #006068);
+    box-shadow: 0 0 13px #7ADCDC;
+}
+
+.next-month {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(90deg, #74d0d0, #00aebb);
+    margin: 0 10px;
+    border-radius: 10%;
+    border: 0;
+
+}
+
+.next-month:hover  {
+    background: linear-gradient(90deg, #386c6c, #006068);
+    box-shadow: 0 0 13px #7ADCDC;
+}
+
+.prev-month span {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #0d3a4c;
+    border-right: none;
+    border-bottom: none;
+    transform: translateY(-50%) translateX(-50%) rotate(-45deg);
+    transition: .5s;
+}
+
+.prev-month:hover span {
+    right: 35%;
+    border: 2px solid #75c9e3;
+    border-right: none;
+    border-bottom: none;
+}
+
+.prev-month span:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: #0d3a4c;
+    transform-origin: left;
+    transform: rotate(45deg) translate(-5px,2px) scaleX(0);
+    transition: .5s;
+}
+
+.prev-month:hover span:before {
+    transform: rotate(45deg) translate(-5px,2px) scaleX(1);
+    transition: .5s;
+    background: linear-gradient(90deg, #74d0d0, #00aebb);
+}
+
+.next-month span {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #0d3a4c;
+    border-left: none;
+    border-top: none;
+    transform: translateY(-50%) translateX(-50%) rotate(-45deg);
+    transition: .5s;
+}
+
+.next-month:hover span {
+    left: 65%;
+    border: 2px solid #75c9e3;
+    border-left: none;
+    border-top: none;
+}
+
+.next-month span:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: #0d3a4c;
+    transform-origin: right;
+    transform: rotate(45deg) translate(-5px,16px) scaleX(0);
+    transition: .5s;
+}
+
+.next-month:hover span:before {
+    transform: rotate(45deg) translate(-5px,16px) scaleX(1);
+    background: linear-gradient(90deg, #74d0d0, #00aebb);
+}
+
 
 .month-and-year {
     margin: 1rem;
     font-size: 18px;
     color: #02030a;
+}
+
+.select-calendar {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    border: 1px solid #00bdd5;
+    /*border-radius: 15%;*/
+    background-color: #e8faff;
+
+    padding: 8px 32px 8px 10px;
+    margin-right: 14px;
+    outline: none;
+    cursor: pointer;
+}
+
+.select-calendar::-ms-expand {
+    display: none;
+}
+
+.container-select {
+    position: relative;
+}
+
+.container-select::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 26px;
+    transform: translateY(-50%) rotate(-45deg);
+
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #0d3a4c;
+    border-right: none;
+    border-top: none;
+
+    pointer-events: none;
+}
+
+.select-calendar:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px #38577a, 0 0 10px #7e9bbd;
 }
 
 /* sidebar */
@@ -200,8 +342,21 @@ body {
     display: block;
 }
 
+.column-main{
+    text-align: center;
+    align-items: start;
+    height: 100%;
+}
+
 .day-of-month{
-    padding: 0px 10px;
+    position: relative;
+    margin-bottom: 6px;
+    pointer-events: none;
+}
+
+.user-name-take-bag {
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .row-hour {
@@ -226,7 +381,19 @@ body {
     display: none;
 }
 
-.column-bag {
+.button-container {
+    height: 100%;
+    width: 100%;
+    background-color: #c9ffff;
+    border: 0;
+    transition: .3s;
 }
+
+.button-container:hover {
+    background-color: #bceeee;
+    border: 1px solid #90cdcb;
+}
+
+
 
 

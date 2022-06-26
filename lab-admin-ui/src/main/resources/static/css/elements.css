@@ -197,6 +197,10 @@
     background: linear-gradient(90deg, #55a1a1, #27a3a3);
 
 }
+
+.low-scale {
+    transform: scale(0.85);
+}
 /*     TEXT       */
 
 .label-text {
@@ -204,6 +208,11 @@
     font-size: 18px;
     line-height: 22px;
 }
+
+.fs-18 {
+    font-size: 18px;
+}
+
 
 
 

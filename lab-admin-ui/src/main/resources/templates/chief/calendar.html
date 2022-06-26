@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <link rel="stylesheet" th:href="@{/css/calendar.css}">
-<link rel="stylesheet" th:href="@{/css/elemenents.css}">
+<link rel="stylesheet" th:href="@{/css/elements.css}">
 <head th:replace="fragments/chief/header_chief :: head"></head>
 <div th:replace="fragments/chief/header_chief :: header"></div>
 <title>Календарь</title>
@@ -15,15 +15,24 @@
             <div class="flex-header">
                 <div class="text-calendar"> Календарь</div>
                 <div class="nav-month">
+                    <div class="container-select" >
+                        <select class="select-calendar" onchange="if (this.value) window.location.href = this.value">
+                            <option value="/calendar/today">Месяц</option>
+                            <option th:value="'/calendar/day/1' + '/' +
+                                      ${dairy.currentMonth()} + '/' +
+                                      ${dairy.currentYear()}" th:method="GET">День
+                            </option>
+                        </select>
+                    </div>
                     <form th:action="@{/calendar/today}" th:method="GET">
                         <button class="today-btn" th:type="submit">Сегодня</button>
                     </form>
-                    <form th:action="@{/calendar/minus}" th:method="GET">
-                        <button class="month-arrow" th:type="submit"> &lt;</button>
-                    </form>
                     <div class="month-and-year"  th:text="${dairy.monthAndYear()}"></div>
+                    <form th:action="@{/calendar/minus}" th:method="GET">
+                        <button class="prev-month" th:type="submit"><span></span></button>
+                    </form>
                     <form th:action="@{/calendar/plus}" th:method="GET">
-                        <button class="month-arrow" th:type="submit"> &gt;</button>
+                        <button class="next-month" th:type="submit"><span></span></button>
                     </form>
                 </div>
             </div>
@@ -36,9 +45,13 @@
                         <div th:each="usr : ${users}"
                              th:object="${usr}"
                              th:if="${{usr.roles}} == 3">
-                            <input th:class="*{lastName}" th:id="*{lastName}" checked="checked" type="checkbox"
-                                   th:onclick="check()">
-                            <label th:for="*{lastName}" th:text="*{lastName}"></label>
+                            <label class="label-checkbox low-scale" th:for="*{lastName}" >
+                                <input class="input-checkbox low-scale" th:id="*{lastName}" checked="checked" type="checkbox"
+                                       th:onclick="check()">
+                                <span class="equipments-checkbox low-scale"></span>
+                                <i class="indicator low-scale"></i>
+                                <span class="text-checkbox fs-18" th:text="*{lastName}"></span>
+                            </label>
                         </div>
                     </form>
                 </div>
@@ -71,29 +84,27 @@
                     <div class="row-week">
                         <div class="flex-row-data-day">
                             <div class="day" th:each="seven : ${dairy.sevenDay()}">
-                                <form th:object="${dairy}" method="post"
+                                <form class="button-container" th:object="${dairy}" method="get"
                                       th:action="@{'/calendar/day/' +
                                       ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7} + '/' +
                                       ${dairy.currentMonth()} + '/' +
                                       ${dairy.currentYear()}}"
                                       th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
-                                     and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
-                                    <button type="submit">
+                                      and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
+                                    <button class="button-container" type="submit">
                                         <div class="column-main" aria-hidden="true"
                                              th:if="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 >= 1}
-                                     and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
+                                      and ${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7 <= dairy.lastDayOfMonth()}">
                                             <label class="day-of-month"
                                                    th:text="${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7}"></label>
                                             <div th:each="bag, itr : ${bags}">
                                                 <div class="column-bag"
-
                                                      th:with="
                                                      day=${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7},
                                                      month=${dairy.currentMonth() + 1},
                                                      year=${dairy.currentYear()},
-                                                     bagDate=${bag}
-                                                     "
-                                                        th:id="${'bag_' + bag.id + '_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}"
+                                                     bagDate=${bag}"
+                                                     th:id="${'bag_' + bag.id + '_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}"
                                                      th:if="${dairy.bagThatDay(
                                                      seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7,
                                                      dairy.currentMonth(),

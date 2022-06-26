@@ -63,7 +63,7 @@ public class CalendarController {
         return pathCreator.createPath(auth, "calendar");
     }
 
-    @PostMapping("/day/{day}/{month}/{year}")
+    @GetMapping("/day/{day}/{month}/{year}")
     public String today(Model model,
                         @PathVariable Integer day,
                         @PathVariable Integer month,
