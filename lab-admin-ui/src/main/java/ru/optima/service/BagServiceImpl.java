@@ -11,7 +11,6 @@ import ru.optima.persist.repo.BagRepository;
 import ru.optima.persist.repo.ProtocolRepository;
 import ru.optima.repr.BagRepr;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -222,6 +221,48 @@ public class BagServiceImpl implements BagService {
                 selBag = value;
         }
         return selBag.getEquipments();
+    }
+
+    @Override
+    public List<BagRepr> findAllBagsThatDay(Integer year, Integer month, Integer day) {
+        List<BagRepr> bagReprList = findAll();
+        for (int i = bagReprList.size() - 1 ; i >= 0; i--) {
+            if (!bagThatDay(bagReprList.get(i), year, month, day)) {
+                bagReprList.remove(i);
+            }
+        }
+        return bagReprList;
+    }
+
+    private boolean bagThatDay(BagRepr bagRepr, Integer year, Integer month, Integer day) {
+        final long SEVEN_HOUR = 7 * 60 * 60 * 1000;
+        Calendar cBT = Calendar.getInstance();
+        Calendar cLT = Calendar.getInstance();
+        cBT.setTimeInMillis(bagRepr.getBirthTime().getTime());
+        cLT.setTimeInMillis(bagRepr.getLifeTime().getTime());
+
+        Calendar todayStart = Calendar.getInstance();
+        todayStart.set(Calendar.DAY_OF_MONTH, day);
+        todayStart.set(Calendar.MONTH, month);
+        todayStart.set(Calendar.YEAR, year);
+        todayStart.set(Calendar.HOUR, 0);
+        todayStart.set(Calendar.MINUTE, 0);
+
+        Calendar todayEnd = Calendar.getInstance();
+        todayEnd.set(Calendar.DAY_OF_MONTH, day);
+        todayEnd.set(Calendar.MONTH, month);
+        todayEnd.set(Calendar.YEAR, year);
+        todayEnd.set(Calendar.HOUR, 23);
+        todayEnd.set(Calendar.MINUTE, 59);
+
+        long thisTimeStart = todayStart.getTime().getTime();
+        long thisTimeEnd = todayEnd.getTime().getTime();
+        long birthTimeBag = cBT.getTime().getTime();
+        long lifeTimeBag = cLT.getTime().getTime();
+        if (thisTimeEnd >= birthTimeBag && thisTimeStart <= lifeTimeBag){
+            return true;
+        }
+        return false;
     }
 
 

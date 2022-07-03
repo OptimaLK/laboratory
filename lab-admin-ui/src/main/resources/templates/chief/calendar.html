@@ -18,7 +18,7 @@
                     <div class="container-select" >
                         <select class="select-calendar" onchange="if (this.value) window.location.href = this.value">
                             <option value="/calendar/today">Месяц</option>
-                            <option th:value="'/calendar/day/1' + '/' +
+                            <option th:value="'/calendar/day/15' + '/' +
                                       ${dairy.currentMonth()} + '/' +
                                       ${dairy.currentYear()}" th:method="GET">День
                             </option>
@@ -102,8 +102,7 @@
                                                      th:with="
                                                      day=${seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7},
                                                      month=${dairy.currentMonth() + 1},
-                                                     year=${dairy.currentYear()},
-                                                     bagDate=${bag}"
+                                                     year=${dairy.currentYear()}"
                                                      th:id="${'bag_' + bag.id + '_' + (seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7) + '_' + bag.getUser().lastName}"
                                                      th:if="${dairy.bagThatDay(
                                                      seven - dairy.firstDayOfMonth() + 1 + (wom - 1) * 7,

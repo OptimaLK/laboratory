@@ -35,4 +35,6 @@ public interface BagService {
 
     List<Equipment> selectBag(Long id, User user);
 
+    List<BagRepr> findAllBagsThatDay(Integer year, Integer month, Integer day);
+
 }

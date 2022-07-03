@@ -116,11 +116,6 @@ public class Dairy {
        calendar.set(year, month, day );
     }
 
-
-    public int todayYear() {
-        return calendar.get(Calendar.YEAR);
-    }
-
     public int currentMonth(){
         return (int) (calendar.get(Calendar.MONTH));
     }
@@ -171,21 +166,55 @@ public class Dairy {
     }
 
     public boolean bagThatDay(int day, int month, int year, Timestamp birthTime, Timestamp lifeTime) {
+        final long SEVEN_HOUR = 7 * 60 * 60 * 1000;
+        Calendar cBT = Calendar.getInstance();
+        Calendar cLT = Calendar.getInstance();
+        cBT.setTimeInMillis(birthTime.getTime() - SEVEN_HOUR);
+        cLT.setTimeInMillis(lifeTime.getTime() - SEVEN_HOUR);
+
+        cBT.set(Calendar.HOUR_OF_DAY, 0);
+        cBT.set(Calendar.MINUTE, 0);
+        cLT.set(Calendar.HOUR_OF_DAY, 23);
+        cLT.set(Calendar.MINUTE, 59);
+
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.DAY_OF_MONTH, day);
+        today.set(Calendar.MONTH, month);
+        today.set(Calendar.YEAR, year);
+
         Timestamp ts = new Timestamp(System.currentTimeMillis());
-        ts.setDate(day);
-        ts.setMonth(month);
-        ts.setYear(year - 1900);
-        birthTime.setHours(0);
-        birthTime.setMinutes(0);
-        birthTime.setSeconds(0);
-        lifeTime.setHours(23);
-        lifeTime.setMinutes(59);
-        lifeTime.setSeconds(59);
-        Long thisTime = ts.getTime();
-        Long birthTimeBag = birthTime.getTime();
-        Long lifeTimeBag = lifeTime.getTime();
-        if (thisTime >= birthTimeBag && thisTime <= lifeTimeBag)
-            return true;
-        else return false;
+        ts.setTime(today.getTimeInMillis());
+        long thisTime = ts.getTime();
+        ts.setTime(cBT.getTimeInMillis());
+        long birthTimeBag = ts.getTime();
+        ts.setTime(cLT.getTimeInMillis());
+        long lifeTimeBag = ts.getTime();
+        return thisTime >= birthTimeBag && thisTime <= lifeTimeBag;
+    }
+
+    public boolean bagThatHour(int hour, int day, int month, int year, Timestamp birthTime, Timestamp lifeTime) {
+        final long SEVEN_HOUR = 7 * 60 * 60 * 1000;
+        Calendar cBT = Calendar.getInstance();
+        Calendar cLT = Calendar.getInstance();
+        cBT.setTimeInMillis(birthTime.getTime() - SEVEN_HOUR);
+        cLT.setTimeInMillis(lifeTime.getTime() - SEVEN_HOUR);
+
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.DAY_OF_MONTH, day);
+        today.set(Calendar.MONTH, month);
+        today.set(Calendar.YEAR, year);
+        today.set(Calendar.HOUR_OF_DAY, hour);
+
+        if (cLT.get(Calendar.DAY_OF_MONTH) == day) {
+            if (cLT.get(Calendar.HOUR_OF_DAY) < hour) {
+                return false;
+            }
+        }
+        if (cBT.get(Calendar.DAY_OF_MONTH) == day) {
+            if (cBT.get(Calendar.HOUR_OF_DAY) > hour) {
+                return false;
+            }
+        }
+        return true;
     }
 }

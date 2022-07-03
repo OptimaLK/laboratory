@@ -74,8 +74,8 @@ public class CalendarController {
         model.addAttribute("activePage", "Day");
         model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
-        model.addAttribute("roles", roleRepository.findAll());
-        model.addAttribute("bags", bagService.findAllEquipmentsInBag(dairy));
+//        model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("bags", bagService.findAllBagsThatDay(year,month,day));
         return pathCreator.createPath(auth, "calendar_day");
     }
 
@@ -86,7 +86,7 @@ public class CalendarController {
         model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
-        model.addAttribute("bags", bagService.findAllEquipmentsInBag(dairy));
+        model.addAttribute("bags", bagService.findAllBagsThatDay(dairy.currentYear(),dairy.currentMonth(),dairy.todayDay()));
         return pathCreator.createPath(auth, "calendar_day");
     }
 
@@ -97,7 +97,7 @@ public class CalendarController {
         model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
-        model.addAttribute("bags", bagService.findAllEquipmentsInBag(dairy));
+        model.addAttribute("bags",bagService.findAllBagsThatDay(dairy.currentYear(),dairy.currentMonth(),dairy.todayDay()));
         return pathCreator.createPath(auth, "calendar_day");
     }
 
@@ -108,7 +108,7 @@ public class CalendarController {
         model.addAttribute("dairy", dairy);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleRepository.findAll());
-        model.addAttribute("bags", bagService.findAllEquipmentsInBag(dairy));
+        model.addAttribute("bags", bagService.findAllBagsThatDay(dairy.currentYear(),dairy.currentMonth(),dairy.todayDay()));
         return pathCreator.createPath(auth, "calendar_day");
     }
 

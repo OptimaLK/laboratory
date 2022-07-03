@@ -2,26 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <link rel="stylesheet" th:href="@{/css/calendar.css}">
+<link rel="stylesheet" th:href="@{/css/elements.css}">
 <head th:replace="fragments/chief/header_chief :: head"></head>
 <div th:replace="fragments/chief/header_chief :: header"></div>
 <title>Календарь</title>
 
 <body>
-    <div class="main-calendar">
+    <div class="main-calendar-day backcolor">
         <header class="header_calendar">
             <div class="flex-header">
                 <div class="text-calendar"> Календарь </div>
                 <div class="nav-month">
-                    <form th:action="@{/calendar/minusDay}" th:method="GET">
-                        <button class="month-arrow" th:type="submit"> &lt; </button>
-                    </form>
+                    <div class="container-select" >
+                        <select class="select-calendar" onchange="if (this.value) window.location.href = this.value">
+                            <option>День
+                            </option>
+                            <option th:value="'/calendar/'" th:method="GET">Месяц</option>
+                        </select>
+                    </div>
                     <form th:action="@{/calendar/todayDay}" th:method="GET">
-                        <button class="today-btn" th:type="submit"> Сегодня </button>
+                        <button class="today-btn" th:type="submit">Сегодня</button>
+                    </form>
+                    <div class="month-and-year"  th:text="${dairy.DayMonthAndYear()}"></div>
+                    <form th:action="@{/calendar/minusDay}" th:method="GET">
+                        <button class="prev-month" th:type="submit"><span></span></button>
                     </form>
                     <form th:action="@{/calendar/plusDay}" th:method="GET">
-                        <button class="month-arrow" th:type="submit"> &gt; </button>
+                        <button class="next-month" th:type="submit"><span></span></button>
                     </form>
-                    <div class="month-and-year" th:text="${dairy.DayMonthAndYear()}"></div>
                 </div>
             </div>
         </header>
@@ -39,22 +47,42 @@
                     </form>
                 </div>
             </aside>
-            <main class="main">
-                <div class="flex-row-data" role="presentation" th:each="per : ${dairy.getListHour()}">
-                    <div class="flex">
-                        <div class="row-hour" th:text="${per}">
-
+            <main class="main-day">
+                <div class="hour-column">
+                    <div class="flex-row-data-d" role="presentation" th:each="per : ${dairy.getListHour()}">
+                        <div class="flex">
+                            <div class="row-hour" th:text="${per - 1}">
+                            </div>
+                            <div class="row-line" th:text="'-'">
+                            </div>
                         </div>
-                        <div class="row-line" th:text="'-'">
-
+                    </div>
+                </div>
+                <div class="user-column">
+                    <div class="flex-container-bag" th:each="bag, itr : ${bags}">
+                        <div class="flex-container-hour" th:each="per : ${dairy.getListHour()}" th:classappend="${per == 1} ? border-top-table : ''">
+                            <div class="row-equipments"
+                                 th:if="${dairy.bagThatHour(
+                                 per - 1,
+                                 dairy.todayDay(),
+                                 dairy.currentMonth(),
+                                 dairy.currentYear(),
+                                 bag.birthTime,
+                                 bag.lifeTime)}"
+                                 th:text="${bag.user.lastName}">
+                            </div>
                         </div>
-                        <div th:each="bag, itr : ${bags}">
-                            <span class="row-equipments"
-                                 th:id="${'bag_' + bag.id + '_' + itr.index + '_' + bag.getUser().lastName}"
-                                 th:if="${bag.getBirthTime().getDate() == bag.getLifeTime().getDate()}"
-                                 th:text="${bag.getBirthTime().getHours() - 7} <= ${per}
-                                 and ${bag.getLifeTime().getHours() - 7} >= ${per} ? ' ' + ${bag.user.lastName} : ''">
-                            </span>
+                    </div>
+                </div>
+                <div class="equipment-column">
+                    <div class="container-bag" th:each="bag : ${bags}">
+                        <div class="bag-user-lastName" th:text="${bag.user.lastName} + ':'">
+                        </div>
+                        <div class="flex-container-equ">
+                            <div class="equipments-name" th:each="equ : ${bag.equipments}">
+                                <div th:text="${equ.name}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
