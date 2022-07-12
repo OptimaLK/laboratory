@@ -1,0 +1,19 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="maks_tarn (generated)" id="1657429904489-6">
+        <addColumn tableName="event">
+            <column name="birth_t" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1657429904489-7">
+        <addColumn tableName="event">
+            <column name="life_t" type="datetime(6)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1657429904489-11">
+        <dropColumn columnName="birth_time" tableName="event"/>
+    </changeSet>
+    <changeSet author="maks_tarn (generated)" id="1657429904489-12">
+        <dropColumn columnName="life_time" tableName="event"/>
+    </changeSet>
+</databaseChangeLog>

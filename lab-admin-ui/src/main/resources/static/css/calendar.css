@@ -479,6 +479,7 @@ body {
     flex-direction: column;
     flex-grow: 1;
     justify-content: space-around;
+    max-width: 50px;
 }
 
 .user-column {

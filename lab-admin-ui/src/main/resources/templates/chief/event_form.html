@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<link rel="stylesheet" th:href="@{/css/event.css}">
+<link rel="stylesheet" th:href="@{/css/elements.css}">
+
+<head th:replace="fragments/chief/header_chief :: head"></head>
+
+<body class="">
+
+<div th:replace="fragments/chief/header_chief :: header"></div>
+
+<div class="d-flex backcolor">
+    <div class="content p-4 backcolor container-menu-event-add">
+        <h2 class="mb-4">Создать событие</h2>
+        <form th:object="${event}" method="post" th:action="@{/event}">
+            <div class="card mb-4">
+                <div class="container-input-event">
+                    <input th:type="hidden" th:field="*{id}">
+                    <div class="input-box">
+                        <input th:field="*{name}" type="text" class="name-input" id="name" required="required">
+                        <span class="label-text">Название</span>
+                    </div>
+                    <div class="input-box">
+                        <textarea th:field="*{description}" type="text" class="description-input" id="description"
+                                  required="required"></textarea>
+                        <span class="label-text">Описание</span>
+                    </div>
+                    <div class="input-box flex-display">
+                        <div class="input-box-date">
+                            <input class="input-date" th:field="${mask.dateStart}" type="tel" date-input id="birthTimeD" required="required">
+                            <span class="span-date">Дата дд.мм.гггг</span>
+                        </div>
+                        <div class="">一</div>
+                        <div class="input-box-date">
+                            <input class="input-date" th:field="${mask.dateEnd}" type="tel" date-input id="lifeTimeD" required="required">
+                            <span class="span-date">Дата дд.мм.гггг</span>
+                        </div>
+                    </div>
+                    <span class="label-text">Сотрудники</span>
+                    <div class="input-box">
+                        <select class="form-control" id="users" size="5" multiple th:field="*{users}" required="required">
+                            <option th:each="user : ${users}"
+                                    th:text="${user.lastName}"
+                                    th:value="${user.id}"></option>
+                        </select>
+                    </div>
+                    <span class="label-text">Регистрационный номер заявки</span>
+                    <div class="input-box">
+                        <select class="form-control" id="works" size="5" multiple th:field="*{works}" required="required">
+                            <option th:each="work : ${works}"
+                                    th:text="${work.id}"
+                                    th:value="${work.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <button type="submit" class="butt butt-center">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="">
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector('input').focus();
+    })
+</script>
+<script th:src="@{/js/dateInput.js}"></script>
+<script th:replace="fragments/chief/footer :: scripts"></script>
+
+</body>
+</html>

@@ -18,7 +18,7 @@ public class CalendarController {
 
     private final PathCreator pathCreator;
     private final UserService userService;
-    private final RoleRepository roleRepository;
+    private final RoleRepository roleRepository; // TODO Создать сервис ролей, не должно быть репозиториев в контроллере
     private final BagServiceImpl bagService;
     private Dairy dairy = new Dairy();
 

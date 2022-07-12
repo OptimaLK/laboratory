@@ -209,8 +209,139 @@
     line-height: 22px;
 }
 
+.up {
+    justify-content: start;
+}
+
 .fs-18 {
     font-size: 18px;
+}
+
+.margin-right-16 {
+    margin-right: 16px;
+}
+
+/*          INPUT            */
+
+.container-input {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.input-box {
+    position: relative;
+    margin: 0 20px;
+    width: 650px;
+}
+
+.input-box input,
+.input-box textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid rgba(14, 45, 59, 0.25);
+    background: #ffffff;
+    border-radius: 5px;
+    outline: none;
+    color: #070c23;
+    transition: .5s;
+
+    font-weight: 400;
+    font-size: 16px;
+}
+
+
+.input-box span {
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 1.4em;
+    text-transform: uppercase;
+    color: rgba(7, 12, 35, 0.45);
+    transition: .5s;
+}
+
+.input-box input:valid ~ span,
+.input-box input:focus ~ span,
+.input-box textarea:valid ~ span,
+.input-box textarea:focus ~ span{
+    color: #04B1C9;
+    transform: translateX(10px) translateY(-10px);
+    font-size: 0.9em;
+    padding: 0 10px;
+    background: #ffffff;
+    border-right: 2px solid #04B1C9;
+    border-left: 2px solid #04B1C9;
+    letter-spacing: 0.2em;
+}
+
+.input-box input:valid,
+.input-box input:focus,
+.input-box textarea:valid,
+.input-box textarea:focus {
+    border: 2px solid #04B1C9;
+}
+
+.input-box-date input {
+    width: 100%;
+    /*padding: 10px;*/
+    border: 2px solid rgba(14, 45, 59, 0.25);
+    background: #ffffff;
+    border-radius: 5px;
+    outline: none;
+    color: #070c23;
+    transition: .5s;
+
+    font-weight: 400;
+    font-size: 16px;
+}
+
+
+.input-box-date span {
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 1.4em;
+    text-transform: uppercase;
+    color: rgba(7, 12, 35, 0.45);
+    transition: .5s;
+}
+
+.input-box-date input:valid ~ span,
+.input-box-date input:focus ~ span{
+    color: #04B1C9;
+    transform: translateX(10px) translateY(-10px);
+    font-size: 0.9em;
+    padding: 0 10px;
+    background: #ffffff;
+    border-right: 2px solid #04B1C9;
+    border-left: 2px solid #04B1C9;
+    letter-spacing: 0.2em;
+}
+
+.input-box-date input:valid,
+.input-box-date input:focus {
+    border: 2px solid #04B1C9;
+}
+
+.name-input {
+    /*margin-top: 10px;*/
+}
+
+.description-input {
+    min-height: 100px;
+}
+
+.flex-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 

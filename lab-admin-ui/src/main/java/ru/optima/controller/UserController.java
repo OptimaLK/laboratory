@@ -83,7 +83,6 @@ public class UserController {
 
     @PostMapping({"", "/"})
     public String editUser(@ModelAttribute UserRepr user) {
-        System.out.println(user);
         userService.save(user);
         return "redirect:/user";
     }
