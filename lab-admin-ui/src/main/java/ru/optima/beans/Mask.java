@@ -12,13 +12,11 @@ public class Mask {
     private String dateStart;
     private String dateEnd;
 
-
-    public Timestamp stringToDateConversionStart() {
-
+    private Timestamp getTimestamp(String dateString) {
         Timestamp date = new Timestamp(System.currentTimeMillis());
-        StringBuilder stringDay = new StringBuilder(dateStart);
-        StringBuilder stringMonth = new StringBuilder(dateStart);
-        StringBuilder stringYear = new StringBuilder(dateStart);
+        StringBuilder stringDay = new StringBuilder(dateString);
+        StringBuilder stringMonth = new StringBuilder(dateString);
+        StringBuilder stringYear = new StringBuilder(dateString);
         stringDay.delete(2, stringDay.length());
         stringMonth.delete(0, 3).delete(2, stringMonth.length());
         stringYear.delete(0, 6);
@@ -30,19 +28,11 @@ public class Mask {
         return date;
     }
 
+    public Timestamp stringToDateConversionStart() {
+        return getTimestamp(dateStart);
+    }
+
     public Timestamp stringToDateConversionEnd() {
-        Timestamp date = new Timestamp(System.currentTimeMillis());
-        StringBuilder stringDay = new StringBuilder(dateEnd);
-        StringBuilder stringMonth = new StringBuilder(dateEnd);
-        StringBuilder stringYear = new StringBuilder(dateEnd);
-        stringDay.delete(2, stringDay.length());
-        stringMonth.delete(0, 3).delete(2, stringMonth.length());
-        stringYear.delete(0, 6);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(stringDay.toString()));
-        calendar.set(Calendar.MONTH, Integer.parseInt(stringMonth.toString()) - 1);
-        calendar.set(Calendar.YEAR, Integer.parseInt(stringYear.toString()));
-        date.setTime(calendar.getTimeInMillis());
-        return date;
+        return getTimestamp(dateEnd);
     }
 }

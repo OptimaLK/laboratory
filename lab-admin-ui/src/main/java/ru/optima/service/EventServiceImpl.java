@@ -52,6 +52,49 @@ public class EventServiceImpl implements EventService{
         return "";
     }
 
+    @Override
+    public Mask dateCheck(Mask mask) {
+        Calendar dateEnd = Calendar.getInstance();
+        Calendar dateStart = Calendar.getInstance();
+
+        StringBuilder endDay = new StringBuilder(mask.getDateEnd());
+        StringBuilder endMonth = new StringBuilder(mask.getDateEnd());
+        StringBuilder endYear = new StringBuilder(mask.getDateEnd());
+
+        endDay.delete(2, endDay.length());
+        endMonth.delete(0, 3).delete(2, endMonth.length());
+        endYear.delete(0, 6);
+
+        dateEnd.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDay.toString()));
+        dateEnd.set(Calendar.MONTH, Integer.parseInt(endMonth.toString()));
+        dateEnd.set(Calendar.YEAR, Integer.parseInt(endYear.toString()));
+
+        long endTime = dateEnd.getTime().getTime();
+
+        StringBuilder startDay = new StringBuilder(mask.getDateStart());
+        StringBuilder startMonth = new StringBuilder(mask.getDateStart());
+        StringBuilder startYear = new StringBuilder(mask.getDateStart());
+
+        startDay.delete(2, startDay.length());
+        startMonth.delete(0, 3).delete(2, startMonth.length());
+        startYear.delete(0, 6);
+
+        dateStart.set(Calendar.DAY_OF_MONTH, Integer.parseInt(endDay.toString()));
+        dateStart.set(Calendar.MONTH, Integer.parseInt(endMonth.toString()));
+        dateStart.set(Calendar.YEAR, Integer.parseInt(endYear.toString()));
+
+        long startTime = dateStart.getTime().getTime();
+
+        if (endTime > startTime) {
+            return mask;
+        } else {
+            Mask m = new Mask();
+            m.setDateEnd(mask.getDateStart());
+            m.setDateStart(mask.getDateStart());
+            return m;
+        }
+    }
+
     public void save(EventRepr eventRepr) {
         Event event = new Event();
         event.setId(eventRepr.getId());

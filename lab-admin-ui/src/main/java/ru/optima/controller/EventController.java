@@ -23,7 +23,6 @@ public class EventController {
     private final EventService eventService;
     private final UserService userService;
     private final WorkService workService;
-    private Dairy dairy = new Dairy();
 
     @GetMapping({"", "/"})
     public String mainEvent(Model model, SecurityContextHolder auth) {
@@ -35,8 +34,8 @@ public class EventController {
     public String editUser(@ModelAttribute EventRepr eventRepr,
                            @ModelAttribute Mask mask,
                            SecurityContextHolder auth) {
-        eventService.save(eventRepr, mask);
-        dairy.today();
+        Mask dateCheck = eventService.dateCheck(mask);
+        eventService.save(eventRepr, dateCheck);
         return pathCreator.createPath(auth, "event");
     }
 

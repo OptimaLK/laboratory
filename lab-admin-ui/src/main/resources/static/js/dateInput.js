@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
    let dateInputs = document.querySelectorAll('input[date-input]');
+   let dateStart = document.querySelector('#birthTime');
+   let dateEnd = document.querySelector('#LifeTime');
 
    let getInputNumbersValue = function(input){
       return input.value.replace(/\D/g, "")
@@ -14,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (!inputNumbersValue){
          return input.value = "";
       }
+
       if (inputNumbersValue.length > 0) {
          formattedInputValue += inputNumbersValue.substring(0, 2);
       }

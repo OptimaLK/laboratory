@@ -16,4 +16,6 @@ public interface EventService {
     void save(EventRepr eventRepr, Mask mask);
 
     String dateText();
+
+    Mask dateCheck(Mask mask);
 }
