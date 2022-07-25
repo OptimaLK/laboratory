@@ -1,64 +1,48 @@
-document.addEventListener("DOMContentLoaded", function() {
-   let dateInputs = document.querySelectorAll('input[date-input]');
-   let dateStart = document.querySelector('#birthTime');
-   let dateEnd = document.querySelector('#LifeTime');
+'use strict'
+let dateStart = document.querySelector('#birthTime');
+let dateEnd = document.querySelector('#lifeTime');
 
-   let getInputNumbersValue = function(input){
-      return input.value.replace(/\D/g, "")
-   }
+dateStart.addEventListener('change', putFormattedDate);
+dateEnd.addEventListener('change', putFormattedDate);
+dateStart.addEventListener('focus', changeType);
+dateEnd.addEventListener('focus', changeType);
 
-   let onDateInput = function (e) {
-      let input = e.target,
-          inputNumbersValue = getInputNumbersValue(input),
-         formattedInputValue = "",
-         selectionStart = input.selectionStart; // положение курсора
+function changeType (event) {
+    event.target.setAttribute( 'type' , 'date');
+}
 
-      if (!inputNumbersValue){
-         return input.value = "";
-      }
+function putFormattedDate (event){
+    let date = formatDate(event.target.value);
+    event.target.setAttribute( 'type' , 'text');
+    event.target.value = date;
+    event.target.blur();
+}
 
-      if (inputNumbersValue.length > 0) {
-         formattedInputValue += inputNumbersValue.substring(0, 2);
-      }
-      if (inputNumbersValue.length > 2) {
-         if (formattedInputValue > 31) {
-            formattedInputValue = 31;
-         }
-         formattedInputValue += "." + inputNumbersValue.substring(2, 4);
-      }
-      if (inputNumbersValue.length > 4) {
-         if (formattedInputValue.substring(3, 5) > 12) {
-            formattedInputValue = inputNumbersValue.substring(0, 2) + "." + 12;
-         }
-         formattedInputValue += "." + inputNumbersValue.substring(4, 8);
-      }
+function checkForm (event) {
 
-      if (input.value.length !== selectionStart) { // Середина строки
-         if (e.data && /\D/g.test(e.data)) { // Когдамы что - то вводим и это не цифры
-            input.value = inputNumbersValue;
-         }
+    if (new Date(dateStart.value) >= new Date(dateEnd.value)) {
+        dateEnd.setAttribute( 'type' , 'text');
+        spanEnd.value = 'Дата окончания не может быть раньше даты начала';
+        event.preventDefault();
+    }
+}
 
-         return;
-      }
-      if (input.value.length !== selectionStart) { // Середина строки
-         if (inputNumbersValue.length > 8) {
-            formattedInputValue += inputNumbersValue.substring(0, 8);
-         }
-      }
-
-      input.value = formattedInputValue;
-
-   }
-
-   let onDateKeyDown = function(e) {
-      let input = e.target;
-      if (e.keyCode === 8 && getInputNumbersValue(input).length === 1){
-         input.value = "";
-      }
-   }
-   for (i = 0; i < dateInputs.length; i++){
-      let input = dateInputs[i];
-      input.addEventListener("input", onDateInput);
-      input.addEventListener("keydown", onDateKeyDown)
-   }
-});
+function formatDate (date) {
+    let separator;
+    let array;
+    if (date.includes( '-') ) {
+        array = date.split('-');
+        separator = '.';
+    } else {
+        array = date.split('.');
+        separator = '-';
+    }
+    let result = '';
+    for (let i = array.length; i > 0; i--){
+        result += array[i - 1];
+        if (i > 1) {
+            result += separator;
+        }
+    }
+    return result;
+}

@@ -28,13 +28,13 @@
                     </div>
                     <div class="input-box flex-display">
                         <div class="input-box-date">
-                            <input class="input-date" th:field="${mask.dateStart}" type="tel" date-input id="birthTime" required="required">
-                            <span class="span-date">Дата дд.мм.гггг</span>
+                            <input class="input-date" th:field="${mask.dateStart}" type="date" placeholder="дд.мм.гггг" date-input id="birthTime" required="required">
+<!--                            <span class="span-date">Дата дд.мм.гггг</span>-->
                         </div>
                         <div class="">一</div>
                         <div class="input-box-date">
-                            <input class="input-date" th:field="${mask.dateEnd}"  type="tel" date-input id="lifeTime" required="required">
-                            <span class="span-date">Дата дд.мм.гггг</span>
+                            <input class="input-date" th:field="${mask.dateEnd}" type="date" placeholder="дд.мм.гггг" date-input id="lifeTime" required="required">
+<!--                            <span class="span-date">Дата дд.мм.гггг</span>-->
                         </div>
                     </div>
                     <span class="label-text">Сотрудники</span>
@@ -61,11 +61,6 @@
         </form>
     </div>
 </div>
-<script type="">
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector('input').focus();
-    })
-</script>
 <script th:src="@{/js/dateInput.js}"></script>
 <script th:replace="fragments/chief/footer :: scripts"></script>
 
