@@ -25,8 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
     * @param {*} date
     * @returns
     */
-   function checkDateFeb (date) {
-       let dateArr = parsDate(date);
+   function checkDateFeb (dateArr) {
        if (checkLeapYear(dateArr[2])) {
            return dateArr[0] < 29 ? dateArr[0] : 29;
        }
@@ -35,27 +34,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
    /**
    * проверяет месяц в году
-   * @param {String} date
+   * @param {String} dd.mm.yyyy
    * @returns при введении несуществующего месяца (> 12 || < 01) в ujle
    * возвращает ближайщий возможный (01 || 12 )
    */
 
-   function checkMonthInYear (date) {
+   function checkMonth (date) {
        let dateArr = parsDate(date);
-       if (parsDate(date)[1] > 12 ) return '12';
-       if (parsDate(date)[1] < 1)  return '01';
-       return parsDate(date)[1];
+       if (dateArr[1] > 12) return '12';
+       if (dateArr[1] < 1)  return '01';
+       return dateArr[1];
    }
 
    /**
     * проверяет день в месяце
-    * @param {String} date
+    * @param {array} array = {день,месяц,год}
     * @returns при введении несуществующего дня (32..99) в месяце
     * возвращает последний день (30 || 31 || 29)
     */
 
-   function checkDayInMonth (date){
-       let dateArr = parsDate(date);
+   function checkDayInMonth (dateArr){
        switch (dateArr[1]) {
            case( '01' || '03' || '05' || '07' || '08' || '10' || '12' ): {
                return dateArr[0] <= 31 ? dateArr[0] : '31';
@@ -67,31 +65,23 @@ document.addEventListener("DOMContentLoaded", function() {
                if (dateArr[2] === undefined) {
                     return dateArr[0] <=29 ? dateArr[0] : '29';
                } else {
-                    return checkDateFeb(date);
+                    return checkDateFeb(dateArr);
                }
            };
            default: return dateArr[0];
        }
    }
 
-//   function checkDayInFeb (dateArr) {
-//        if (dateArr[1] = '02') {
-//            return checkDateFeb(dateArr);
-//        }
-//        return dateArr[0];
-//   }
-
    function checkDay (date) {
         let dateArr = parsDate(date);
-        if (dateArr[0] > 31) {
-            return '31';
+        if (dateArr[1] === undefined) {
+            if (dateArr[0] > 31) return '31';
+            if (dateArr[0] < 1)  return '01';
+            return dateArr[0];
+        } else {
+            return checkDayInMonth(dateArr);
         }
-        if (dateArr[0] < 1) {
-            return '01';
-        }
-        return dateArr[0];
    }
-
 
 
    let getInputNumbersValue = function(input){
@@ -117,13 +107,13 @@ document.addEventListener("DOMContentLoaded", function() {
       }
 
       if (inputNumbersValue.length > 4) {
-         formattedInputValue = formattedInputValue.substring(0, 3) + checkMonthInYear (formattedInputValue);
-         formattedInputValue = checkDayInMonth(formattedInputValue) + formattedInputValue.substring(2);
+         formattedInputValue = formattedInputValue.substring(0, 3) + checkMonth (formattedInputValue);
+         formattedInputValue = checkDay(formattedInputValue) + formattedInputValue.substring(2);
          formattedInputValue += "." + inputNumbersValue.substring(4, 8)
       }
-      if (inputNumbersValue.length == 8) {
-         formattedInputValue = checkDayInMonth(formattedInputValue) + formattedInputValue.substring(2);
-//
+      if (inputNumbersValue.length >= 8) {
+         formattedInputValue = checkDay(formattedInputValue) + formattedInputValue.substring(2);
+         formattedInputValue = formattedInputValue.substring(0, 3) + checkMonth (formattedInputValue) + formattedInputValue.substring(5);
       }
 
       if (input.value.length !== selectionStart) { // Середина строки
@@ -150,7 +140,8 @@ document.addEventListener("DOMContentLoaded", function() {
    }
    for (i = 0; i < dateInputs.length; i++){
       let input = dateInputs[i];
-      input.addEventListener("input", onDateInput);
-      input.addEventListener("keydown", onDateKeyDown)
+      input.addEventListener('input', onDateInput);
+      input.addEventListener('keydown', onDateKeyDown);
+      input.addEventListener('blur', onDateInput);
    }
 });
