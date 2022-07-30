@@ -72,6 +72,14 @@ document.addEventListener("DOMContentLoaded", function() {
        }
    }
 
+   /**
+   * проверяет день месяца
+   * @param {String} dd.mm.yyyy
+   * @returns при отсутствии введеного месяца и года при введении
+   * несуществующего дня (> 31 || < 01) возвращает ближайщий возможный (01 || 12 )
+   * при наличии данных о месяце проводит коррекцию (29 - 30 - 31)
+   * при наличии данных о годе коррекция февраля (28 -29)
+   */
    function checkDay (date) {
         let dateArr = parsDate(date);
         if (dateArr[1] === undefined) {
