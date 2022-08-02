@@ -36,7 +36,7 @@ public class EventController {
                            SecurityContextHolder auth) {
         Mask dateCheck = eventService.dateCheck(mask);
         eventService.save(eventRepr, dateCheck);
-        return pathCreator.createPath(auth, "event");
+        return "redirect:/calendar";
     }
 
     @GetMapping("/create")
