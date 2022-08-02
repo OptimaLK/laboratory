@@ -11,6 +11,8 @@ import java.util.Calendar;
 public class Mask {
     private String dateStart;
     private String dateEnd;
+    private String hoursStart;
+    private String hoursEnd;
 
     private Timestamp getTimestamp(String dateString) {
         Timestamp date = new Timestamp(System.currentTimeMillis());

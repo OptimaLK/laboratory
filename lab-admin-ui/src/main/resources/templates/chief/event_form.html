@@ -5,9 +5,7 @@
 <link rel="stylesheet" th:href="@{/css/elements.css}">
 
 <head th:replace="fragments/chief/header_chief :: head"></head>
-
 <body class="">
-
 <div th:replace="fragments/chief/header_chief :: header"></div>
 
 <div class="d-flex backcolor">
@@ -27,17 +25,25 @@
                         <span class="label-text">Описание</span>
                     </div>
                     <div class="input-box flex-display">
+                        <div class="input-box-time">
+                            <input class="input-date" th:field="${mask.hoursStart}" type="tel" time-input id="hoursStars" required="required">
+                            <span class="span-date">чч:мм</span>
+                        </div>
                         <div class="input-box-date">
                             <input class="input-date" th:field="${mask.dateStart}" type="tel" date-input id="birthTime" required="required">
                             <span class="span-date">Дата дд.мм.гггг</span>
                         </div>
                         <div class="">一</div>
+                        <div class="input-box-time">
+                            <input class="input-date" th:field="${mask.hoursEnd}" type="tel" time-input id="hoursEnd" required="required">
+                            <span class="span-date">чч:мм</span>
+                        </div>
                         <div class="input-box-date">
                             <input class="input-date" th:field="${mask.dateEnd}"  type="tel" date-input id="lifeTime" required="required">
                             <span class="span-date">Дата дд.мм.гггг</span>
                         </div>
                     </div>
-                    <span class="label-text">Сотрудники</span>
+                    <span class="label-text-margin">Сотрудники</span>
                     <div class="input-box">
                         <select class="form-control" id="users" size="5" multiple th:field="*{users}" required="required">
                             <option th:each="user : ${users}"
@@ -45,7 +51,7 @@
                                     th:value="${user.id}"></option>
                         </select>
                     </div>
-                    <span class="label-text">Регистрационный номер заявки</span>
+                    <span class="label-text-margin">Регистрационный номер заявки</span>
                     <div class="input-box">
                         <select class="form-control" id="works" size="5" multiple th:field="*{works}" required="required">
                             <option th:each="work : ${works}"
