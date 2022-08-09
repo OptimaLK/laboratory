@@ -161,8 +161,6 @@ body {
     color: #f4f5f5;
 }
 
-
-
 .bigName dd {
     font-size: 16px;
     font-weight: 700;
@@ -211,6 +209,10 @@ body {
 
 .danger-equ {
     background: linear-gradient(90deg, #f1d7b5, #e8b97d);
+}
+
+.busy {
+    background: linear-gradient(90deg, #d07494, #bb0051);
 }
 
 

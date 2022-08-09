@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <link rel="stylesheet" th:href="@{/css/popup_window.css}">
+<link rel="stylesheet" th:href="@{/css/elements.css}">
 <link rel="stylesheet" th:href="@{/css/equipments.css}">
 <head th:replace="fragments/executor/header :: head"></head>
 <title>Оборудование</title>
@@ -13,46 +14,57 @@
     <div class="content">
         <div th:replace="fragments/tools_menu :: tools"></div>
         <div class="card mb-4">
-            <div class="card-body">
-                <div class="custom-control custom-switch">
-                    <form th:action="@{/equipment/{id}(id = ${categoryId})}" method="get">
-                        <input type="checkbox" name="active-only" class="custom-control-input" id="activeOnlyCheckBox"
-                               th:checked="${activeOnly}" onchange="this.form.submit()">
-                        <label class="custom-control-label" for="activeOnlyCheckBox">Только доступное</label>
-                    </form>
+            <div class="container-menu backcolor">
+                <div class="container-menu-equipments">
+                    <div class="container-big">
+                        <label class="label-checkbox" for="customSwitch1">
+                            <input class="input-checkbox" id="customSwitch1" name="active-only" type="checkbox">
+                            <span class="equipments-checkbox"></span>
+                            <i class="indicator"></i>
+                            <span class="text-checkbox"> Доступное оборудование</span>
+                        </label>
+                    </div>
                 </div>
-                <div class="d-flex flex-wrap justify-content-center">
-                    <dl th:id="equ-cart" th:each="equ : ${equipments}" class="dl-horizontal attrs">
-                        <dt>Название:</dt>
-                        <dd th:text="${equ.name}"></dd>
-                        <dt>Зав. №:</dt>
-                        <dd th:text="${equ.factoryNumber}"></dd>
-                        <dt>Свидетельство:</dt>
-                        <dd th:text="${equ.verificationNumber}"></dd>
-                        <dt>Дата поверки:</dt>
-                        <dd th:id="verDate" th:text="${#dates.format(equ.verificationDateEnd, 'dd.MM.yyyy')}"></dd>
-                        <div th:if="${equ.commentary == null}" th:switch="${equ.getTaken}">
-                            <form th:case="true" class="form-group"  th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
-                                <button type="submit" >Взять</button>
-                            </form>
-                            <button th:case="false" style="background-color: #ffbebe" type="submit" th:text="${equ.nameUserWhoTakenEquipment}"></button>
-                            <form th:case="null" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
-                                <button type="submit" >Взять</button>
-                            </form>
-                            <label class="alertlabel" id="needVer">Требует поверки</label>
-                        </div>
-                        <div th:unless="${equ.commentary == null}">
-                            <label class="alertlabel" style="display: block;">Заблокировано</label>
-                            <button class="popup-open" type="button" style="margin-top: 15px;">Причина</button>
-                            <div class="popup-fade">
-                                <div class="popup">
-                                    <a class="popup-close" href="#">Закрыть</a>
-                                    <p style="text-align: center; font-weight: 500; font-size: large;"
-                                       th:text="${equ.commentary.comment}"></p>
+                <div class="container-big">
+                    <div class="container-equipments">
+                        <dl th:id="equ-cart" th:each="equ : ${equipments}" class="equipment">
+                            <div class="container-equipments">
+                                <div>
+                                    <div class="bigName">
+                                        <dd  th:text="${equ.name}"></dd>
+                                    </div><hr>
+                                    <dt>Зав. №: </dt>
+                                    <dd th:text="${equ.factoryNumber}"></dd>
+                                    <dt>Свидетельство: </dt>
+                                    <dd th:text="${equ.verificationNumber}"></dd>
+                                    <dt>Дата поверки: </dt>
+                                    <dd id="verDate" th:text="${#dates.format(equ.verificationDateEnd, 'dd.MM.yyyy')}"></dd>
+                                    <hr>
                                 </div>
                             </div>
-                        </div>
-                    </dl>
+                            <div th:if="${equ.commentary == null}" th:switch="${equ.getTaken}" class="display-flex">
+                                <form th:case="true" class="form-group"  th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
+                                    <button type="submit" >Взять</button>
+                                </form>
+                                <button th:case="false" class="busy" type="submit" th:text="${equ.nameUserWhoTakenEquipment}"></button>
+                                <form th:case="null" class="form-group" th:action="@{'/bag/take/' + ${equ.id}}" method="POST">
+                                    <button type="submit" >Взять</button>
+                                </form>
+                                <label class="alertlabel" id="needVer">Требует поверки</label>
+                            </div>
+                            <div th:unless="${equ.commentary == null}">
+                                <label class="alertlabel" style="display: block;">Заблокировано</label>
+                                <button class="popup-open" type="button" style="margin-top: 15px;">Причина</button>
+                                <div class="popup-fade">
+                                    <div class="popup">
+                                        <a class="popup-close" href="#">Закрыть</a>
+                                        <p style="text-align: center; font-weight: 500; font-size: large;"
+                                           th:text="${equ.commentary.comment}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </div>

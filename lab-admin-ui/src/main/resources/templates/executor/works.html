@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 >
-
+<link rel="stylesheet" th:href="@{/css/popup_window.css}">
 <link rel="stylesheet" th:href="@{/css/works.css}">
 <head th:replace="fragments/executor/header :: head"></head>
 <title>Работа</title>
@@ -15,9 +15,10 @@
     <button th:id="back" class="hide" type="submit">Назад</button>
 </div>
 <div class="d-flex justify-content-center">
-    <div class="work_attrs" style="height: 100%;" >
-        <dl data-toggle="modal" data-target="#exampleModal" th:onmouseover="onMouseOver(/*[[${wor.additionalInformation}]]*/)" class="dl-horizontal work_head"th:each="wor : ${work}">
-            <div>
+    <div class="work_attrs">
+        <dl data-toggle="modal" data-target="#exampleModal" th:onmouseover="onMouseOver(/*[[${wor.additionalInformation}]]*/)"
+            class="dl-horizontal work_head"th:each="wor : ${work}">
+            <div class="">
                 <dt>№ заявки:</dt>
                 <dd th:text="${wor.id}"></dd>
                 <dt>Заказчик:</dt>
@@ -31,13 +32,13 @@
                 <dt>Срок:</dt>
                 <dd th:text="${#dates.format(wor.deadline, 'dd.MM.yyyy')}"></dd>
                 <dt>Команда:</dt>
-                <dd class="d-flex justify-content-between add_user" style="width: 185px;">
+                <dd class="d-flex justify-content-between add_user">
                     <div>
                         <ul th:id="team">
                             <li th:each="user : ${wor.users}" th:text="${user.lastName}"></li>
                         </ul>
                     </div>
-                    <div th:id="addU" th:if="${wor.getWorkStatus().getName() == 'NEW'}">
+                    <div class="icon_plus_user" th:id="addU" th:if="${wor.getWorkStatus().getName() == 'NEW'}">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown">
                             <i aria-hidden="true" class="fa fa-user-plus"></i>
                         </a>

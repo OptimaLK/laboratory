@@ -19,12 +19,30 @@
 }
 
 .bag_width dt {
-    width: 175px;
+    margin-bottom: 5px;
+    min-width: 40px;
+    max-width: 130px;
+    float: left;
+    clear: both;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: left;
+    color: #000001;
+    padding-right: 3px;
 }
 
 .bag_width dd {
-    margin-left: 175px;
-    width: 260px;
+    margin-bottom: 5px;
+    text-align: start;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    color: #000000;
+    padding: 0 0 0 0;
+    min-width: 220px;
+    max-width: 500px;
+    text-decoration: none;
 }
 
 .bag_width dl {
@@ -34,4 +52,23 @@
 
 .bag_width hr {
     background: aqua;
+    margin: 0 10px 0 0;
 }
+
+.title_bag {
+    text-align: center;
+    font-size: large;
+    font-weight: 500;
+}
+
+.container_works {
+    width: 350px;
+    margin: 0 20px 25px 0;
+    padding: 12px 0 14px 10px;
+    overflow: hidden;
+    border-radius: 25px;
+    background: rgba(120, 219, 219, 0.25);
+    box-shadow: 0px 0px 5px rgba(72, 94, 113, 0.45);
+    height: 100%;
+}
+

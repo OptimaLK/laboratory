@@ -3,6 +3,7 @@
 >
 
 <link rel="stylesheet" th:href="@{/css/bag.css}">
+<link rel="stylesheet" th:href="@{/css/elements.css}">
 <head th:replace="fragments/executor/header :: head"></head>
 <title>Сумки</title>
 
@@ -19,63 +20,57 @@
     <div class="content">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="attrs" style="background: none; margin: auto;" th:if="${sel}">
-<!--                    <form class="d-inline" th:action="@{'/bag/delete/'}" th:method="delete">-->
-<!--                        <button style="width: 100%; margin-bottom: 15px;" type="btn btn-icon btn-pill btn-danger">-->
-<!--                            Выложить все оборудование-->
-<!--                        </button>-->
-<!--                    </form>-->
-                    <form th:if="${equipmentsInLastBag.size() == 0}" class="form-group" th:action="@{/equipment}">
-                        <h3>В Вашей сумке нет оборудования</h3>
-                        <button style="width: 100%; margin: 0;" type="submit">Добавить</button>
-                    </form>
-                    <form th:unless="${{equipmentsInLastBag.size() == 0}}" class="form-group" th:action="@{/bag/form}">
-                        <button style="width: 100%; margin: 0;" type="submit">Сформировать</button>
-                    </form>
-                </div>
-                <div class="d-flex flex-wrap justify-content-center">
+                <div class="d-flex flex-wrap justify-content-center bag_width">
                     <dl class="dl-horizontal attrs" th:each="equ : ${equipmentsInLastBag}">
-                        <dt>Название:</dt>
-                        <dd th:text="${equ.name}"></dd>
-                        <dt>Зав. №:</dt>
-                        <dd th:text="${equ.factoryNumber}"></dd>
-                        <dt>Свидетельство:</dt>
-                        <dd th:text="${equ.verificationNumber}"></dd>
-                        <dt>Дата поверки:</dt>
-                        <dd th:text="${equ.verificationDateEnd}"></dd>
-                        <div th:if="${sel}">
-                            <form class="form-group" method="POST" th:action="@{'/bag/get/' + ${equ.id}}">
-                                <button style="background-color: #ffbebe" type="submit">Выложить</button>
-                            </form>
+                        <div class="container_works">
+                            <dt>Название:</dt>
+                            <dd th:text="${equ.name}"></dd>
+                            <dt>Зав. №:</dt>
+                            <dd th:text="${equ.factoryNumber}"></dd>
+                            <dt>Свидетельство:</dt>
+                            <dd th:text="${equ.verificationNumber}"></dd>
+                            <dt>Дата поверки:</dt>
+                            <dd th:text="${equ.verificationDateEnd}"></dd>
+                            <div th:if="${sel}">
+                                <form class="form-group" method="POST" th:action="@{'/bag/get/' + ${equ.id}}">
+                                    <button class="butt butt-center bColor_red" type="submit">Выложить</button>
+                                </form>
+                            </div>
                         </div>
                     </dl>
                 </div>
+                <div class="attrs" th:if="${sel}">
+                    <form th:if="${equipmentsInLastBag.size() == 0}" class="form-group" th:action="@{/equipment}">
+                        <h3 class="text-center">В Вашей сумке нет оборудования</h3>
+                        <button class="butt butt-center" type="submit">Добавить</button>
+                    </form>
+                    <form th:unless="${{equipmentsInLastBag.size() == 0}}" class="form-group" th:action="@{/bag/form}">
+                        <button class="butt butt-center" type="submit">Сформировать</button>
+                    </form>
+                </div>
+
+                <hr>
                 <div class="d-flex flex-wrap justify-content-center bag_width">
                     <dl class="dl-horizontal attrs" th:each="bag : ${bagAll}">
-                        <p style="text-align: center; font-size: large; font-weight: 500;">
-                            <a style="display: block;" th:href="@{'/bag/select/' + ${bag.id}}"
-                               th:text="${bag.name}"></a></p>
-                        <dt>Время использования:</dt>
-                        <dd th:text="${#dates.format(bag.lifeTime, 'dd.MM.yyyy')}"></dd>
-                        <dt>Заказчик:</dt>
-                        <dd th:text="${bag.work.clientName}"></dd>
-                        <div th:each="bagEq : ${bag.equipments}">
+                        <div class="container_works">
+                            <p class="title_bag">
+                                <a th:href="@{'/bag/select/' + ${bag.id}}"
+                                   th:text="${bag.name}"></a></p>
+                            <dt>Время:</dt>
+                            <dd th:text="'с: ' + ${#dates.format(bag.birthTime, 'dd.MM.yyyy HH:mm')} +
+                             ' по: ' + ${#dates.format(bag.lifeTime, 'dd.MM.yyyy HH:mm')}"></dd>
+                            <dt>Заказчик:</dt>
+                            <dd th:text="${bag.work.clientName}"></dd>
                             <hr>
-                            <dt>Название:</dt>
-                            <dd th:text="${bagEq.name}"></dd>
-                            <dt>Зав. №:</dt>
-                            <dd th:text="${bagEq.factoryNumber}"></dd>
-                            <dt>Свидетельство:</dt>
-                            <dd th:text="${bagEq.verificationNumber}"></dd>
-                            <dt>Дата поверки:</dt>
-                            <dd th:text="${#dates.format(bagEq.verificationDateEnd, 'dd.MM.yyyy')}"></dd>
-                        </div>
-                        <div>
-                            <form class="form-group" method="POST" th:action="@{'/bag/' + ${bag.id}}"
-                                  th:if="${bag.status}" th:method="delete">
-                                <button style="background-color: #ffbebe" type="submit">Удалить</button>
-                            </form>
-                            <label style="display: none" th:id="status" th:text="${bag.status}"></label>
+                            <div th:each="bagEq : ${bag.equipments}">
+                                <dd th:text="${bagEq.name}"></dd>
+                            </div>
+                            <div>
+                                <form class="form-group" method="POST" th:action="@{'/bag/' + ${bag.id}}"
+                                      th:if="${bag.status}" th:method="delete">
+                                    <button class="butt butt-center bColor_red butt_small_size" type="submit">Закончить измерения</button>
+                                </form>
+                            </div>
                         </div>
                     </dl>
                 </div>

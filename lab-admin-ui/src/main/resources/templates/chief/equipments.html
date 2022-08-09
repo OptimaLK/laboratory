@@ -47,7 +47,7 @@
                                             class="fas fa-trash-alt delete-icon"></i></a>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center">
+                            <div class="container-equipments">
                                 <div>
                                     <div class="bigName">
                                         <dd  th:text="${equ.name}"></dd>
@@ -61,7 +61,6 @@
                                     <hr>
                                 </div>
                             </div>
-
                             <div class="display-flex" th:if="${equ.commentary == null}">
                                 <form th:action="@{'/verification/app_verification/' + ${equ.id}}"
                                       th:object="${equipments}">
