@@ -75,13 +75,6 @@ document.addEventListener("DOMContentLoaded", function() {
        }
    }
 
-//   function checkDayInFeb (dateArr) {
-//        if (dateArr[1] = '02') {
-//            return checkDateFeb(dateArr);
-//        }
-//        return dateArr[0];
-//   }
-
    function checkDay (date) {
         let dateArr = parsDate(date);
         if (dateArr[0] > 31) {
@@ -93,6 +86,50 @@ document.addEventListener("DOMContentLoaded", function() {
         return dateArr[0];
    }
 
+    /**
+    * парсит введенное время
+    * @param {String} time
+    * @returns array(часы,минуты)
+    */
+   function parsTime(time) {
+       return time.split(':');
+   }
+
+   /**
+   * проверяет часы в часах :)
+   * @param {String} time
+   * @returns при введении несуществующего часа (00 || >23) в дне
+   * возвращает ближайший существующий (01 || 23)
+   */
+
+    function checkHour (time) {
+        let timeArr = parsTime(time);
+        if (timeArr[0] < 1) {
+            return '01';
+        }
+        if (timeArr[0] > 23) {
+            return '23';
+        }
+        return timeArr[0];
+   }
+
+   /**
+  * проверяет часы в часах :)
+  * @param {String} time
+  * @returns при введении несуществующих минут (00 || >59) в часе
+  * возвращает ближайший существующий (01 || 59)
+  */
+
+   function checkMinute (time) {
+       let timeArr = parsTime(time);
+       if (timeArr[1] < 1) {
+           return '01';
+       }
+       if (timeArr[1] > 59) {
+           return '59';
+       }
+       return timeArr[1];
+  }
 
 
    let getInputNumbersValue = function(input){
@@ -124,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
       if (inputNumbersValue.length == 8) {
          formattedInputValue = checkDayInMonth(formattedInputValue) + formattedInputValue.substring(2);
-//
       }
 
       if (input.value.length !== selectionStart) { // Середина строки
@@ -169,17 +205,17 @@ document.addEventListener("DOMContentLoaded", function() {
          formattedInputValue += inputNumbersValue.substring(0, 2);
       }
       if (inputNumbersValue.length > 2) {
-         if (formattedInputValue > 23) {
-            formattedInputValue = 23;
-         }
+         formattedInputValue = checkHour(formattedInputValue);
          formattedInputValue += ":" + inputNumbersValue.substring(2, 4);
+      }
+      if (inputNumbersValue.length === 4) {
+         formattedInputValue = checkHour(formattedInputValue) + ':' + checkMinute(formattedInputValue);
       }
 
       if (input.value.length !== selectionStart) { // Середина строки
          if (e.data && /\D/g.test(e.data)) { // Когдамы что - то вводим и это не цифры
             input.value = inputNumbersValue;
          }
-
          return;
       }
       input.value = formattedInputValue;
